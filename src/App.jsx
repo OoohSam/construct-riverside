@@ -23,7 +23,7 @@ function App() {
       
       <main>
         <Hero onCtaClick={handleOpenModal} />
-        {/* <ScarcityBar /> */}
+        <ScarcityBar />
         
         {/* Intro Text */}
         <div className="container reveal" style={{ padding: '80px 0', textAlign: 'center', maxWidth: '800px' }}>
@@ -31,7 +31,7 @@ function App() {
             The Location
           </h3>
           <p style={{ fontSize: '1.5rem', lineHeight: '1.6', color: '#fff' }}>
-            Riverside Drive is Nairobi’s silent power corridor. Home to embassies, multinational HQs, and the city’s most astute investors. 
+            Riverside Drive is Nairobi’s <span style={{ color: 'var(--gold-accent)' }}>silent power corridor</span>. Home to embassies, multinational HQs, and the city’s most astute investors. 
             <span style={{ color: 'var(--gold-accent)' }}> Riverside Azure</span> places you in the center of this dialogue.
           </p>
         </div>

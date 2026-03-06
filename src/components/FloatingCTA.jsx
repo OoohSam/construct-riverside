@@ -18,6 +18,7 @@ const FloatingCTA = ({ onOpenModal }) => {
           zIndex: 999, textDecoration: 'none'
         }}
       >
+        
         <i className="fa fa-whatsapp"></i>
       </a>
 
