@@ -34,14 +34,17 @@ const LeadModal = ({ isOpen, onClose }) => {
           &times;
         </button>
 
-        <h3 style={{ color: '#fff', fontSize: '1.8rem', marginBottom: '10px', fontFamily: 'var(--font-serif)' }}>
+        <h3 style={{ color: 'var(--gold-accent)', fontSize: '1.8rem', marginBottom: '10px', fontFamily: 'var(--font-serif)' }}>
           Unlock Investor Pricing
         </h3>
         <p style={{ color: 'var(--text-muted)', marginBottom: '30px', fontSize: '0.9rem' }}>
           Enter your details to receive the Phase 1 Price List and Floor Plans via WhatsApp.
         </p>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <form 
+         onSubmit={handleSubmit} 
+         style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+
           <input 
             type="text" 
             placeholder="Full Name" 

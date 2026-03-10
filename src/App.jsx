@@ -8,6 +8,8 @@ import LeadModal from './components/LeadModal';
 import FloatingCTA from './components/FloatingCTA';
 import useScrollReveal from './hooks/useScrollReveal';
 
+
+
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   
@@ -27,7 +29,7 @@ function App() {
         
         {/* Intro Text */}
         <div className="container reveal" style={{ padding: '80px 0', textAlign: 'center', maxWidth: '800px' }}>
-          <h3 style={{ color: 'var(--gold-accent)', textTransform: 'uppercase', fontSize: '0.9rem', letterSpacing: '2px', marginBottom: '20px' }}>
+          <h3 style={{ color: 'var(--gold-accent)', textTransform: 'uppercase', fontSize: '1.9rem', letterSpacing: '2px', marginBottom: '20px' }}>
             The Location
           </h3>
           <p style={{ fontSize: '1.5rem', lineHeight: '1.6', color: '#fff' }}>
@@ -62,6 +64,7 @@ function App() {
           </div>
         </section>
       </main>
+      
 
       <footer style={{ background: '#000', padding: '60px 0', borderTop: '1px solid #222' }}>
         <div className="container" style={{ textAlign: 'center' }}>

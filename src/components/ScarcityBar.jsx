@@ -6,7 +6,7 @@ const ScarcityBar = () => {
       background: 'var(--bg-card)',
       borderTop: '1px solid #333',
       borderBottom: '1px solid #333',
-      padding: '20px 0'
+      padding: '30px 0'
     }}>
       <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
         <div>

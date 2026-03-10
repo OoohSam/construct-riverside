@@ -48,6 +48,7 @@ const Hero = ({ onCtaClick }) => {
               fontWeight: '600',
               minWidth: '200px'
             }}
+            
           >
             Unlock Early Investor Pricing
           </button>
@@ -58,3 +59,5 @@ const Hero = ({ onCtaClick }) => {
 };
 
 export default Hero;
+
+
