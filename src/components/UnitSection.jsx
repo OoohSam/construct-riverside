@@ -17,11 +17,11 @@ const units = [
     // the naming convention (c1.jpg, c2.jpg, etc.) allows for easy iteration in the code
     //this is how to import  "/"
 images: [
-  new URL("../assets/Apartments/type-b/c6.png", import.meta.url).href,
-  new URL("../assets/Apartments/type-b/c1.png", import.meta.url).href,
-  new URL("../assets/Apartments/type-b/c2.png", import.meta.url).href,
-  new URL("../assets/Apartments/type-b/c3.png", import.meta.url).href,
-  new URL("../assets/Apartments/type-b/c4.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-b/c6.jpg", import.meta.url).href,
+  new URL("../assets/Apartments/type-b/c1.jpg", import.meta.url).href,
+  new URL("../assets/Apartments/type-b/c2.jpg", import.meta.url).href,
+  new URL("../assets/Apartments/type-b/c3.jpg", import.meta.url).href,
+  new URL("../assets/Apartments/type-b/c4.jpg", import.meta.url).href,
   new URL("../assets/Apartments/type-b/c5.jpg", import.meta.url).href,
 ],
 
@@ -38,14 +38,14 @@ images: [
     price: "Ask for Price",
 
 images: [
-  new URL("../assets/Apartments/type-a/b11.png", import.meta.url).href,
-  new URL("../assets/Apartments/type-a/a1.png", import.meta.url).href,
-  new URL("../assets/Apartments/type-a/b6.png", import.meta.url).href,
-  new URL("../assets/Apartments/type-a/b5.png", import.meta.url).href,
-  // new URL("../assets/Apartments/type-a/b4.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-a/b11.jpg", import.meta.url).href,
+  // new URL("../assets/Apartments/type-a/a1.jpg", import.meta.url).href,
+  new URL("../assets/Apartments/type-a/b6.jpg", import.meta.url).href,
+  new URL("../assets/Apartments/type-a/b5.jpg", import.meta.url).href,
+  new URL("../assets/Apartments/type-a/b4.jpg", import.meta.url).href,
   new URL("../assets/Apartments/type-a/b10.jpg", import.meta.url).href,
   // new URL("../assets/Apartments/type-a/b3.png", import.meta.url).href,
-  new URL("../assets/Apartments/type-a/b8.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-a/b8.jpg", import.meta.url).href,
 ],
 
     floor3d: "/models/psx_japanese_house.glb",
@@ -61,14 +61,14 @@ images: [
     price: "Ask for Price",
 
   images: [
-  new URL("../assets/Apartments/type-c/a14.png", import.meta.url).href,
-  new URL("../assets/Apartments/type-c/a5.png", import.meta.url).href,
-  new URL("../assets/Apartments/type-c/a3.png", import.meta.url).href,
-  new URL("../assets/Apartments/type-c/a2.png", import.meta.url).href,
-  new URL("../assets/Apartments/type-c/a7.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-c/a14.jpg", import.meta.url).href,
+  new URL("../assets/Apartments/type-c/a5.jpg", import.meta.url).href,
+  new URL("../assets/Apartments/type-c/a3.jpg", import.meta.url).href,
+  new URL("../assets/Apartments/type-c/a2.jpg", import.meta.url).href,
+  new URL("../assets/Apartments/type-c/a7.jpg", import.meta.url).href,
   new URL("../assets/Apartments/type-c/a6.jpg", import.meta.url).href,
   new URL("../assets/Apartments/type-c/a13.jpg", import.meta.url).href,
-  new URL("../assets/Apartments/type-c/a10.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-c/a10.jpg", import.meta.url).href,
   new URL("../assets/Apartments/type-c/a9.jpg", import.meta.url).href,
 ],
 
