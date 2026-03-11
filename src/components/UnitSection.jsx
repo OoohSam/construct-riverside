@@ -12,12 +12,18 @@ const units = [
     desc: "High-yield asset ideal for Airbnb. Located in the diplomatic heart of Nairobi.",
     price: "35,000",
 
-    images: [
-      "/assets/units/type-a-1.jpg",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=1200&q=80",
-    ],
+    // imported from local assets for better performance and control
+    // these images should be placed in the public/assets/Apartments/type-b/ directory
+    // the naming convention (c1.jpg, c2.jpg, etc.) allows for easy iteration in the code
+    //this is how to import  "/"
+images: [
+  new URL("../assets/Apartments/type-b/c6.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-b/c1.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-b/c2.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-b/c3.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-b/c4.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-b/c5.jpg", import.meta.url).href,
+],
 
     floor3d: "/models/apartment.glb",
   },
@@ -26,17 +32,21 @@ const units = [
     id: 2,
     type: "Type B",
     name: "The Urban Sanctuary",
-    beds: "2 Bedrooms",
+    beds: "2 Bedroom",
     size: "98.00 - 104.63 SQM",
     desc: "Balanced proportions for long-term living. Perfect for young families.",
     price: "Ask for Price",
 
-    images: [
-      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600047509358-9dc75507daeb?auto=format&fit=crop&w=1200&q=80",
-    ],
+images: [
+  new URL("../assets/Apartments/type-a/b11.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-a/a1.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-a/b6.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-a/b5.png", import.meta.url).href,
+  // new URL("../assets/Apartments/type-a/b4.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-a/b10.jpg", import.meta.url).href,
+  // new URL("../assets/Apartments/type-a/b3.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-a/b8.png", import.meta.url).href,
+],
 
     floor3d: "/models/psx_japanese_house.glb",
   },
@@ -45,17 +55,22 @@ const units = [
     id: 3,
     type: "Type C",
     name: "The Heritage Residence",
-    beds: "3 Bedrooms",
+    beds: "3 Bedroom",
     size: "141.95 SQM",
     desc: "Versatile luxury. Expansive living spaces for those who value legacy.",
     price: "Ask for Price",
 
-    images: [
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600047509358-9dc75507daeb?auto=format&fit=crop&w=1200&q=80",
-    ],
+  images: [
+  new URL("../assets/Apartments/type-c/a14.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-c/a5.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-c/a3.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-c/a2.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-c/a7.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-c/a6.jpg", import.meta.url).href,
+  new URL("../assets/Apartments/type-c/a13.jpg", import.meta.url).href,
+  new URL("../assets/Apartments/type-c/a10.png", import.meta.url).href,
+  new URL("../assets/Apartments/type-c/a9.jpg", import.meta.url).href,
+],
 
     floor3d: "/models/southway.glb",
   },
@@ -92,15 +107,16 @@ const UnitSection = ({ onInquire }) => {
                 setActiveImage(0);
               }}
               style={{
-                background: "transparent",
+                background: "var(--gold-accent)",
                 border: "none",
-                color: activeTab === unit.id ? "var(--gold-accent)" : "#777",
+                color: activeTab === unit.id ? "black" : "#777",
                 borderBottom:
                   activeTab === unit.id
                     ? "2px solid var(--gold-accent)"
                     : "2px solid transparent",
-                padding: "0 0 15px 0",
+                padding: activeTab === unit.id ? "15px 20px" : "10px 15px",
                 fontSize: "1.1rem",
+                fontWeight: "600",
                 cursor: "pointer",
               }}
             >
