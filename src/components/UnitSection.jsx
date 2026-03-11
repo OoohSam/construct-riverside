@@ -109,14 +109,14 @@ const UnitSection = ({ onInquire }) => {
               style={{
                 background: "var(--gold-accent)",
                 border: "none",
-                color: activeTab === unit.id ? "black" : "#777",
+                color: activeTab === unit.id ? "black" : "#ffffff",
                 borderBottom:
                   activeTab === unit.id
                     ? "2px solid var(--gold-accent)"
                     : "2px solid transparent",
                 padding: activeTab === unit.id ? "15px 20px" : "10px 15px",
                 fontSize: "1.1rem",
-                fontWeight: "600",
+                fontWeight: activeTab=== unit.id ? "700" : "normal",
                 cursor: "pointer",
               }}
             >
@@ -125,8 +125,9 @@ const UnitSection = ({ onInquire }) => {
             </button>
           ))}
         </div>
+        
 
-        {/* Content */}
+        {/* Content is here now */}
         <div
           style={{
             display: "grid",
