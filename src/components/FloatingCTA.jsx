@@ -5,7 +5,7 @@ const FloatingCTA = ({ onOpenModal }) => {
     <>
       {/* Desktop WhatsApp */}
       <a 
-        href="https://wa.me/254700000000?text=I%20am%20interested%20in%20Riverside%20Azure"
+        href="https://wa.me/254701121054?text=I%20am%20interested%20in%20Riverside%20Azure"
         target="_blank"
         rel="noreferrer"
         className="desktop-only"
