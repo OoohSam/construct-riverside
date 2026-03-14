@@ -12,7 +12,7 @@ const LeadModal = ({ isOpen, onClose }) => {
     
     // Redirect to WhatsApp
     const message = `Hello, I am interested in Riverside Azure. My name is ${formData.name}. I am interested in the ${formData.unit}. Please share pricing.`;
-    window.open(`https://wa.me/254700000000?text=${encodeURIComponent(message)}`, '_blank');
+    window.open(`https://wa.me/254701121054?text=${encodeURIComponent(message)}`, '_blank');
     
     onClose();
   };

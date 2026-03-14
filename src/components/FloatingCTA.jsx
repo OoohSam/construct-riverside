@@ -21,7 +21,7 @@ const FloatingCTA = ({ onOpenModal }) => {
         
         <i className="fa fa-whatsapp"></i>
       </a>
-
+ 
       {/* Mobile Sticky Bar */}
       <div className="mobile-only" style={{
         position: 'fixed', bottom: 0, left: 0, width: '100%',
