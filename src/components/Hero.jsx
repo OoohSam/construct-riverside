@@ -25,7 +25,7 @@ const Hero = ({ onCtaClick }) => {
           marginBottom: '20px',
           fontWeight: 600
         }}>
-          Excavation Ongoing | Westlands, Nairobi
+          Excavation Ongoing | Riverside Drive, Nairobi
         </p>
         <h1 style={{ 
           fontSize: 'clamp(3rem, 5vw, 5rem)', 
@@ -47,8 +47,7 @@ const Hero = ({ onCtaClick }) => {
               fontSize: '1rem',
               fontWeight: '600',
               minWidth: '200px'
-            }}
-            
+            }} 
           >
             Unlock Early Investor Pricing
           </button>
