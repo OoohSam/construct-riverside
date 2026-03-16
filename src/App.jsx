@@ -7,8 +7,12 @@ import Amenities from "./components/Amenities";
 import LeadModal from "./components/LeadModal";
 import FloatingCTA from "./components/FloatingCTA";
 import useScrollReveal from "./hooks/useScrollReveal";
+import AboutSection from './components/AboutSection';
 
 function App() {
+
+  const myOpeningParagraph = "Your exact opening paragraph text goes here. Do not alter it. The component will render it beautifully.";
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Initialize scroll animations
@@ -24,6 +28,11 @@ function App() {
       <main>
         <Hero onCtaClick={handleOpenModal} />
         <ScarcityBar />
+
+
+      {/* NEW ABOUT SECTION */}
+        <AboutSection openingParagraph={myOpeningParagraph} />
+
 
         {/* Intro Text */}
         <div
@@ -143,7 +152,7 @@ function App() {
         <div className="project-card">
 
           <div className="project-image">
-            <img src="/assets/projects/mangotree.jpg" alt="Mango Tree Apartments" />
+            <img src="/assets/Temp/Mango-tree-1(1).jpg" alt="Mango Tree Apartments" />
             <span className="status">Sold Out</span>
           </div>
 
