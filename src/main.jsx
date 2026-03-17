@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
+import Trial from './TRIAL.jsx'
 
 // Add Font Awesome for icons (CDN method for simplicity in this snippet)
 const link = document.createElement('link');
@@ -18,5 +19,10 @@ document.head.appendChild(fontLink);
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />
+    {/* <h1>hello</h1> */}
   </React.StrictMode>,
-)      
+)  
+
+
+
+
