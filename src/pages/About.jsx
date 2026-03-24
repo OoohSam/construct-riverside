@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import fallbackImage from "../assets/hero/Front-View.webp";
 import martinImg from "../assets/Directors/martin.webp";
-import linnImg from "../assets/Directors/linn.webp";
-import liuImg from "../assets/Directors/liu.webp";
+import linnImg from "../assets/Directors/Linn.webp";
+import liuImg from "../assets/Directors/Liu.webp";
+
 
 const inputStyle = {
   padding: "14px",
@@ -11,23 +12,10 @@ const inputStyle = {
   color: "#fff",
   outline: "none",
 };
-
 const directors = [
-  {
-    name: "Martin",
-    role: "Head of Sales",
-    image: martinImg,
-  },
-  {
-    name: "Lin",
-    role: "Head of Operations",
-    image: linnImg,
-  },
-  {
-    name: "Liu",
-    role: "Site Manager",
-    image: liuImg,
-  },
+  { name: "Martin", role: "Head of Sales", image: martinImg },
+  { name: "Lin", role: "Head of Operations", image: linnImg },
+  { name: "Liu", role: "Site Manager", image: liuImg },
 ];
 
 const useReveal = () => {
