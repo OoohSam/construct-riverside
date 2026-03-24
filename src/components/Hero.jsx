@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import heroVideo from "../assets/video/House-inside.mp4";
+import heroVideo from "../video/House-inside.mp4";
 //Fixed thevideo
 import fallbackImage from "../assets/hero/Front-View.webp";
 
