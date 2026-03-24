@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import fallbackImage from "../assets/hero/Front-View.webp";
-import martinImg from "../assets/Directors/martin.webp";
+import martinImg from "../assets/Directors/Martin.webp";
 import linnImg from "../assets/Directors/Linn.webp";
 import liuImg from "../assets/Directors/Liu.webp";
 
