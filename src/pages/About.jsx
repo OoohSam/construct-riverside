@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-// import videoFile from "../assets/video/city-g.mp4";
-import videoFile from "../assets/video/City.mp4";
-
-
-
+import fallbackImage from "../assets/hero/Front-View.webp";
+import martinImg from "../assets/Directors/martin.webp";
+import linnImg from "../assets/Directors/linn.webp";
+import liuImg from "../assets/Directors/liu.webp";
 
 const inputStyle = {
   padding: "14px",
@@ -13,26 +12,24 @@ const inputStyle = {
   outline: "none",
 };
 
-
 const directors = [
   {
     name: "Martin",
     role: "Head of Sales",
-    image: "/src/assets/Directors/martin.webp",
+    image: martinImg,
   },
   {
     name: "Lin",
     role: "Head of Operations",
-    image: "/src/assets/Directors/linn.webp",
+    image: linnImg,
   },
   {
     name: "Liu",
     role: "Site Manager",
-    image: "/src/assets/Directors/liu.webp",
+    image: liuImg,
   },
 ];
 
-// Simple scroll reveal hook
 const useReveal = () => {
   useEffect(() => {
     const elements = document.querySelectorAll(".reveal");
@@ -64,7 +61,6 @@ const parseNumber = (val) => {
   return Number(val.toString().replace(/,/g, "")) || 0;
 };
 
-// ✅ ROI Calculator moved outside the main component
 const Calculator = ({ price, rent, costs, setPrice, setRent, setCosts }) => {
   const currency = new Intl.NumberFormat("en-KE", {
     style: "currency",
@@ -152,33 +148,23 @@ const Calculator = ({ price, rent, costs, setPrice, setRent, setCosts }) => {
   );
 };
 
-
 const About = () => {
   useReveal();
 
   const [slider, setSlider] = useState(50);
 
-  // Default ROI values
   const [price, setPrice] = useState("8,000,000");
   const [rent, setRent] = useState("1,200");
   const [costs, setCosts] = useState("2,000");
 
   return (
     <section style={{ background: "#0a0a0a", color: "#fff" }}>
-      {/* 🔥 HERO VIDEO (CHINA → NAIROBI) */}
       <div style={{ position: "relative", height: "100vh", overflow: "hidden" }}>
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
+        <img
+          src={fallbackImage}
+          alt="Riverside Azure exterior"
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
-        >
-          <source src={videoFile} type="video/mp4" />
-          Your browser does not support the video tag.
-
-        </video>
-
+        />
 
         <div
           style={{
@@ -204,7 +190,6 @@ const About = () => {
         </div>
       </div>
 
-      {/* 🧭 TIMELINE */}
       <div style={{ padding: "100px 40px", maxWidth: "1000px", margin: "0 auto" }}>
         <h2 className="reveal" style={{ textAlign: "center", marginBottom: "60px" }}>
           Our Journey
@@ -225,7 +210,6 @@ const About = () => {
         ))}
       </div>
 
-      {/* 🏗 BEFORE / AFTER SLIDER */}
       <div style={{ padding: "100px 40px" }}>
         <h2 className="reveal" style={{ textAlign: "center", marginBottom: "40px" }}>
           Transformation
@@ -234,7 +218,15 @@ const About = () => {
         <div style={{ position: "relative", maxWidth: "900px", margin: "0 auto" }}>
           <img src="/images/before.jpg" alt="Before construction" style={{ width: "100%" }} />
 
-          <div style={{ position: "absolute", top: 0, left: 0, width: slider + "%", overflow: "hidden" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: slider + "%",
+              overflow: "hidden",
+            }}
+          >
             <img src="/images/after.jpg" alt="After construction" style={{ width: "100%" }} />
           </div>
 
@@ -249,104 +241,97 @@ const About = () => {
         </div>
       </div>
 
-      {/* 🧑‍💼 DIRECTORS SECTION */}
-     <div style={{ padding: "100px 40px" }}>
-  <h2 className="reveal" style={{ textAlign: "center", marginBottom: "60px" }}>
-    Leadership
-  </h2>
+      <div style={{ padding: "100px 40px" }}>
+        <h2 className="reveal" style={{ textAlign: "center", marginBottom: "60px" }}>
+          Leadership
+        </h2>
 
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-      gap: "40px",
-      maxWidth: "1100px",
-      margin: "0 auto",
-    }}
-  >
-    
-    {directors.map((director, index) => (
-      <div key={index} className="director-card reveal">
-        
-        <div className="image-wrapper">
-          <img src={director.image} alt={director.name} />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: "40px",
+            maxWidth: "1100px",
+            margin: "0 auto",
+          }}
+        >
+          {directors.map((director, index) => (
+            <div key={index} className="director-card reveal">
+              <div className="image-wrapper">
+                <img src={director.image} alt={director.name} />
+              </div>
+
+              <div className="director-info">
+                <h4>{director.name}</h4>
+                <p>{director.role}</p>
+              </div>
+            </div>
+          ))}
         </div>
 
-        <div className="director-info">
-          <h4>{director.name}</h4>
-          <p>{director.role}</p>
-        </div>
+        <style>{`
+          .director-card {
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+          }
 
+          .director-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+          }
+
+          .image-wrapper {
+            overflow: hidden;
+            border-radius: 6px;
+          }
+
+          .image-wrapper img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+          }
+
+          .director-card:hover .image-wrapper img {
+            transform: scale(1.08);
+          }
+
+          .director-info {
+            margin-top: 18px;
+            text-align: center;
+            position: relative;
+          }
+
+          .director-info h4 {
+            margin-bottom: 6px;
+            transition: color 0.3s ease;
+          }
+
+          .director-info p {
+            color: #aaa;
+            font-size: 0.9rem;
+          }
+
+          .director-info::after {
+            content: "";
+            display: block;
+            width: 0;
+            height: 2px;
+            background: gold;
+            margin: 10px auto 0;
+            transition: width 0.4s ease;
+          }
+
+          .director-card:hover .director-info::after {
+            width: 40px;
+          }
+
+          .director-card:hover h4 {
+            color: gold;
+          }
+        `}</style>
       </div>
-    ))}
-  </div>
 
-  {/* 🎬 PREMIUM HOVER STYLES */}
-  <style>{`
-    .director-card {
-      cursor: pointer;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .director-card:hover {
-      transform: translateY(-12px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-    }
-
-    .image-wrapper {
-      overflow: hidden;
-      border-radius: 6px;
-    }
-
-    .image-wrapper img {
-      width: 100%;
-      height: 320px;
-      object-fit: cover;
-      transition: transform 0.6s ease;
-    }
-
-    .director-card:hover .image-wrapper img {
-      transform: scale(1.08);
-    }
-
-    .director-info {
-      margin-top: 18px;
-      text-align: center;
-      position: relative;
-    }
-
-    .director-info h4 {
-      margin-bottom: 6px;
-      transition: color 0.3s ease;
-    }
-
-    .director-info p {
-      color: #aaa;
-      font-size: 0.9rem;
-    }
-
-    /* 🔥 Gold underline animation */
-    .director-info::after {
-      content: "";
-      display: block;
-      width: 0;
-      height: 2px;
-      background: gold;
-      margin: 10px auto 0;
-      transition: width 0.4s ease;
-    }
-
-    .director-card:hover .director-info::after {
-      width: 40px;
-    }
-
-    .director-card:hover h4 {
-      color: gold;
-    }
-  `}</style>
-</div>
-
-      {/* 🌄 PARALLAX SECTION */}
       <div
         style={{
           backgroundImage: "url('/images/parallax.jpg')",
@@ -363,7 +348,6 @@ const About = () => {
         </div>
       </div>
 
-      {/* 🎬 ANIMATION STYLES */}
       <style>{`
         .reveal {
           opacity: 0;
@@ -376,7 +360,6 @@ const About = () => {
         }
       `}</style>
 
-      {/* 📄 DOWNLOAD BROCHURE CTA */}
       <div style={{ padding: "100px 40px", textAlign: "center", background: "#111" }}>
         <h2 className="reveal" style={{ marginBottom: "20px" }}>
           Investment Brochure
@@ -400,7 +383,6 @@ const About = () => {
         </a>
       </div>
 
-      {/* 🧮 ROI CALCULATOR */}
       <div style={{ padding: "100px 40px" }}>
         <h2 className="reveal" style={{ textAlign: "center", marginBottom: "60px" }}>
           ROI Calculator
@@ -416,7 +398,6 @@ const About = () => {
         />
       </div>
 
-      {/* 🏗 OUR PROCESS */}
       <div style={{ padding: "100px 40px", background: "#111" }}>
         <h2 className="reveal" style={{ textAlign: "center", marginBottom: "60px" }}>
           Our Process
@@ -454,7 +435,6 @@ const About = () => {
         </div>
       </div>
 
-      {/* 💰 INVESTOR SECTION */}
       <div style={{ padding: "100px 40px" }}>
         <h2 className="reveal" style={{ textAlign: "center", marginBottom: "60px" }}>
           Investment Perspective
