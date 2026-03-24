@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import videoFile from "../assets/Video/City-g.mp4";
+import videoFile from "../assets/video/City-g.mp4";
 
 const inputStyle = {
   padding: "14px",

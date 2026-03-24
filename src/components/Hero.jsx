@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import heroVideo from "../assets/video/house-inside.mp4";
+//Fixed thevideo
 import fallbackImage from "../assets/hero/Front-View.webp";
 
 const Hero = ({ onCtaClick }) => {
