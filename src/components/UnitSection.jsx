@@ -12,11 +12,7 @@ const units = [
     desc: "High-yield asset ideal for Airbnb. Located in the diplomatic heart of Nairobi.",
     price: "35,000",
 
-    //0796529997 MING HUA NO
-    // imported from local assets for better performance and control
-    // these images should be placed in the public/assets/Apartments/type-b/ directory
-    // the naming convention (c1.jpg, c2.jpg, etc.) allows for easy iteration in the code
-    //this is how to import  "/"
+ 
     images: [
       new URL("../assets/Apartments/type-b/c6.jpg", import.meta.url).href,
       new URL("../assets/Apartments/type-b/c1.jpg", import.meta.url).href,
