@@ -4,19 +4,25 @@ import martinImg from "../assets/Directors/Martin.webp";
 import linnImg from "../assets/Directors/Linn.webp";
 import liuImg from "../assets/Directors/Liu.webp";
 
-
 const inputStyle = {
   padding: "14px",
   background: "#111",
   border: "1px solid #333",
   color: "#fff",
   outline: "none",
+  width: "100%",
 };
+
 const directors = [
   { name: "Martin", role: "Head of Sales", image: martinImg },
   { name: "Lin", role: "Head of Operations", image: linnImg },
   { name: "Liu", role: "Site Manager", image: liuImg },
 ];
+
+const transformationBefore =
+  "https://picsum.photos/seed/riverside-before/1400/900";
+const transformationAfter =
+  "https://picsum.photos/seed/riverside-after/1400/900";
 
 const useReveal = () => {
   useEffect(() => {
@@ -69,10 +75,17 @@ const Calculator = ({ price, rent, costs, setPrice, setRent, setCosts }) => {
   return (
     <div
       className="reveal"
-      style={{ maxWidth: "700px", margin: "0 auto", display: "grid", gap: "18px" }}
+      style={{
+        maxWidth: "700px",
+        margin: "0 auto",
+        display: "grid",
+        gap: "18px",
+      }}
     >
       <div>
-        <label style={{ color: "#aaa" }}>Property Price</label>
+        <label style={{ color: "#aaa", display: "block", marginBottom: "8px" }}>
+          Property Price
+        </label>
         <input
           value={price}
           onChange={(e) =>
@@ -83,7 +96,9 @@ const Calculator = ({ price, rent, costs, setPrice, setRent, setCosts }) => {
       </div>
 
       <div>
-        <label style={{ color: "#aaa" }}>Monthly Rent</label>
+        <label style={{ color: "#aaa", display: "block", marginBottom: "8px" }}>
+          Monthly Rent
+        </label>
         <input
           value={rent}
           onChange={(e) =>
@@ -94,7 +109,9 @@ const Calculator = ({ price, rent, costs, setPrice, setRent, setCosts }) => {
       </div>
 
       <div>
-        <label style={{ color: "#aaa" }}>Annual Costs</label>
+        <label style={{ color: "#aaa", display: "block", marginBottom: "8px" }}>
+          Annual Costs
+        </label>
         <input
           value={costs}
           onChange={(e) =>
@@ -105,7 +122,7 @@ const Calculator = ({ price, rent, costs, setPrice, setRent, setCosts }) => {
       </div>
 
       <div style={{ border: "1px solid #222", padding: "24px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: "20px" }}>
           <span>Annual Income</span>
           <strong>{currency.format(annualIncome)}</strong>
         </div>
@@ -114,6 +131,7 @@ const Calculator = ({ price, rent, costs, setPrice, setRent, setCosts }) => {
           style={{
             display: "flex",
             justifyContent: "space-between",
+            gap: "20px",
             marginTop: "10px",
           }}
         >
@@ -125,11 +143,14 @@ const Calculator = ({ price, rent, costs, setPrice, setRent, setCosts }) => {
           style={{
             display: "flex",
             justifyContent: "space-between",
+            gap: "20px",
             marginTop: "15px",
           }}
         >
           <span>ROI</span>
-          <strong style={{ color: "gold", fontSize: "1.5rem" }}>{percent(roi)}</strong>
+          <strong style={{ color: "gold", fontSize: "1.5rem" }}>
+            {percent(roi)}
+          </strong>
         </div>
       </div>
     </div>
@@ -140,27 +161,23 @@ const About = () => {
   useReveal();
 
   const [slider, setSlider] = useState(50);
-
   const [price, setPrice] = useState("8,000,000");
   const [rent, setRent] = useState("1,200");
   const [costs, setCosts] = useState("2,000");
 
   return (
     <section style={{ background: "#0a0a0a", color: "#fff" }}>
-      <div style={{ position: "relative", height: "100vh", overflow: "hidden" }}>
+      <div style={{ position: "relative", minHeight: "100vh", overflow: "hidden" }}>
         <img
           src={fallbackImage}
           alt="Riverside Azure exterior"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }}
         />
 
         <div
           style={{
             position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
+            inset: 0,
             background: "rgba(0,0,0,0.5)",
             display: "flex",
             alignItems: "center",
@@ -170,32 +187,20 @@ const About = () => {
           }}
         >
           <div className="reveal">
-            <h1 style={{ fontSize: "3rem", marginBottom: "20px" }}>From China to Nairobi</h1>
-            <p style={{ color: "#ccc", maxWidth: "700px" }}>
+            <h1
+              style={{
+                fontSize: "clamp(2.2rem, 6vw, 3.5rem)",
+                marginBottom: "20px",
+                lineHeight: 1.1,
+              }}
+            >
+              From China to Nairobi
+            </h1>
+            <p style={{ color: "#ccc", maxWidth: "700px", lineHeight: 1.7 }}>
               Global precision meets Nairobi’s future of luxury living.
             </p>
           </div>
         </div>
-      </div>
-
-      <div style={{ padding: "100px 40px", maxWidth: "1000px", margin: "0 auto" }}>
-        <h2 className="reveal" style={{ textAlign: "center", marginBottom: "60px" }}>
-          Our Journey
-        </h2>
-
-        {["2018", "2020", "2022", "2024"].map((year, i) => (
-          <div
-            key={i}
-            className="reveal"
-            style={{ display: "flex", gap: "30px", marginBottom: "40px" }}
-          >
-            <div style={{ color: "gold" }}>{year}</div>
-            <div>
-              <h4>Milestone {i + 1}</h4>
-              <p style={{ color: "#aaa" }}>Key expansion and project delivery phase.</p>
-            </div>
-          </div>
-        ))}
       </div>
 
       <div style={{ padding: "100px 40px" }}>
@@ -204,18 +209,59 @@ const About = () => {
         </h2>
 
         <div style={{ position: "relative", maxWidth: "900px", margin: "0 auto" }}>
-          <img src="/images/before.jpg" alt="Before construction" style={{ width: "100%" }} />
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              aspectRatio: "16 / 9",
+              overflow: "hidden",
+              border: "1px solid #222",
+            }}
+          >
+            <img
+              src={transformationBefore}
+              alt="Before transformation"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block",
+              }}
+            />
+
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: `${slider}%`,
+                overflow: "hidden",
+                borderRight: "2px solid gold",
+              }}
+            >
+              <img
+                src={transformationAfter}
+                alt="After transformation"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              />
+            </div>
+          </div>
 
           <div
             style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: slider + "%",
-              overflow: "hidden",
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "12px",
+              color: "#aaa",
+              fontSize: "0.9rem",
             }}
           >
-            <img src="/images/after.jpg" alt="After construction" style={{ width: "100%" }} />
+            <span>Before</span>
+            <span>After</span>
           </div>
 
           <input
@@ -332,7 +378,9 @@ const About = () => {
       >
         <div className="reveal">
           <h2>Built for Legacy</h2>
-          <p style={{ color: "#ddd" }}>Where architecture meets long-term value.</p>
+          <p style={{ color: "#ddd" }}>
+            Where architecture meets long-term value.
+          </p>
         </div>
       </div>
 
@@ -342,9 +390,21 @@ const About = () => {
           transform: translateY(40px);
           transition: all 1s ease;
         }
+
         .reveal.active {
           opacity: 1;
           transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+          .director-card:hover {
+            transform: none;
+            box-shadow: none;
+          }
+
+          .image-wrapper img {
+            height: 280px;
+          }
         }
       `}</style>
 
@@ -365,6 +425,7 @@ const About = () => {
             padding: "14px 30px",
             textDecoration: "none",
             fontWeight: "600",
+            display: "inline-block",
           }}
         >
           Download Brochure

@@ -6,15 +6,12 @@ import UnitSection from "../components/UnitSection";
 
 function Home({ onOpenModal }) {
   return (
-    <>
+    <main style={{ width: "100%", overflowX: "hidden" }}>
       <Hero onCtaClick={onOpenModal} />
-
       <ScarcityBar />
-
       <UnitSection onInquire={onOpenModal} />
-
       <Amenities />
-    </>
+    </main>
   );
 }
 

@@ -8,12 +8,10 @@ const Hero = ({ onCtaClick }) => {
         style={{
           ...styles.background,
           backgroundImage: `url(${fallbackImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
         }}
       />
 
-      <div style={styles.overlay}></div>
+      <div style={styles.overlay} />
 
       <div style={styles.content}>
         <p style={styles.subText} className="fade-up delay-1">
@@ -26,14 +24,14 @@ const Hero = ({ onCtaClick }) => {
           <span className="fade-up delay-3">Before It Rises.</span>
         </h1>
 
-        <div className="fade-up delay-4">
+        <div className="fade-up delay-4" style={styles.buttonWrap}>
           <button onClick={onCtaClick} style={styles.button}>
             Unlock Early Investor Pricing
           </button>
         </div>
       </div>
 
-      <div style={styles.scrollIndicator}>
+      <div className="hero-scroll-indicator" style={styles.scrollIndicator} aria-hidden="true">
         <div style={styles.scrollLine}></div>
       </div>
 
@@ -46,30 +44,32 @@ export default Hero;
 
 const styles = {
   section: {
-    height: "100vh",
+    minHeight: "100svh",
     width: "100%",
     position: "relative",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
+    padding: "100px 16px 48px",
   },
 
   background: {
     position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
+    inset: 0,
     zIndex: 0,
+    backgroundSize: "cover",
+    backgroundPosition: "center center",
+    backgroundRepeat: "no-repeat",
     animation: "zoomSlow 20s ease-in-out infinite alternate",
+    transform: "scale(1)",
   },
 
   overlay: {
     position: "absolute",
     inset: 0,
     background:
-      "linear-gradient(to bottom, rgba(14,14,14,0.3), rgba(14,14,14,1))",
+      "linear-gradient(to bottom, rgba(14,14,14,0.35), rgba(14,14,14,0.88) 58%, rgba(14,14,14,1))",
     zIndex: 1,
   },
 
@@ -77,37 +77,51 @@ const styles = {
     position: "relative",
     zIndex: 10,
     textAlign: "center",
-    padding: "20px",
+    width: "100%",
+    maxWidth: "900px",
+    margin: "0 auto",
   },
 
   subText: {
     color: "var(--gold-accent)",
     textTransform: "uppercase",
-    letterSpacing: "3px",
-    marginBottom: "20px",
+    letterSpacing: "2px",
+    marginBottom: "16px",
     fontWeight: 600,
+    fontSize: "clamp(0.75rem, 2vw, 0.95rem)",
+    lineHeight: 1.5,
   },
 
   heading: {
-    fontSize: "clamp(3rem, 5vw, 5rem)",
+    fontSize: "clamp(2.2rem, 8vw, 5rem)",
     color: "#fff",
-    marginBottom: "30px",
-    lineHeight: 1.1,
+    marginBottom: "24px",
+    lineHeight: 1.05,
+  },
+
+  buttonWrap: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
   },
 
   button: {
     background: "var(--gold-accent)",
     color: "#000",
     border: "none",
-    padding: "16px 40px",
-    fontSize: "1rem",
+    padding: "14px 24px",
+    fontSize: "clamp(0.95rem, 2.5vw, 1rem)",
     fontWeight: "600",
     cursor: "pointer",
+    width: "100%",
+    maxWidth: "340px",
+    minHeight: "52px",
+    lineHeight: 1.2,
   },
 
   scrollIndicator: {
     position: "absolute",
-    bottom: "30px",
+    bottom: "20px",
     left: "50%",
     transform: "translateX(-50%)",
     zIndex: 10,
@@ -115,7 +129,7 @@ const styles = {
 
   scrollLine: {
     width: "2px",
-    height: "40px",
+    height: "34px",
     background: "#fff",
     animation: "scrollMove 1.5s infinite",
   },
@@ -142,12 +156,22 @@ const animations = `
 
 @keyframes zoomSlow {
   from { transform: scale(1); }
-  to { transform: scale(1.1); }
+  to { transform: scale(1.08); }
 }
 
 @keyframes scrollMove {
   0% { opacity: 0; transform: translateY(0); }
   50% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(15px); }
+  100% { opacity: 0; transform: translateY(12px); }
+}
+
+@media (max-width: 768px) {
+  .fade-up {
+    transform: translateY(20px);
+  }
+
+  .hero-scroll-indicator {
+    display: none;
+  }
 }
 `;
