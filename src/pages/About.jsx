@@ -3,6 +3,7 @@ import fallbackImage from "../assets/hero/Front-View.webp";
 import martinImg from "../assets/Directors/Martin.webp";
 import linnImg from "../assets/Directors/Linn.webp";
 import liuImg from "../assets/Directors/Liu.webp";
+import Kavata from "../assets/Directors/Kavata.webp";
 
 const inputStyle = {
   padding: "14px",
@@ -17,6 +18,7 @@ const directors = [
   { name: "Martin", role: "Head of Sales", image: martinImg },
   { name: "Lin", role: "Head of Operations", image: linnImg },
   { name: "Liu", role: "Site Manager", image: liuImg },
+  { name: "Kavata", role: "Sales Manager", image: Kavata },
 ];
 
 const transformationBefore =

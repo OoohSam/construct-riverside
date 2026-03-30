@@ -10,7 +10,7 @@ const units = [
     beds: "1 Bedroom",
     size: "65.62 - 69.58 SQM",
     desc: "High-yield asset ideal for Airbnb. Located in the diplomatic heart of Nairobi.",
-    price: "Ask for Price",
+    price: "8 M - 13M",
     images: [
       new URL("../assets/Apartments/type-b/c6.jpg", import.meta.url).href,
       new URL("../assets/Apartments/type-b/c1.jpg", import.meta.url).href,
@@ -20,6 +20,7 @@ const units = [
       new URL("../assets/Apartments/type-b/c5.jpg", import.meta.url).href,
     ],
   },
+
   {
     id: 2,
     type: "Type B",
@@ -27,14 +28,17 @@ const units = [
     beds: "2 Bedroom",
     size: "98.00 - 104.63 SQM",
     desc: "Balanced proportions for long-term living. Perfect for young families.",
-    price: "Ask for Price",
+    price: "14-8 M - 19 M",
     images: [
       new URL("../assets/Apartments/type-a/b11.jpg", import.meta.url).href,
       new URL("../assets/Apartments/type-a/b6.jpg", import.meta.url).href,
+      new URL("../assets/Apartments/type-a/b3.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-a/b5.jpg", import.meta.url).href,
+      new URL("../assets/Apartments/type-a/b6.jpg", import.meta.url).href,
       new URL("../assets/Apartments/type-a/b4.jpg", import.meta.url).href,
       new URL("../assets/Apartments/type-a/b10.jpg", import.meta.url).href,
       new URL("../assets/Apartments/type-a/b8.jpg", import.meta.url).href,
+      new URL("../assets/Apartments/type-a/a1.jpg", import.meta.url).href,
     ],
   },
   {
@@ -44,14 +48,18 @@ const units = [
     beds: "3 Bedroom",
     size: "141.95 SQM",
     desc: "Versatile luxury. Expansive living spaces for those who value legacy.",
-    price: "Ask for Price",
+    price: "22.5 M - 27 M",
     images: [
-      new URL("../assets/Apartments/type-c/a5.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-c/a3.jpg", import.meta.url).href,
+      new URL("../assets/Apartments/type-c/a14.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-c/a5.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-c/a3.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-c/a16.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-c/a2.jpg", import.meta.url).href,
+      new URL("../assets/Apartments/type-c/a13.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-c/a7.jpg", import.meta.url).href,
       new URL("../assets/Apartments/type-c/a6.jpg", import.meta.url).href,
       new URL("../assets/Apartments/type-c/a10.jpg", import.meta.url).href,
+      new URL("../assets/Apartments/type-c/a4.jpg", import.meta.url).href,
     ],
   },
 ];
@@ -62,7 +70,7 @@ const Units = ({ onOpenModal, onInquire }) => {
 
   const activeUnit = useMemo(
     () => units.find((u) => u.id === activeTab) || units[0],
-    [activeTab]
+    [activeTab],
   );
 
   const currentImages =
