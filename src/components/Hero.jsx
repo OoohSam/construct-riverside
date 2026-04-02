@@ -33,14 +33,14 @@ const Hero = ({ onCtaClick }) => {
 
       <div className="hero-scroll-indicator" style={styles.scrollIndicator} aria-hidden="true">
         <div style={styles.scrollLine}></div>
-      </div>
-
+      </div> 
       <style>{animations}</style>
     </section>
   );
 };
 
 export default Hero;
+
 
 const styles = {
   section: {

@@ -38,7 +38,7 @@ const useReveal = () => {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     elements.forEach((el) => observer.observe(el));
@@ -58,22 +58,16 @@ const parseNumber = (val) => {
 };
 
 const Calculator = ({ price, rent, costs, setPrice, setRent, setCosts }) => {
-  const currency = new Intl.NumberFormat("en-KE", {
-    style: "currency",
-    currency: "KES",
-    maximumFractionDigits: 0,
-  });
-
+  const formatCurrency = (value) => {
+    return "KSh " + Number(value).toLocaleString();
+  };
   const percent = (v) => `${v.toFixed(2)}%`;
-
   const priceNum = parseNumber(price);
   const rentNum = parseNumber(rent);
   const costsNum = parseNumber(costs);
-
   const annualIncome = rentNum * 12;
   const net = annualIncome - costsNum;
   const roi = priceNum > 0 ? (net / priceNum) * 100 : 0;
-
   return (
     <div
       className="reveal"
@@ -84,51 +78,62 @@ const Calculator = ({ price, rent, costs, setPrice, setRent, setCosts }) => {
         gap: "18px",
       }}
     >
+      {" "}
       <div>
+        {" "}
         <label style={{ color: "#aaa", display: "block", marginBottom: "8px" }}>
-          Property Price
-        </label>
+          {" "}
+          Property Price{" "}
+        </label>{" "}
         <input
           value={price}
           onChange={(e) =>
             setPrice(formatNumber(e.target.value.replace(/[^0-9]/g, "")))
           }
           style={inputStyle}
-        />
-      </div>
-
+        />{" "}
+      </div>{" "}
       <div>
+        {" "}
         <label style={{ color: "#aaa", display: "block", marginBottom: "8px" }}>
-          Monthly Rent
-        </label>
+          {" "}
+          Monthly Rent{" "}
+        </label>{" "}
         <input
           value={rent}
           onChange={(e) =>
             setRent(formatNumber(e.target.value.replace(/[^0-9]/g, "")))
           }
           style={inputStyle}
-        />
-      </div>
-
+        />{" "}
+      </div>{" "}
       <div>
+        {" "}
         <label style={{ color: "#aaa", display: "block", marginBottom: "8px" }}>
-          Annual Costs
-        </label>
+          {" "}
+          Annual Costs{" "}
+        </label>{" "}
         <input
           value={costs}
           onChange={(e) =>
             setCosts(formatNumber(e.target.value.replace(/[^0-9]/g, "")))
           }
           style={inputStyle}
-        />
-      </div>
-
+        />{" "}
+      </div>{" "}
       <div style={{ border: "1px solid #222", padding: "24px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", gap: "20px" }}>
-          <span>Annual Income</span>
-          <strong>{currency.format(annualIncome)}</strong>
-        </div>
-
+        {" "}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "20px",
+          }}
+        >
+          {" "}
+          <span>Annual Income</span>{" "}
+          <strong>{formatCurrency(annualIncome)}</strong>{" "}
+        </div>{" "}
         <div
           style={{
             display: "flex",
@@ -137,10 +142,9 @@ const Calculator = ({ price, rent, costs, setPrice, setRent, setCosts }) => {
             marginTop: "10px",
           }}
         >
-          <span>Net Income</span>
-          <strong>{currency.format(net)}</strong>
-        </div>
-
+          {" "}
+          <span>Net Income</span> <strong>{formatCurrency(net)}</strong>{" "}
+        </div>{" "}
         <div
           style={{
             display: "flex",
@@ -149,12 +153,14 @@ const Calculator = ({ price, rent, costs, setPrice, setRent, setCosts }) => {
             marginTop: "15px",
           }}
         >
-          <span>ROI</span>
+          {" "}
+          <span>ROI</span>{" "}
           <strong style={{ color: "gold", fontSize: "1.5rem" }}>
-            {percent(roi)}
-          </strong>
-        </div>
-      </div>
+            {" "}
+            {percent(roi)}{" "}
+          </strong>{" "}
+        </div>{" "}
+      </div>{" "}
     </div>
   );
 };
@@ -164,23 +170,31 @@ const About = () => {
 
   const [slider, setSlider] = useState(50);
   const [price, setPrice] = useState("8,000,000");
-  const [rent, setRent] = useState("1,200");
-  const [costs, setCosts] = useState("2,000");
+  const [rent, setRent] = useState("120000");
+  const [costs, setCosts] = useState("78000");
 
   return (
     <section style={{ background: "#0a0a0a", color: "#fff" }}>
-      <div style={{ position: "relative", minHeight: "100vh", overflow: "hidden" }}>
+      <div
+        style={{ position: "relative", minHeight: "100vh", overflow: "hidden" }}
+      >
         <img
           src={fallbackImage}
           alt="Riverside Azure exterior"
-          style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            position: "absolute",
+            inset: 0,
+          }}
         />
 
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background: "rgba(0,0,0,0.5)",
+            background: "rgba(0,0,0,0.58)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -188,7 +202,12 @@ const About = () => {
             padding: "20px",
           }}
         >
-          <div className="reveal">
+          <div
+            className="reveal"
+            style={{
+              maxWidth: "900px",
+            }}
+          >
             <h1
               style={{
                 fontSize: "clamp(2.2rem, 6vw, 3.5rem)",
@@ -196,21 +215,62 @@ const About = () => {
                 lineHeight: 1.1,
               }}
             >
-              From China to Nairobi
+              Welcome to Riverside Azure
             </h1>
-            <p style={{ color: "#ccc", maxWidth: "700px", lineHeight: 1.7 }}>
-              Global precision meets Nairobi’s future of luxury living.
-            </p>
+
+            <div
+              style={{
+                color: "#ddd",
+                maxWidth: "820px",
+                margin: "0 auto",
+                lineHeight: 1.9,
+                fontSize: "clamp(0.98rem, 1.5vw, 1.08rem)",
+                display: "grid",
+                gap: "18px",
+              }}
+            >
+              <p>
+                Nestled in the heart of Riverside, Nairobi, Riverside Azure
+                redefines modern living with a perfect blend of elegance,
+                comfort, and convenience. Designed for discerning residents, our
+                development offers thoughtfully crafted apartments that combine
+                contemporary architecture with serene surroundings.
+              </p>
+
+              <p>
+                At Riverside Azure, every detail has been considered — from
+                spacious layouts and premium finishes to amenities that enrich
+                daily life. Whether you’re seeking a vibrant community or a
+                tranquil retreat, our residences provide the ideal balance.
+              </p>
+
+              <p>
+                Located just minutes from Nairobi’s business hubs, shopping
+                destinations, and cultural landmarks, Riverside Azure ensures
+                you’re always connected while enjoying the privacy of a secure,
+                exclusive enclave.
+              </p>
+
+              <p>
+                Discover a lifestyle where sophistication meets serenity.
+                Welcome home to Riverside Azure.
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
       <div style={{ padding: "100px 40px" }}>
-        <h2 className="reveal" style={{ textAlign: "center", marginBottom: "40px" }}>
+        <h2
+          className="reveal"
+          style={{ textAlign: "center", marginBottom: "40px" }}
+        >
           Transformation
         </h2>
 
-        <div style={{ position: "relative", maxWidth: "900px", margin: "0 auto" }}>
+        <div
+          style={{ position: "relative", maxWidth: "900px", margin: "0 auto" }}
+        >
           <div
             style={{
               position: "relative",
@@ -278,7 +338,10 @@ const About = () => {
       </div>
 
       <div style={{ padding: "100px 40px" }}>
-        <h2 className="reveal" style={{ textAlign: "center", marginBottom: "60px" }}>
+        <h2
+          className="reveal"
+          style={{ textAlign: "center", marginBottom: "60px" }}
+        >
           Leadership
         </h2>
 
@@ -410,12 +473,19 @@ const About = () => {
         }
       `}</style>
 
-      <div style={{ padding: "100px 40px", textAlign: "center", background: "#111" }}>
+      <div
+        style={{
+          padding: "100px 40px",
+          textAlign: "center",
+          background: "#111",
+        }}
+      >
         <h2 className="reveal" style={{ marginBottom: "20px" }}>
           Investment Brochure
         </h2>
         <p className="reveal" style={{ color: "#aaa", marginBottom: "30px" }}>
-          Get full project details, floor plans, pricing, and investment insights.
+          Get full project details, floor plans, pricing, and investment
+          insights.
         </p>
         <a
           href="/brochure.pdf"
@@ -435,7 +505,10 @@ const About = () => {
       </div>
 
       <div style={{ padding: "100px 40px" }}>
-        <h2 className="reveal" style={{ textAlign: "center", marginBottom: "60px" }}>
+        <h2
+          className="reveal"
+          style={{ textAlign: "center", marginBottom: "60px" }}
+        >
           ROI Calculator
         </h2>
 
@@ -450,7 +523,10 @@ const About = () => {
       </div>
 
       <div style={{ padding: "100px 40px", background: "#111" }}>
-        <h2 className="reveal" style={{ textAlign: "center", marginBottom: "60px" }}>
+        <h2
+          className="reveal"
+          style={{ textAlign: "center", marginBottom: "60px" }}
+        >
           Our Process
         </h2>
 
@@ -479,7 +555,9 @@ const About = () => {
             },
           ].map((step, i) => (
             <div key={i} className="reveal">
-              <h3 style={{ color: "gold", marginBottom: "15px" }}>{step.title}</h3>
+              <h3 style={{ color: "gold", marginBottom: "15px" }}>
+                {step.title}
+              </h3>
               <p style={{ color: "#aaa", lineHeight: "1.7" }}>{step.desc}</p>
             </div>
           ))}
@@ -487,7 +565,10 @@ const About = () => {
       </div>
 
       <div style={{ padding: "100px 40px" }}>
-        <h2 className="reveal" style={{ textAlign: "center", marginBottom: "60px" }}>
+        <h2
+          className="reveal"
+          style={{ textAlign: "center", marginBottom: "60px" }}
+        >
           Investment Perspective
         </h2>
 
@@ -526,9 +607,13 @@ const About = () => {
                 textAlign: "center",
               }}
             >
-              <h3 style={{ color: "gold", marginBottom: "10px" }}>{item.value}</h3>
+              <h3 style={{ color: "gold", marginBottom: "10px" }}>
+                {item.value}
+              </h3>
               <p style={{ fontSize: "0.9rem", color: "#666" }}>{item.label}</p>
-              <p style={{ color: "#aaa", marginTop: "10px", lineHeight: "1.6" }}>
+              <p
+                style={{ color: "#aaa", marginTop: "10px", lineHeight: "1.6" }}
+              >
                 {item.desc}
               </p>
             </div>

@@ -28,7 +28,7 @@ const units = [
     beds: "2 Bedroom",
     size: "98.00 - 104.63 SQM",
     desc: "Balanced proportions for long-term living. Perfect for young families.",
-    price: "14-8 M - 19 M",
+    price: "14.8 M - 19 M",
     images: [
       new URL("../assets/Apartments/type-a/b11.jpg", import.meta.url).href,
       new URL("../assets/Apartments/type-a/b6.jpg", import.meta.url).href,
