@@ -1,21 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import fallbackImage from "../assets/hero/Front-View.webp";
+import heroVideo from "../assets/video/House-inside.mp4";
 
 const Hero = ({ onCtaClick }) => {
+  const [videoError, setVideoError] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const showVideo = !isMobile && !videoError;
+
   return (
     <section style={styles.section}>
-      <div
-        style={{
-          ...styles.background,
-          backgroundImage: `url(${fallbackImage})`,
-        }}
-      />
+      {showVideo ? (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster={fallbackImage}
+          onError={() => setVideoError(true)}
+          style={styles.video}
+        >
+          <source src={heroVideo} type="video/mp4" />
+        </video>
+      ) : (
+        <div
+          style={{
+            ...styles.background,
+            backgroundImage: `url(${fallbackImage})`,
+          }}
+        />
+      )}
 
       <div style={styles.overlay} />
 
       <div style={styles.content}>
         <p style={styles.subText} className="fade-up delay-1">
-          Excavation | Riverside Drive, Nairobi
+          Excavation | 25 Riverside Drive, Nairobi
         </p>
 
         <h1 style={styles.heading}>
@@ -31,16 +63,20 @@ const Hero = ({ onCtaClick }) => {
         </div>
       </div>
 
-      <div className="hero-scroll-indicator" style={styles.scrollIndicator} aria-hidden="true">
+      <div
+        className="hero-scroll-indicator"
+        style={styles.scrollIndicator}
+        aria-hidden="true"
+      >
         <div style={styles.scrollLine}></div>
-      </div> 
+      </div>
+
       <style>{animations}</style>
     </section>
   );
 };
 
 export default Hero;
-
 
 const styles = {
   section: {
@@ -54,6 +90,15 @@ const styles = {
     padding: "100px 16px 48px",
   },
 
+  video: {
+    position: "absolute",
+    inset: 0,
+    zIndex: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  },
+
   background: {
     position: "absolute",
     inset: 0,
@@ -65,13 +110,13 @@ const styles = {
     transform: "scale(1)",
   },
 
-  overlay: {
-    position: "absolute",
-    inset: 0,
-    background:
-      "linear-gradient(to bottom, rgba(14,14,14,0.35), rgba(14,14,14,0.88) 58%, rgba(14,14,14,1))",
-    zIndex: 1,
-  },
+overlay: {
+  position: "absolute",
+  inset: 0,
+  background:
+    "linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.65))",
+  zIndex: 1,
+},
 
   content: {
     position: "relative",
@@ -92,12 +137,13 @@ const styles = {
     lineHeight: 1.5,
   },
 
-  heading: {
-    fontSize: "clamp(2.2rem, 8vw, 5rem)",
-    color: "#fff",
-    marginBottom: "24px",
-    lineHeight: 1.05,
-  },
+heading: {
+  fontSize: "clamp(2.2rem, 8vw, 5rem)",
+  color: "#fff",
+  marginBottom: "24px",
+  lineHeight: 1.05,
+  textShadow: "0 4px 20px rgba(0,0,0,0.6)",
+},
 
   buttonWrap: {
     width: "100%",

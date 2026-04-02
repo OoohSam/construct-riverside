@@ -20,7 +20,12 @@ My phone number is ${formData.phone}.
 I am interested in the ${formData.unit}.
 Please share the price list and floor plans.`;
 
-    // Mobile-safe redirect
+    // Open brochure after a short delay
+    setTimeout(() => {
+      window.open("/riverside-azure-brochure-and-pricelist.pdf", "_blank");
+    }, 700);
+
+    // Mobile-safe redirect to WhatsApp
     window.location.href = `https://wa.me/254796529997?text=${encodeURIComponent(
       message
     )}`;
@@ -31,20 +36,18 @@ Please share the price list and floor plans.`;
   return (
     <div style={styles.overlay} onClick={onClose}>
       <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
-        {/* Close */}
         <button onClick={onClose} style={styles.closeButton}>
           &times;
         </button>
 
-        {/* Content */}
         <div style={styles.content}>
           <h3 style={styles.title}>Unlock Investor Pricing</h3>
 
           <p style={styles.subtitle}>
-            Receive Phase 1 pricing and floor plans directly on WhatsApp.
+            Receive Phase 1 pricing, floor plans, and the brochure directly via
+            WhatsApp.
           </p>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} style={styles.form}>
             <input
               type="text"
@@ -166,6 +169,7 @@ const styles = {
     width: "100%",
     fontSize: "0.95rem",
     transition: "0.2s ease",
+    boxSizing: "border-box",
   },
 
   submitButton: {

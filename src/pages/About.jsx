@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from "react";
 import fallbackImage from "../assets/hero/Front-View.webp";
+import cityVideo from "../assets/video/City.mp4";
 import martinImg from "../assets/Directors/Martin.webp";
 import linnImg from "../assets/Directors/Linn.webp";
 import liuImg from "../assets/Directors/Liu.webp";
 import Kavata from "../assets/Directors/Kavata.webp";
-
-const inputStyle = {
-  padding: "14px",
-  background: "#111",
-  border: "1px solid #333",
-  color: "#fff",
-  outline: "none",
-  width: "100%",
-};
 
 const directors = [
   { name: "Martin", role: "Head of Sales", image: martinImg },
@@ -21,10 +13,36 @@ const directors = [
   { name: "Kavata", role: "Sales Manager", image: Kavata },
 ];
 
-const transformationBefore =
-  "https://picsum.photos/seed/riverside-before/1400/900";
-const transformationAfter =
-  "https://picsum.photos/seed/riverside-after/1400/900";
+const completedProjects = [
+  {
+    name: "Argyle Grand Hotel",
+    type: "Hospitality",
+    website: "https://argylehotelkenya.ke/",
+    image:
+      "https://cf.bstatic.com/xdata/images/hotel/max1024x768/553059860.jpg?k=4a36f6c381244fa98507c9bc2c504838b4d6a1bc5344c30e3258b6de613adcde&o=",
+    isVideo: false,
+  },
+  {
+    name: "Apple Tree Apartments",
+    type: "Residential",
+    website: "https://www.youtube.com/watch?v=aHcrVmcU8Qk",
+    image: "https://img.youtube.com/vi/aHcrVmcU8Qk/hqdefault.jpg",
+    isVideo: true,
+  },
+  {
+    name: "Mango Tree Apartments",
+    type: "Residential",
+    website: "https://www.youtube.com/watch?v=eH3c-SccjVA",
+    image: "https://img.youtube.com/vi/eH3c-SccjVA/hqdefault.jpg",
+    isVideo: true,
+  },
+];
+
+const developerPoints = [
+  "Chinese-backed developer with active project experience in Kenya",
+  "Track record across hospitality and residential developments",
+  "Focused on quality execution, long-term value, and market confidence",
+];
 
 const useReveal = () => {
   useEffect(() => {
@@ -38,7 +56,7 @@ const useReveal = () => {
           }
         });
       },
-      { threshold: 0.1 },
+      { threshold: 0.1 }
     );
 
     elements.forEach((el) => observer.observe(el));
@@ -47,300 +65,405 @@ const useReveal = () => {
   }, []);
 };
 
-const formatNumber = (val) => {
-  if (!val) return "";
-  const num = val.toString().replace(/,/g, "");
-  return Number(num).toLocaleString();
-};
-
-const parseNumber = (val) => {
-  return Number(val.toString().replace(/,/g, "")) || 0;
-};
-
-const Calculator = ({ price, rent, costs, setPrice, setRent, setCosts }) => {
-  const formatCurrency = (value) => {
-    return "KSh " + Number(value).toLocaleString();
-  };
-  const percent = (v) => `${v.toFixed(2)}%`;
-  const priceNum = parseNumber(price);
-  const rentNum = parseNumber(rent);
-  const costsNum = parseNumber(costs);
-  const annualIncome = rentNum * 12;
-  const net = annualIncome - costsNum;
-  const roi = priceNum > 0 ? (net / priceNum) * 100 : 0;
-  return (
-    <div
-      className="reveal"
-      style={{
-        maxWidth: "700px",
-        margin: "0 auto",
-        display: "grid",
-        gap: "18px",
-      }}
-    >
-      {" "}
-      <div>
-        {" "}
-        <label style={{ color: "#aaa", display: "block", marginBottom: "8px" }}>
-          {" "}
-          Property Price{" "}
-        </label>{" "}
-        <input
-          value={price}
-          onChange={(e) =>
-            setPrice(formatNumber(e.target.value.replace(/[^0-9]/g, "")))
-          }
-          style={inputStyle}
-        />{" "}
-      </div>{" "}
-      <div>
-        {" "}
-        <label style={{ color: "#aaa", display: "block", marginBottom: "8px" }}>
-          {" "}
-          Monthly Rent{" "}
-        </label>{" "}
-        <input
-          value={rent}
-          onChange={(e) =>
-            setRent(formatNumber(e.target.value.replace(/[^0-9]/g, "")))
-          }
-          style={inputStyle}
-        />{" "}
-      </div>{" "}
-      <div>
-        {" "}
-        <label style={{ color: "#aaa", display: "block", marginBottom: "8px" }}>
-          {" "}
-          Annual Costs{" "}
-        </label>{" "}
-        <input
-          value={costs}
-          onChange={(e) =>
-            setCosts(formatNumber(e.target.value.replace(/[^0-9]/g, "")))
-          }
-          style={inputStyle}
-        />{" "}
-      </div>{" "}
-      <div style={{ border: "1px solid #222", padding: "24px" }}>
-        {" "}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "20px",
-          }}
-        >
-          {" "}
-          <span>Annual Income</span>{" "}
-          <strong>{formatCurrency(annualIncome)}</strong>{" "}
-        </div>{" "}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "20px",
-            marginTop: "10px",
-          }}
-        >
-          {" "}
-          <span>Net Income</span> <strong>{formatCurrency(net)}</strong>{" "}
-        </div>{" "}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "20px",
-            marginTop: "15px",
-          }}
-        >
-          {" "}
-          <span>ROI</span>{" "}
-          <strong style={{ color: "gold", fontSize: "1.5rem" }}>
-            {" "}
-            {percent(roi)}{" "}
-          </strong>{" "}
-        </div>{" "}
-      </div>{" "}
-    </div>
-  );
-};
-
-const About = () => {
+const About = ({ onOpenModal }) => {
   useReveal();
-
-  const [slider, setSlider] = useState(50);
-  const [price, setPrice] = useState("8,000,000");
-  const [rent, setRent] = useState("120000");
-  const [costs, setCosts] = useState("78000");
+  const [videoError, setVideoError] = useState(false);
 
   return (
     <section style={{ background: "#0a0a0a", color: "#fff" }}>
+      {/* HERO */}
       <div
-        style={{ position: "relative", minHeight: "100vh", overflow: "hidden" }}
+        style={{
+          position: "relative",
+          minHeight: "100vh",
+          overflow: "hidden",
+        }}
       >
-        <img
-          src={fallbackImage}
-          alt="Riverside Azure exterior"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            position: "absolute",
-            inset: 0,
-          }}
-        />
+        {!videoError ? (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster={fallbackImage}
+            onError={() => setVideoError(true)}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          >
+            <source src={cityVideo} type="video/mp4" />
+          </video>
+        ) : (
+          <img
+            src={fallbackImage}
+            alt="Riverside Azure exterior"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              position: "absolute",
+              inset: 0,
+            }}
+          />
+        )}
 
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background: "rgba(0,0,0,0.58)",
+            background:
+              "linear-gradient(to bottom, rgba(0,0,0,0.46), rgba(0,0,0,0.82))",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            textAlign: "center",
-            padding: "20px",
+            padding: "40px 20px",
           }}
         >
           <div
             className="reveal"
             style={{
-              maxWidth: "900px",
+              maxWidth: "920px",
+              textAlign: "center",
             }}
           >
+            <p
+              style={{
+                color: "var(--gold-accent)",
+                textTransform: "uppercase",
+                letterSpacing: "0.2em",
+                fontSize: "0.8rem",
+                marginBottom: "18px",
+              }}
+            >
+              Developed in Riverside, Nairobi
+            </p>
+
             <h1
               style={{
-                fontSize: "clamp(2.2rem, 6vw, 3.5rem)",
-                marginBottom: "20px",
-                lineHeight: 1.1,
+                fontSize: "clamp(2.4rem, 6vw, 4rem)",
+                lineHeight: 1.12,
+                color: "#fff",
+                fontFamily: "var(--font-serif)",
+                marginBottom: "22px",
               }}
             >
-              Welcome to Riverside Azure
+              Backed by Experience.
+              <br />
+              Designed for Modern Living.
             </h1>
 
-            <div
+            <p
               style={{
-                color: "#ddd",
-                maxWidth: "820px",
+                color: "#c7c7c7",
+                maxWidth: "720px",
                 margin: "0 auto",
-                lineHeight: 1.9,
-                fontSize: "clamp(0.98rem, 1.5vw, 1.08rem)",
-                display: "grid",
-                gap: "18px",
+                lineHeight: 1.8,
+                fontSize: "clamp(1rem, 1.6vw, 1.1rem)",
+                marginBottom: "30px",
               }}
             >
-              <p>
-                Nestled in the heart of Riverside, Nairobi, Riverside Azure
-                redefines modern living with a perfect blend of elegance,
-                comfort, and convenience. Designed for discerning residents, our
-                development offers thoughtfully crafted apartments that combine
-                contemporary architecture with serene surroundings.
-              </p>
+              Riverside Azure is a refined residential development in one of
+              Nairobi’s most sought-after neighborhoods, combining prime
+              location, contemporary design, and long-term investment value.
+            </p>
 
-              <p>
-                At Riverside Azure, every detail has been considered — from
-                spacious layouts and premium finishes to amenities that enrich
-                daily life. Whether you’re seeking a vibrant community or a
-                tranquil retreat, our residences provide the ideal balance.
-              </p>
-
-              <p>
-                Located just minutes from Nairobi’s business hubs, shopping
-                destinations, and cultural landmarks, Riverside Azure ensures
-                you’re always connected while enjoying the privacy of a secure,
-                exclusive enclave.
-              </p>
-
-              <p>
-                Discover a lifestyle where sophistication meets serenity.
-                Welcome home to Riverside Azure.
-              </p>
-            </div>
+            <button
+              onClick={onOpenModal}
+              style={{
+                background: "var(--gold-accent)",
+                color: "#000",
+                border: "none",
+                padding: "14px 28px",
+                fontWeight: "600",
+                cursor: "pointer",
+              }}
+            >
+              Get Price List & Brochure
+            </button>
           </div>
         </div>
       </div>
 
+      {/* DEVELOPER */}
       <div style={{ padding: "100px 40px" }}>
-        <h2
-          className="reveal"
-          style={{ textAlign: "center", marginBottom: "40px" }}
-        >
-          Transformation
-        </h2>
-
         <div
-          style={{ position: "relative", maxWidth: "900px", margin: "0 auto" }}
+          className="reveal developer-grid"
+          style={{
+            maxWidth: "1180px",
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "1fr 1.2fr",
+            gap: "44px",
+            alignItems: "center",
+          }}
         >
           <div
             style={{
-              position: "relative",
-              width: "100%",
-              aspectRatio: "16 / 9",
-              overflow: "hidden",
-              border: "1px solid #222",
+              background: "#111",
+              border: "1px solid rgba(255,255,255,0.08)",
+              minHeight: "280px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "30px",
             }}
           >
             <img
-              src={transformationBefore}
-              alt="Before transformation"
+              src="/JNCBROTHERS.gif"
+              alt="JNC Brothers Company Limited"
               style={{
                 width: "100%",
-                height: "100%",
-                objectFit: "cover",
+                maxWidth: "340px",
+                height: "auto",
                 display: "block",
+                objectFit: "contain",
               }}
             />
+          </div>
+
+          <div>
+            <p
+              style={{
+                color: "var(--gold-accent)",
+                textTransform: "uppercase",
+                letterSpacing: "0.16em",
+                fontSize: "0.8rem",
+                marginBottom: "12px",
+              }}
+            >
+              The Developer
+            </p>
+
+            <h2
+              style={{
+                color: "#fff",
+                fontFamily: "var(--font-serif)",
+                fontSize: "clamp(2rem, 4vw, 2.8rem)",
+                marginBottom: "18px",
+                lineHeight: 1.15,
+              }}
+            >
+              JNC Brothers Company Limited
+            </h2>
+
+            <p
+              style={{
+                color: "#b5b5b5",
+                lineHeight: 1.85,
+                marginBottom: "26px",
+                fontSize: "1rem",
+              }}
+            >
+              Riverside Azure is developed by{" "}
+              <strong style={{ color: "#fff" }}>
+                JNC Brothers Company Limited
+              </strong>
+              , a Chinese-backed developer with experience across hospitality
+              and residential projects in Kenya. The company’s approach
+              emphasizes disciplined execution, practical design, and long-term
+              project value.
+            </p>
 
             <div
               style={{
-                position: "absolute",
-                inset: 0,
-                width: `${slider}%`,
-                overflow: "hidden",
-                borderRight: "2px solid gold",
+                display: "grid",
+                gap: "14px",
               }}
             >
-              <img
-                src={transformationAfter}
-                alt="After transformation"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "block",
-                }}
-              />
+              {developerPoints.map((point, index) => (
+                <div
+                  key={index}
+                  style={{
+                    display: "flex",
+                    gap: "12px",
+                    alignItems: "flex-start",
+                    borderLeft: "1px solid var(--gold-accent)",
+                    paddingLeft: "14px",
+                  }}
+                >
+                  <span
+                    style={{
+                      color: "var(--gold-accent)",
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    ●
+                  </span>
+                  <p
+                    style={{
+                      color: "#c1c1c1",
+                      lineHeight: 1.75,
+                      margin: 0,
+                    }}
+                  >
+                    {point}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginTop: "12px",
-              color: "#aaa",
-              fontSize: "0.9rem",
-            }}
-          >
-            <span>Before</span>
-            <span>After</span>
-          </div>
-
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={slider}
-            onChange={(e) => setSlider(Number(e.target.value))}
-            style={{ width: "100%", marginTop: "20px" }}
-          />
         </div>
       </div>
 
+      {/* COMPLETED PROJECTS */}
+      <div style={{ padding: "100px 40px", background: "#111" }}>
+        <div
+          className="reveal"
+          style={{
+            maxWidth: "1100px",
+            margin: "0 auto 50px",
+            textAlign: "center",
+          }}
+        >
+          <p
+            style={{
+              color: "var(--gold-accent)",
+              textTransform: "uppercase",
+              letterSpacing: "0.16em",
+              fontSize: "0.8rem",
+              marginBottom: "12px",
+            }}
+          >
+            Track Record
+          </p>
+
+          <h2
+            style={{
+              color: "#fff",
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(2rem, 4vw, 2.8rem)",
+              marginBottom: "18px",
+            }}
+          >
+            Previously Completed Projects
+          </h2>
+
+          <p
+            style={{
+              color: "#aaa",
+              maxWidth: "760px",
+              margin: "0 auto",
+              lineHeight: 1.8,
+            }}
+          >
+            Our experience is grounded in completed developments across
+            hospitality and residential living, reflecting a continued focus on
+            quality delivery and long-term value.
+          </p>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "30px",
+            maxWidth: "1200px",
+            margin: "0 auto",
+          }}
+        >
+          {completedProjects.map((project, index) => (
+            <a
+              key={index}
+              href={project.website || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="reveal completed-project-card"
+              style={{
+                background: "#0c0c0c",
+                border: "1px solid rgba(255,255,255,0.08)",
+                overflow: "hidden",
+                transition: "transform 0.35s ease, box-shadow 0.35s ease",
+                textDecoration: "none",
+              }}
+            >
+              <div
+                style={{
+                  position: "relative",
+                  aspectRatio: "16 / 10",
+                  background: "#171717",
+                  overflow: "hidden",
+                }}
+              >
+                <img
+                  src={project.image}
+                  alt={project.name}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                    transition: "transform 0.5s ease",
+                  }}
+                />
+
+                <div className="project-image-overlay" />
+
+                {project.isVideo && (
+                  <div className="project-play-badge">
+                    <span className="project-play-icon">▶</span>
+                  </div>
+                )}
+              </div>
+
+              <div style={{ padding: "24px" }}>
+                <p
+                  style={{
+                    color: "var(--gold-accent)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.14em",
+                    fontSize: "0.75rem",
+                    marginBottom: "10px",
+                  }}
+                >
+                  {project.type}
+                </p>
+
+                <h3
+                  style={{
+                    color: "#fff",
+                    fontFamily: "var(--font-serif)",
+                    fontSize: "1.5rem",
+                    marginBottom: "12px",
+                    lineHeight: 1.25,
+                  }}
+                >
+                  {project.name}
+                </h3>
+
+                <div style={{ minHeight: "28px" }}>
+                  <span
+                    style={{
+                      color: "var(--gold-accent)",
+                      borderBottom: "1px solid rgba(212,175,55,0.35)",
+                      paddingBottom: "2px",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {project.isVideo ? "Watch Project" : "Visit Website"}
+                  </span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* LEADERSHIP */}
       <div style={{ padding: "100px 40px" }}>
         <h2
           className="reveal"
-          style={{ textAlign: "center", marginBottom: "60px" }}
+          style={{
+            textAlign: "center",
+            marginBottom: "60px",
+            color: "#fff",
+            fontFamily: "var(--font-serif)",
+            fontSize: "clamp(2rem, 4vw, 2.7rem)",
+          }}
         >
           Leadership
         </h2>
@@ -367,86 +490,49 @@ const About = () => {
             </div>
           ))}
         </div>
-
-        <style>{`
-          .director-card {
-            cursor: pointer;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-          }
-
-          .director-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-          }
-
-          .image-wrapper {
-            overflow: hidden;
-            border-radius: 6px;
-          }
-
-          .image-wrapper img {
-            width: 100%;
-            height: 320px;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-          }
-
-          .director-card:hover .image-wrapper img {
-            transform: scale(1.08);
-          }
-
-          .director-info {
-            margin-top: 18px;
-            text-align: center;
-            position: relative;
-          }
-
-          .director-info h4 {
-            margin-bottom: 6px;
-            transition: color 0.3s ease;
-          }
-
-          .director-info p {
-            color: #aaa;
-            font-size: 0.9rem;
-          }
-
-          .director-info::after {
-            content: "";
-            display: block;
-            width: 0;
-            height: 2px;
-            background: gold;
-            margin: 10px auto 0;
-            transition: width 0.4s ease;
-          }
-
-          .director-card:hover .director-info::after {
-            width: 40px;
-          }
-
-          .director-card:hover h4 {
-            color: gold;
-          }
-        `}</style>
       </div>
 
+      {/* BROCHURE */}
       <div
         style={{
-          backgroundImage: "url('/images/parallax.jpg')",
-          backgroundAttachment: "fixed",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          padding: "150px 20px",
+          padding: "100px 40px",
           textAlign: "center",
+          background: "#111",
         }}
       >
-        <div className="reveal">
-          <h2>Built for Legacy</h2>
-          <p style={{ color: "#ddd" }}>
-            Where architecture meets long-term value.
-          </p>
-        </div>
+        <h2
+          className="reveal"
+          style={{
+            marginBottom: "20px",
+            color: "#fff",
+            fontFamily: "var(--font-serif)",
+            fontSize: "clamp(2rem, 4vw, 2.6rem)",
+          }}
+        >
+          Investment Brochure
+        </h2>
+        <p
+          className="reveal"
+          style={{ color: "#aaa", marginBottom: "30px", lineHeight: 1.7 }}
+        >
+          Get full project details, floor plans, pricing, and investment
+          insights.
+        </p>
+        <button
+          onClick={onOpenModal}
+          className="reveal"
+          style={{
+            background: "var(--gold-accent)",
+            color: "#000",
+            padding: "14px 30px",
+            border: "none",
+            fontWeight: "600",
+            display: "inline-block",
+            cursor: "pointer",
+          }}
+        >
+          Get Price List & Brochure
+        </button>
       </div>
 
       <style>{`
@@ -461,6 +547,138 @@ const About = () => {
           transform: translateY(0);
         }
 
+        .director-card {
+          cursor: pointer;
+          transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .director-card:hover {
+          transform: translateY(-12px);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .image-wrapper {
+          overflow: hidden;
+          border-radius: 6px;
+        }
+
+        .image-wrapper img {
+          width: 100%;
+          height: 320px;
+          object-fit: cover;
+          transition: transform 0.6s ease;
+        }
+
+        .director-card:hover .image-wrapper img {
+          transform: scale(1.08);
+        }
+
+        .director-info {
+          margin-top: 18px;
+          text-align: center;
+          position: relative;
+        }
+
+        .director-info h4 {
+          margin-bottom: 6px;
+          transition: color 0.3s ease;
+          color: #fff;
+        }
+
+        .director-info p {
+          color: #aaa;
+          font-size: 0.9rem;
+        }
+
+        .director-info::after {
+          content: "";
+          display: block;
+          width: 0;
+          height: 2px;
+          background: var(--gold-accent);
+          margin: 10px auto 0;
+          transition: width 0.4s ease;
+        }
+
+        .director-card:hover .director-info::after {
+          width: 40px;
+        }
+
+        .director-card:hover h4 {
+          color: var(--gold-accent);
+        }
+
+        .completed-project-card {
+          display: block;
+        }
+
+        .completed-project-card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 22px 50px rgba(0,0,0,0.45);
+        }
+
+        .completed-project-card:hover img {
+          transform: scale(1.05);
+        }
+
+        .project-image-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            to top,
+            rgba(0,0,0,0.42),
+            rgba(0,0,0,0.12) 45%,
+            rgba(0,0,0,0.04)
+          );
+          transition: background 0.35s ease;
+        }
+
+        .completed-project-card:hover .project-image-overlay {
+          background: linear-gradient(
+            to top,
+            rgba(0,0,0,0.5),
+            rgba(0,0,0,0.14) 45%,
+            rgba(0,0,0,0.06)
+          );
+        }
+
+        .project-play-badge {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          pointer-events: none;
+        }
+
+        .project-play-icon {
+          width: 68px;
+          height: 68px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(10,10,10,0.55);
+          border: 1px solid rgba(212,175,55,0.45);
+          color: var(--gold-accent);
+          font-size: 1.3rem;
+          box-shadow: 0 8px 30px rgba(0,0,0,0.28);
+          backdrop-filter: blur(4px);
+          transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .completed-project-card:hover .project-play-icon {
+          transform: scale(1.06);
+          box-shadow: 0 10px 34px rgba(0,0,0,0.35);
+        }
+
+        @media (max-width: 900px) {
+          .developer-grid {
+            grid-template-columns: 1fr !important;
+            gap: 30px !important;
+          }
+        }
+
         @media (max-width: 768px) {
           .director-card:hover {
             transform: none;
@@ -472,154 +690,6 @@ const About = () => {
           }
         }
       `}</style>
-
-      <div
-        style={{
-          padding: "100px 40px",
-          textAlign: "center",
-          background: "#111",
-        }}
-      >
-        <h2 className="reveal" style={{ marginBottom: "20px" }}>
-          Investment Brochure
-        </h2>
-        <p className="reveal" style={{ color: "#aaa", marginBottom: "30px" }}>
-          Get full project details, floor plans, pricing, and investment
-          insights.
-        </p>
-        <a
-          href="/brochure.pdf"
-          download
-          className="reveal"
-          style={{
-            background: "gold",
-            color: "#000",
-            padding: "14px 30px",
-            textDecoration: "none",
-            fontWeight: "600",
-            display: "inline-block",
-          }}
-        >
-          Download Brochure
-        </a>
-      </div>
-
-      <div style={{ padding: "100px 40px" }}>
-        <h2
-          className="reveal"
-          style={{ textAlign: "center", marginBottom: "60px" }}
-        >
-          ROI Calculator
-        </h2>
-
-        <Calculator
-          price={price}
-          rent={rent}
-          costs={costs}
-          setPrice={setPrice}
-          setRent={setRent}
-          setCosts={setCosts}
-        />
-      </div>
-
-      <div style={{ padding: "100px 40px", background: "#111" }}>
-        <h2
-          className="reveal"
-          style={{ textAlign: "center", marginBottom: "60px" }}
-        >
-          Our Process
-        </h2>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            gap: "40px",
-            maxWidth: "1000px",
-            margin: "0 auto",
-            textAlign: "center",
-          }}
-        >
-          {[
-            {
-              title: "Design",
-              desc: "Conceptual planning focused on spatial efficiency, light, and timeless aesthetics.",
-            },
-            {
-              title: "Build",
-              desc: "Precision construction with strict quality control and proven engineering systems.",
-            },
-            {
-              title: "Deliver",
-              desc: "On-time completion with long-term value, property management, and investor readiness.",
-            },
-          ].map((step, i) => (
-            <div key={i} className="reveal">
-              <h3 style={{ color: "gold", marginBottom: "15px" }}>
-                {step.title}
-              </h3>
-              <p style={{ color: "#aaa", lineHeight: "1.7" }}>{step.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div style={{ padding: "100px 40px" }}>
-        <h2
-          className="reveal"
-          style={{ textAlign: "center", marginBottom: "60px" }}
-        >
-          Investment Perspective
-        </h2>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            gap: "30px",
-            maxWidth: "1000px",
-            margin: "0 auto",
-          }}
-        >
-          {[
-            {
-              label: "Rental Yield",
-              value: "8–12%",
-              desc: "Driven by high demand in diplomatic and corporate zones.",
-            },
-            {
-              label: "Occupancy",
-              value: "High",
-              desc: "Strategic Riverside location ensures consistent tenant demand.",
-            },
-            {
-              label: "Capital Growth",
-              value: "Strong",
-              desc: "Premium developments in Nairobi show steady appreciation.",
-            },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="reveal"
-              style={{
-                border: "1px solid #222",
-                padding: "30px",
-                textAlign: "center",
-              }}
-            >
-              <h3 style={{ color: "gold", marginBottom: "10px" }}>
-                {item.value}
-              </h3>
-              <p style={{ fontSize: "0.9rem", color: "#666" }}>{item.label}</p>
-              <p
-                style={{ color: "#aaa", marginTop: "10px", lineHeight: "1.6" }}
-              >
-                {item.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
     </section>
   );
 };

@@ -48,6 +48,92 @@ const InvestmentPage = ({ onCtaClick }) => {
   const countIncome = useCount(annual);
   const countYield = useCount(Number(yieldVal));
 
+  const highlights = [
+    {
+      title: "Prime Riverside Address",
+      text: "Riverside remains one of Nairobi’s most established residential and rental corridors, supported by proximity to Westlands, diplomatic zones, and lifestyle destinations.",
+    },
+    {
+      title: "Flexible End-Use Strategy",
+      text: "Units can appeal to both owner-occupiers and income-focused buyers, making the project suitable for long-term rental, furnished stays, and future resale positioning.",
+    },
+    {
+      title: "Illustrative Yield Potential",
+      text: "The investment proposition is supported by rental demand in this corridor, with buyers able to model different income scenarios depending on furnishing, occupancy, and management approach.",
+    },
+  ];
+
+  const scenarios = [
+    {
+      title: "Long-Term Rental",
+      income: "KSh 120,000 – 180,000 / month",
+      assumption: "Stable occupancy with professional or expatriate tenants",
+      note: "Suitable for buyers seeking lower operational involvement and consistent income flow.",
+    },
+    {
+      title: "Short-Stay / Airbnb",
+      income: "KSh 180,000 – 280,000+ / month",
+      assumption: "Furnished unit with active short-stay management and higher seasonal variation",
+      note: "Can outperform standard leasing when occupancy and guest turnover are well managed.",
+    },
+    {
+      title: "Capital Appreciation",
+      income: "Value-led upside",
+      assumption: "Early-stage entry, location strength, and project progression",
+      note: "Positioned for buyers who value a blend of rental income and medium-term appreciation potential.",
+    },
+  ];
+
+  const diasporaSteps = [
+    {
+      step: "01",
+      title: "Select a Unit",
+      text: "Review available units, pricing, layouts, and investment scenarios with the sales team through virtual consultation.",
+    },
+    {
+      step: "02",
+      title: "Reserve from Abroad",
+      text: "A selected unit can be reserved remotely, subject to availability and issuance of the relevant reservation documentation.",
+    },
+    {
+      step: "03",
+      title: "Review Documentation",
+      text: "The buyer receives the agreement pack, payment schedule, and supporting legal documentation for review before proceeding.",
+    },
+    {
+      step: "04",
+      title: "Make Scheduled Payments",
+      text: "Payments can be structured according to the agreed plan, with guidance provided on accepted transfer routes and documentation.",
+    },
+    {
+      step: "05",
+      title: "Receive Ongoing Updates",
+      text: "Buyers remain informed through project updates, progress communication, and coordination toward completion and handover.",
+    },
+  ];
+
+  const buyerInfo = [
+    "Remote purchase journey available",
+    "Guidance for diaspora and overseas buyers",
+    "Structured documentation and payment process",
+    "Consultation support before reservation",
+  ];
+
+  const validation = [
+    {
+      title: "Track Record Behind the Project",
+      text: "The broader platform around Riverside Azure is supported by completed hospitality and residential projects already featured across the site.",
+    },
+    {
+      title: "Location-Led Demand",
+      text: "Riverside continues to attract professionals, owner-occupiers, and short-stay demand, supporting both rental and capital value arguments.",
+    },
+    {
+      title: "Early Investor Positioning",
+      text: "The project is framed for buyers who want to enter before full maturity of the development, when pricing, selection, and upside can be more favorable.",
+    },
+  ];
+
   return (
     <section style={styles.page}>
       <div
@@ -82,8 +168,8 @@ const InvestmentPage = ({ onCtaClick }) => {
             <p style={styles.eyebrow}>Riverside Drive, Nairobi</p>
             <h1 style={styles.heroTitle}>Invest in the Future Skyline</h1>
             <p style={styles.heroText}>
-              Premium returns. Prime location. Flexible ownership structure for
-              serious investors.
+              Premium location, flexible income potential, and a structured path
+              for both local and diaspora buyers.
             </p>
 
             <div style={styles.heroButtonRow}>
@@ -105,7 +191,7 @@ const InvestmentPage = ({ onCtaClick }) => {
         >
           <div style={styles.floatingCardHeader}>
             <h3 style={styles.floatingTitle}>Projected Returns</h3>
-            <span style={styles.floatingBadge}>Illustrative</span>
+            <span style={styles.floatingBadge}>Illustrative Only</span>
           </div>
 
           <div style={styles.floatingMetrics}>
@@ -119,6 +205,12 @@ const InvestmentPage = ({ onCtaClick }) => {
               <p style={styles.metricValue}>{countYield}%</p>
             </div>
           </div>
+
+          <p style={styles.floatingNote}>
+            These examples are for illustration only and should be validated
+            against the selected unit type, furnishing level, occupancy, and
+            operating strategy.
+          </p>
         </motion.div>
       </div>
 
@@ -130,20 +222,7 @@ const InvestmentPage = ({ onCtaClick }) => {
           </div>
 
           <div style={styles.grid}>
-            {[
-              {
-                title: "Prime Location",
-                text: "Riverside Drive remains one of Nairobi’s strongest residential and rental corridors.",
-              },
-              {
-                title: "High Demand",
-                text: "Demand from professionals, expatriates, and short-stay guests supports resilient occupancy.",
-              },
-              {
-                title: "Capital Growth",
-                text: "Early entry can position buyers to benefit from both rental income and long-term appreciation.",
-              },
-            ].map((item, i) => (
+            {highlights.map((item, i) => (
               <motion.div
                 key={i}
                 whileHover={{ y: -8 }}
@@ -159,14 +238,88 @@ const InvestmentPage = ({ onCtaClick }) => {
         </div>
       </section>
 
-      <section style={styles.parallaxSection}>
-        <div style={styles.parallaxOverlay} />
-        <div className="container" style={styles.parallaxInner}>
-          <h2 style={styles.parallaxTitle}>Built for High Returns</h2>
-          <p style={styles.parallaxText}>
-            A product positioned for both owner-occupiers and income-focused
-            buyers.
+      <section style={styles.sectionDark}>
+        <div className="container">
+          <div style={styles.sectionIntro}>
+            <p style={styles.sectionEyebrow}>Illustrative Scenarios</p>
+            <h2 style={styles.sectionTitle}>Income Pathways</h2>
+          </div>
+
+          <div style={styles.scenarioGrid}>
+            {scenarios.map((scenario, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ y: -8 }}
+                transition={{ duration: 0.25 }}
+                style={styles.scenarioCard}
+                className="investment-card"
+              >
+                <p style={styles.scenarioLabel}>Scenario</p>
+                <h3 style={styles.scenarioTitle}>{scenario.title}</h3>
+                <p style={styles.scenarioValue}>{scenario.income}</p>
+                <p style={styles.scenarioAssumption}>{scenario.assumption}</p>
+                <p style={styles.scenarioText}>{scenario.note}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <p style={styles.sectionDisclaimer}>
+            Income ranges above are indicative examples only and are not
+            guarantees. Actual performance depends on unit selection, furnishing
+            standard, market conditions, occupancy, management approach, and
+            operating costs.
           </p>
+        </div>
+      </section>
+
+      <section style={styles.section}>
+        <div className="container">
+          <div style={styles.sectionIntro}>
+            <p style={styles.sectionEyebrow}>Diaspora Buyer Journey</p>
+            <h2 style={styles.sectionTitle}>How to Buy from Abroad</h2>
+          </div>
+
+          <div style={styles.buyerInfoRow}>
+            {buyerInfo.map((item, i) => (
+              <div key={i} style={styles.buyerInfoItem}>
+                {item}
+              </div>
+            ))}
+          </div>
+
+          <div style={styles.stepsGrid}>
+            {diasporaSteps.map((item, i) => (
+              <div key={i} style={styles.stepCard}>
+                <p style={styles.stepNumber}>{item.step}</p>
+                <h3 style={styles.stepTitle}>{item.title}</h3>
+                <p style={styles.stepText}>{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section style={styles.sectionDark}>
+        <div className="container">
+          <div style={styles.sectionIntro}>
+            <p style={styles.sectionEyebrow}>Market Validation</p>
+            <h2 style={styles.sectionTitle}>Why Buyers Pay Attention</h2>
+          </div>
+
+          <div style={styles.grid}>
+            {validation.map((item, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ y: -8 }}
+                transition={{ duration: 0.25 }}
+                style={styles.card}
+                className="investment-card"
+              >
+                <h3 style={styles.cardTitle}>{item.title}</h3>
+                <p style={styles.cardText}>{item.text}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -223,6 +376,13 @@ const InvestmentPage = ({ onCtaClick }) => {
                 <h3 style={styles.resultValue}>{yieldVal}%</h3>
               </div>
             </div>
+
+            <p style={styles.calculatorNote}>
+              This calculator is illustrative and excludes financing costs,
+              furnishing, service charges, taxes, agent commissions, management
+              fees, and vacancy fluctuations unless reflected in your chosen
+              inputs.
+            </p>
           </div>
         </div>
       </section>
@@ -231,8 +391,8 @@ const InvestmentPage = ({ onCtaClick }) => {
         <div className="container" style={styles.finalInner}>
           <h2 style={styles.finalTitle}>Secure Your Investment</h2>
           <p style={styles.finalText}>
-            Speak with our team to review pricing, payment options, and the best
-            unit fit for your strategy.
+            Speak with our team to review pricing, payment options, diaspora
+            purchase steps, and the unit type that best fits your strategy.
           </p>
 
           <button onClick={onCtaClick} style={styles.primaryCta}>
@@ -415,6 +575,14 @@ const styles = {
     fontWeight: "700",
   },
 
+  floatingNote: {
+    marginTop: "16px",
+    marginBottom: 0,
+    color: "rgba(255,255,255,0.62)",
+    lineHeight: 1.7,
+    fontSize: "0.88rem",
+  },
+
   section: {
     padding: "90px 0",
   },
@@ -426,7 +594,7 @@ const styles = {
 
   sectionIntro: {
     textAlign: "center",
-    maxWidth: "700px",
+    maxWidth: "760px",
     margin: "0 auto 36px",
   },
 
@@ -470,42 +638,110 @@ const styles = {
     fontSize: "0.98rem",
   },
 
-  parallaxSection: {
-    position: "relative",
-    minHeight: "320px",
-    backgroundImage: `url(${heroImg})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+  scenarioGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+    gap: "20px",
   },
 
-  parallaxOverlay: {
-    position: "absolute",
-    inset: 0,
-    background: "rgba(0,0,0,0.55)",
+  scenarioCard: {
+    padding: "24px",
+    background: "#111",
+    border: "1px solid #222",
+    minHeight: "260px",
+    transition: "transform 0.25s ease",
   },
 
-  parallaxInner: {
-    position: "relative",
-    zIndex: 1,
-    textAlign: "center",
-    paddingTop: "60px",
-    paddingBottom: "60px",
+  scenarioLabel: {
+    color: "var(--gold-accent)",
+    textTransform: "uppercase",
+    letterSpacing: "1.5px",
+    fontSize: "0.78rem",
+    marginBottom: "10px",
   },
 
-  parallaxTitle: {
-    fontSize: "clamp(2rem, 5vw, 3.2rem)",
+  scenarioTitle: {
+    fontSize: "1.25rem",
+    marginBottom: "14px",
+    lineHeight: 1.25,
+  },
+
+  scenarioValue: {
+    fontSize: "1.2rem",
+    fontWeight: "700",
     marginBottom: "12px",
-    lineHeight: 1.1,
   },
 
-  parallaxText: {
-    color: "rgba(255,255,255,0.85)",
-    maxWidth: "620px",
-    margin: "0 auto",
+  scenarioAssumption: {
+    color: "rgba(255,255,255,0.78)",
+    lineHeight: 1.6,
+    marginBottom: "12px",
+    fontSize: "0.94rem",
+  },
+
+  scenarioText: {
+    color: "var(--text-muted)",
     lineHeight: 1.7,
+    fontSize: "0.95rem",
+    marginBottom: 0,
+  },
+
+  sectionDisclaimer: {
+    maxWidth: "860px",
+    margin: "26px auto 0",
+    color: "rgba(255,255,255,0.62)",
+    lineHeight: 1.75,
+    fontSize: "0.9rem",
+    textAlign: "center",
+  },
+
+  buyerInfoRow: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+    gap: "14px",
+    marginBottom: "30px",
+  },
+
+  buyerInfoItem: {
+    padding: "16px 18px",
+    border: "1px solid rgba(255,255,255,0.08)",
+    background: "#111",
+    color: "#e0e0e0",
+    textAlign: "center",
+    lineHeight: 1.5,
+  },
+
+  stepsGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+    gap: "18px",
+  },
+
+  stepCard: {
+    background: "#111",
+    border: "1px solid #222",
+    padding: "24px",
+    minHeight: "220px",
+  },
+
+  stepNumber: {
+    color: "var(--gold-accent)",
+    fontSize: "1.1rem",
+    fontWeight: "700",
+    marginBottom: "14px",
+  },
+
+  stepTitle: {
+    fontSize: "1.15rem",
+    marginBottom: "12px",
+    lineHeight: 1.3,
+  },
+
+  stepText: {
+    color: "var(--text-muted)",
+    lineHeight: 1.7,
+    fontSize: "0.95rem",
+    marginBottom: 0,
   },
 
   calculatorShell: {
@@ -540,6 +776,7 @@ const styles = {
     color: "#fff",
     minHeight: "50px",
     outline: "none",
+    boxSizing: "border-box",
   },
 
   results: {
@@ -565,6 +802,15 @@ const styles = {
     margin: 0,
     fontSize: "clamp(1.35rem, 4vw, 2rem)",
     lineHeight: 1.2,
+  },
+
+  calculatorNote: {
+    marginTop: "18px",
+    marginBottom: 0,
+    color: "rgba(255,255,255,0.62)",
+    lineHeight: 1.75,
+    fontSize: "0.9rem",
+    textAlign: "center",
   },
 
   finalSection: {

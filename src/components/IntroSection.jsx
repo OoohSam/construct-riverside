@@ -11,7 +11,7 @@ const IntroSection = () => {
         </h2>
 
         <p style={styles.text}>
-          Welcome to Riverside Azure — a refined residential address in one of
+          Welcome to Riverside Azure.A refined residential address of 1,2 & 3 bedroom units in one of
           Nairobi’s most sought-after neighborhoods. Designed with elegance,
           comfort, and functionality in mind, each residence offers a seamless
           balance between contemporary architecture and serene living.
