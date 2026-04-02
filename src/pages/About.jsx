@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import fallbackImage from "../assets/hero/Front-View.webp";
-import cityVideo from "../assets/video/city.mp4";
+import cityVideo from "../assets/video/riverside-city-video.mp4";
 import martinImg from "../assets/Directors/Martin.webp";
 import linnImg from "../assets/Directors/Linn.webp";
 import liuImg from "../assets/Directors/Liu.webp";
