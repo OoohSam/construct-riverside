@@ -1,15 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import fallbackImage from "../assets/hero/Front-View.webp";
+import heroVideo from "../assets/video/house-inside.mp4";
 
 const Hero = ({ onCtaClick }) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const showVideo = !isMobile && !videoError;
+
   return (
     <section style={styles.section}>
-      <div
-        style={{
-          ...styles.background,
-          backgroundImage: `url(${fallbackImage})`,
-        }}
-      />
+      {showVideo ? (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={fallbackImage}
+          onError={() => setVideoError(true)}
+          style={styles.video}
+        >
+          <source src={heroVideo} type="video/mp4" />
+        </video>
+      ) : (
+        <div
+          style={{
+            ...styles.background,
+            backgroundImage: `url(${fallbackImage})`,
+          }}
+        />
+      )}
 
       <div style={styles.overlay} />
 
@@ -56,6 +88,15 @@ const styles = {
     justifyContent: "center",
     overflow: "hidden",
     padding: "100px 16px 48px",
+  },
+
+  video: {
+    position: "absolute",
+    inset: 0,
+    zIndex: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
   },
 
   background: {
