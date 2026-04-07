@@ -36,6 +36,14 @@ const completedProjects = [
     image: "https://img.youtube.com/vi/eH3c-SccjVA/hqdefault.jpg",
     isVideo: true,
   },
+  
+  {
+    name: "Jacaranda Gardens Apartments",
+    type: "Residential",
+    website: "https://jacarandagardens.co.ke/",
+    image: "https://images.prop24.com/vfh24rrvtwkwx7wodummvtp4xy/Crop600x400",
+    isVideo: false,
+  },
 ];
 
 const developerPoints = [
