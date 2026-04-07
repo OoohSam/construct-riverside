@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import fallbackImage from "../assets/hero/Front-View.webp";
-import heroVideo from "../assets/video/hero-house.mp4";
+import heroVideo from "../assets/Video/hero-house.mp4";
 
 const Hero = ({ onCtaClick }) => {
   const [isMobile, setIsMobile] = useState(false);

@@ -32,7 +32,7 @@ dist-ssr
 node_modules/
 dist/
 build/
-# *.mp4
+
 *.zip
 *.exe
 *.log
