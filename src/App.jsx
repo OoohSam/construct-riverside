@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -23,11 +23,22 @@ import Investment from "./pages/Investment";
 import Contact from "./pages/Contact";
 import AboutSection from "./pages/About";
 
+function usePageTracking() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (window.fbq) {
+      window.fbq("track", "PageView");
+    }
+  }, [location.pathname]);
+}
+
 function AppShell() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
 
   useScrollReveal();
+  usePageTracking();
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
