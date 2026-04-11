@@ -22,6 +22,7 @@ import Units from "./pages/Units";
 import Investment from "./pages/Investment";
 import Contact from "./pages/Contact";
 import AboutSection from "./pages/About";
+import AgentApply from "./pages/AgentApply";
 
 function usePageTracking() {
   const location = useLocation();
@@ -92,6 +93,14 @@ function AppShell() {
                 </PageTransition>
               }
             />
+            <Route
+              path="/agent-apply"
+              element={
+                <PageTransition>
+                  <AgentApply />
+                </PageTransition>
+              }
+            />
           </Routes>
         </AnimatePresence>
       </main>
@@ -140,7 +149,9 @@ function AppShell() {
                 >
                   info@riversideazure.com
                 </a>
-                <p style={styles.footerTextMuted}>25 Riverside Drive, Nairobi</p>
+                <p style={styles.footerTextMuted}>
+                  25 Riverside Drive, Nairobi
+                </p>
               </div>
             </div>
           </div>
