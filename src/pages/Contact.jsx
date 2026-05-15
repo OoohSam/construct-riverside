@@ -142,8 +142,12 @@ const Contact = () => {
 
 const styles = {
   section: {
-    padding: "96px 0 80px",
-    color: "#fff",
+    padding: "clamp(88px, 10vw, 120px) 0 80px",
+    color: "var(--text-main)",
+    background: `
+      radial-gradient(circle at top right, rgba(11,95,147,0.22), transparent 34%),
+      linear-gradient(180deg, #04395e 0%, #031b2f 42%, #021827 100%)
+    `,
   },
 
   header: {
@@ -153,16 +157,19 @@ const styles = {
   },
 
   heading: {
-    fontSize: "clamp(2rem, 6vw, 3rem)",
-    marginBottom: "12px",
-    lineHeight: 1.15,
+    fontSize: "clamp(2.2rem, 7vw, 3.4rem)",
+    marginBottom: "14px",
+    lineHeight: 1.08,
+    fontFamily: "var(--font-serif)",
+    letterSpacing: "-0.03em",
+    color: "var(--text-main)",
   },
 
   subheading: {
-    color: "#aaa",
-    fontSize: "clamp(0.95rem, 2.4vw, 1rem)",
-    lineHeight: 1.6,
-    maxWidth: "680px",
+    color: "var(--text-muted)",
+    fontSize: "clamp(0.98rem, 2.8vw, 1.08rem)",
+    lineHeight: 1.7,
+    maxWidth: "720px",
     margin: "0 auto",
   },
 
@@ -174,22 +181,26 @@ const styles = {
   },
 
   card: {
-    border: "1px solid #222",
-    padding: "22px",
-    background: "#111",
-    minHeight: "150px",
+    border: "1px solid rgba(243,193,66,0.16)",
+    padding: "24px",
+    background:
+      "linear-gradient(180deg, rgba(6,43,70,0.72), rgba(2,17,31,0.82))",
+    minHeight: "160px",
+    boxShadow: "0 18px 40px rgba(0,0,0,0.18)",
   },
 
   cardTitle: {
     fontSize: "1.15rem",
     marginBottom: "6px",
     lineHeight: 1.3,
+    color: "var(--text-main)",
+    fontFamily: "var(--font-serif)",
   },
 
   muted: {
-    color: "#888",
+    color: "var(--text-muted)",
     margin: "10px 0 14px",
-    lineHeight: 1.5,
+    lineHeight: 1.6,
     fontSize: "0.95rem",
   },
 
@@ -198,15 +209,17 @@ const styles = {
     textDecoration: "none",
     wordBreak: "break-word",
     lineHeight: 1.5,
+    fontWeight: 700,
   },
 
   mapWrap: {
     marginBottom: "72px",
     width: "100%",
-    height: "380px",
+    height: "clamp(300px, 52vw, 420px)",
     overflow: "hidden",
-    border: "1px solid #222",
+    border: "1px solid rgba(243,193,66,0.14)",
     borderRadius: "4px",
+    boxShadow: "0 24px 60px rgba(0,0,0,0.24)",
   },
 
   iframe: {
@@ -215,14 +228,20 @@ const styles = {
   },
 
   formSection: {
-    maxWidth: "700px",
+    maxWidth: "760px",
     margin: "0 auto 72px auto",
+    padding: "clamp(24px, 4vw, 36px)",
+    border: "1px solid rgba(243,193,66,0.14)",
+    background:
+      "linear-gradient(180deg, rgba(6,43,70,0.56), rgba(2,17,31,0.72))",
   },
 
   formTitle: {
     marginBottom: "20px",
-    fontSize: "clamp(1.6rem, 4vw, 2rem)",
-    lineHeight: 1.2,
+    fontSize: "clamp(1.8rem, 5vw, 2.3rem)",
+    lineHeight: 1.15,
+    color: "var(--text-main)",
+    fontFamily: "var(--font-serif)",
   },
 
   formGrid: {
@@ -232,50 +251,59 @@ const styles = {
 
   input: {
     width: "100%",
-    padding: "14px 16px",
-    background: "#111",
-    border: "1px solid #333",
-    color: "#fff",
+    padding: "15px 16px",
+    background: "rgba(1,18,32,0.72)",
+    border: "1px solid rgba(243,193,66,0.16)",
+    color: "var(--text-main)",
     outline: "none",
-    minHeight: "50px",
+    minHeight: "52px",
+    fontSize: "16px",
+    boxSizing: "border-box",
   },
 
   textarea: {
     width: "100%",
-    padding: "14px 16px",
-    background: "#111",
-    border: "1px solid #333",
-    color: "#fff",
+    padding: "15px 16px",
+    background: "rgba(1,18,32,0.72)",
+    border: "1px solid rgba(243,193,66,0.16)",
+    color: "var(--text-main)",
     outline: "none",
     resize: "vertical",
-    minHeight: "140px",
+    minHeight: "150px",
+    fontSize: "16px",
+    boxSizing: "border-box",
   },
 
   button: {
-    padding: "14px 18px",
-    background: "var(--gold-accent)",
-    border: "none",
-    fontWeight: "600",
+    padding: "15px 18px",
+    background:
+      "linear-gradient(135deg, var(--gold-soft), var(--gold-accent), var(--gold-hover))",
+    border: "1px solid rgba(255,255,255,0.14)",
+    fontWeight: "800",
     cursor: "pointer",
-    color: "#000",
-    minHeight: "50px",
+    color: "var(--azure-deep)",
+    minHeight: "54px",
+    boxShadow:
+      "0 14px 34px rgba(243,193,66,0.24), inset 0 1px 0 rgba(255,255,255,0.24)",
   },
 
   faqSection: {
-    maxWidth: "800px",
+    maxWidth: "860px",
     margin: "0 auto",
   },
 
   faqTitle: {
     textAlign: "center",
-    marginBottom: "32px",
-    fontSize: "clamp(1.6rem, 4vw, 2rem)",
-    lineHeight: 1.2,
+    marginBottom: "34px",
+    fontSize: "clamp(1.8rem, 5vw, 2.4rem)",
+    lineHeight: 1.15,
+    fontFamily: "var(--font-serif)",
+    color: "var(--text-main)",
   },
 
   faqItem: {
-    borderBottom: "1px solid #333",
-    padding: "18px 0",
+    borderBottom: "1px solid rgba(243,193,66,0.12)",
+    padding: "20px 0",
     cursor: "pointer",
   },
 
@@ -288,41 +316,44 @@ const styles = {
 
   faqQuestion: {
     margin: 0,
-    lineHeight: 1.5,
+    lineHeight: 1.6,
     fontSize: "1rem",
     flex: 1,
+    color: "var(--text-main)",
   },
 
   faqToggle: {
-    fontSize: "1.3rem",
+    fontSize: "1.4rem",
     lineHeight: 1,
     color: "var(--gold-accent)",
     flexShrink: 0,
     marginTop: "2px",
+    fontWeight: 700,
   },
 
   faqAnswer: {
-    color: "#aaa",
+    color: "var(--text-muted)",
     marginTop: "10px",
-    lineHeight: 1.7,
+    lineHeight: 1.75,
     paddingRight: "28px",
   },
 
   whatsappFloat: {
     position: "fixed",
-    bottom: "20px",
-    right: "20px",
-    background: "#25D366",
+    bottom: "18px",
+    right: "18px",
+    background:
+      "linear-gradient(135deg, #25D366, #1ebc59)",
     color: "#fff",
-    width: "56px",
-    height: "56px",
+    width: "58px",
+    height: "58px",
     borderRadius: "50%",
     fontSize: "24px",
     textDecoration: "none",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
+    boxShadow: "0 10px 28px rgba(0,0,0,0.28)",
     zIndex: 999,
   },
 };

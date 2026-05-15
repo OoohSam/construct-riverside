@@ -14,19 +14,30 @@ const LeadModal = ({ isOpen, onClose }) => {
 
     localStorage.setItem("riverside_lead", "true");
 
+    if (window.fbq) {
+      window.fbq("track", "Lead", {
+        content_name: formData.unit,
+        content_category: "Brochure Request",
+        currency: "KES",
+      });
+
+      window.fbq("track", "Contact", {
+        content_name: formData.unit,
+        content_category: "WhatsApp Inquiry",
+      });
+    }
+
     const message = `Hello, I am interested in Riverside Azure.
 My name is ${formData.name}.
 My phone number is ${formData.phone}.
 I am interested in the ${formData.unit}.
 Please share the price list and floor plans.`;
 
-    // Open brochure after a short delay
     setTimeout(() => {
       window.open("/riverside-azure-brochure-and-pricelist.pdf", "_blank");
     }, 700);
 
-    // Mobile-safe redirect to WhatsApp
-    window.location.href = `https://wa.me/254796529997?text=${encodeURIComponent(
+    window.location.href = `https://wa.me/254700686666?text=${encodeURIComponent(
       message
     )}`;
 
@@ -41,6 +52,8 @@ Please share the price list and floor plans.`;
         </button>
 
         <div style={styles.content}>
+          <p style={styles.kicker}>Private Access</p>
+
           <h3 style={styles.title}>Unlock Investor Pricing</h3>
 
           <p style={styles.subtitle}>
@@ -100,88 +113,119 @@ const styles = {
     position: "fixed",
     inset: 0,
     zIndex: 99999,
-    background: "rgba(6, 6, 6, 0.78)",
-    backdropFilter: "blur(10px)",
+    background:
+      "linear-gradient(180deg, rgba(1,12,22,0.86), rgba(3,27,47,0.92))",
+    backdropFilter: "blur(12px)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    padding: "20px",
+    padding: "clamp(14px, 4vw, 24px)",
     overflowY: "auto",
   },
 
   modal: {
     width: "100%",
     maxWidth: "480px",
-    background: "linear-gradient(180deg, #111 0%, #0c0c0c 100%)",
-    border: "1px solid rgba(255,255,255,0.08)",
-    boxShadow: "0 30px 80px rgba(0,0,0,0.6)",
+    maxHeight: "calc(100svh - 32px)",
+    overflowY: "auto",
+    background: `
+      radial-gradient(circle at top right, rgba(11,95,147,0.34), transparent 34%),
+      linear-gradient(180deg, var(--bg-card) 0%, var(--azure-deep) 100%)
+    `,
+    border: "1px solid rgba(243,193,66,0.24)",
+    boxShadow:
+      "0 34px 90px rgba(0,0,0,0.55), 0 0 45px rgba(11,95,147,0.18)",
     position: "relative",
-    padding: "32px 22px",
+    padding: "clamp(28px, 6vw, 38px) clamp(18px, 5vw, 26px)",
     boxSizing: "border-box",
+    borderRadius: "4px",
   },
 
   closeButton: {
     position: "absolute",
-    top: "14px",
-    right: "14px",
-    background: "none",
-    border: "none",
-    color: "rgba(255,255,255,0.7)",
-    fontSize: "1.6rem",
+    top: "12px",
+    right: "12px",
+    background: "rgba(255,255,255,0.05)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    color: "var(--text-muted)",
+    fontSize: "1.45rem",
     cursor: "pointer",
     transition: "0.2s ease",
+    width: "38px",
+    height: "38px",
+    lineHeight: "30px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   content: {
     display: "flex",
     flexDirection: "column",
-    gap: "20px",
+    gap: "16px",
+  },
+
+  kicker: {
+    color: "var(--gold-accent)",
+    textTransform: "uppercase",
+    letterSpacing: "0.22em",
+    fontSize: "0.72rem",
+    fontWeight: 800,
+    margin: "0 42px 0 0",
   },
 
   title: {
-    color: "var(--gold-accent)",
-    fontSize: "clamp(1.4rem, 4.5vw, 1.7rem)",
+    color: "var(--text-main)",
+    fontSize: "clamp(1.55rem, 7vw, 1.95rem)",
     fontFamily: "var(--font-serif)",
     margin: 0,
-    letterSpacing: "0.02em",
+    letterSpacing: "-0.02em",
+    lineHeight: 1.15,
+    textShadow: "0 4px 18px rgba(0,0,0,0.28)",
   },
 
   subtitle: {
-    color: "rgba(255,255,255,0.65)",
-    fontSize: "0.95rem",
-    lineHeight: 1.6,
+    color: "var(--text-muted)",
+    fontSize: "clamp(0.93rem, 3.6vw, 0.98rem)",
+    lineHeight: 1.7,
     margin: 0,
   },
 
   form: {
     display: "flex",
     flexDirection: "column",
-    gap: "14px",
+    gap: "13px",
     marginTop: "6px",
   },
 
   input: {
-    padding: "14px",
-    background: "#0d0d0d",
-    border: "1px solid rgba(255,255,255,0.08)",
-    color: "#fff",
+    padding: "15px 14px",
+    background: "rgba(1,18,32,0.72)",
+    border: "1px solid rgba(243,193,66,0.16)",
+    color: "var(--text-main)",
     outline: "none",
     width: "100%",
-    fontSize: "0.95rem",
+    minHeight: "52px",
+    fontSize: "16px",
     transition: "0.2s ease",
     boxSizing: "border-box",
+    borderRadius: "2px",
   },
 
   submitButton: {
-    marginTop: "10px",
-    padding: "15px",
-    background: "var(--gold-accent)",
-    color: "#000",
-    border: "none",
-    fontWeight: "700",
+    marginTop: "8px",
+    padding: "16px",
+    minHeight: "54px",
+    background:
+      "linear-gradient(135deg, var(--gold-soft), var(--gold-accent), var(--gold-hover))",
+    color: "var(--azure-deep)",
+    border: "1px solid rgba(255,255,255,0.12)",
+    fontWeight: "800",
     fontSize: "0.95rem",
-    letterSpacing: "0.02em",
+    letterSpacing: "0.03em",
     cursor: "pointer",
     transition: "0.25s ease",
+    boxShadow:
+      "0 14px 36px rgba(243,193,66,0.24), inset 0 1px 0 rgba(255,255,255,0.25)",
   },
 };

@@ -30,7 +30,7 @@ const units = [
     desc: "Balanced proportions for long-term living. Perfect for young families.",
     price: "KSh 14.8M - 19M",
     tour: "https://vr.justeasy.cn/view/1d77467403q00cw9-1774860162.html",
-    
+
     images: [
       new URL("../assets/Apartments/type-a/b11.jpg", import.meta.url).href,
       new URL("../assets/Apartments/type-a/b6.jpg", import.meta.url).href,
@@ -75,7 +75,7 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
 
   const activeUnit = useMemo(
     () => units.find((u) => u.id === activeTab) || units[0],
-    [activeTab]
+    [activeTab],
   );
 
   const currentImages =
@@ -93,16 +93,30 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
     setMainLoaded(false);
   };
 
-  const handleInquiry = () => {
-    if (typeof onInquire === "function") {
-      onInquire(activeUnit.beds);
-      return;
-    }
+const handleInquiry = () => {
+  if (window.fbq) {
+    window.fbq("track", "Lead", {
+      content_name: activeUnit.beds,
+      content_category: "Unit Inquiry",
+      value:
+        activeUnit.beds === "1 Bedroom"
+          ? 8000000
+          : activeUnit.beds === "2 Bedroom"
+          ? 14800000
+          : 22500000,
+      currency: "KES",
+    });
+  }
 
-    if (typeof onOpenModal === "function") {
-      onOpenModal(activeUnit.beds);
-    }
-  };
+  if (typeof onInquire === "function") {
+    onInquire(activeUnit.beds);
+    return;
+  }
+
+  if (typeof onOpenModal === "function") {
+    onOpenModal(activeUnit.beds);
+  }
+};
 
   const handleTouchStart = (e) => {
     touchStartX.current = e.changedTouches[0].clientX;
@@ -126,7 +140,7 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
       setActiveImage((prev) => (prev + 1) % currentImages.length);
     } else if (delta < -threshold) {
       setActiveImage((prev) =>
-        prev === 0 ? currentImages.length - 1 : prev - 1
+        prev === 0 ? currentImages.length - 1 : prev - 1,
       );
     }
 
@@ -200,7 +214,9 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
                     aria-label={`View ${activeUnit.name} image ${index + 1}`}
                     style={{
                       ...styles.thumbButton,
-                      ...(activeImage === index ? styles.thumbButtonActive : {}),
+                      ...(activeImage === index
+                        ? styles.thumbButtonActive
+                        : {}),
                     }}
                   >
                     <div style={styles.thumbSkeleton} />
@@ -254,7 +270,10 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
       </section>
 
       {tourPrompt && (
-        <div style={styles.tourPromptStyle} onClick={() => setTourPrompt(false)}>
+        <div
+          style={styles.tourPromptStyle}
+          onClick={() => setTourPrompt(false)}
+        >
           <div style={styles.tourCard} onClick={(e) => e.stopPropagation()}>
             <p style={styles.tourEyebrow}>Virtual Experience</p>
 
@@ -311,26 +330,35 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
           transform: scale(1.04);
         }
 
-        @media (max-width: 900px) {
-          .unit-grid {
-            grid-template-columns: 1fr !important;
-            gap: 34px !important;
-          }
-        }
+      @media (max-width: 900px) {
+  .unit-grid {
+    grid-template-columns: 1fr !important;
+    gap: 34px !important;
+  }
+}
 
-        @media (max-width: 768px) {
-          .info-grid {
-            grid-template-columns: 1fr !important;
-          }
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr !important;
+  }
 
-          .button-row {
-            flex-direction: column !important;
-          }
+  .button-row {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
 
-          .tabs-row {
-            gap: 10px !important;
-          }
-        }
+  .button-row button {
+    flex: none !important;
+    width: 100% !important;
+    min-height: 48px !important;
+    padding: 12px 16px !important;
+    font-size: 0.95rem !important;
+  }
+
+  .tabs-row {
+    gap: 10px !important;
+  }
+}
       `}</style>
     </>
   );
@@ -338,8 +366,12 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
 
 const styles = {
   section: {
-    padding: "96px 0",
-    background: "var(--bg-dark)",
+    padding: "clamp(72px, 10vw, 110px) 0",
+    background: `
+      radial-gradient(circle at top right, rgba(11,95,147,0.16), transparent 32%),
+      linear-gradient(180deg, var(--bg-dark) 0%, var(--azure-deep) 58%, var(--bg-deep) 100%)
+    `,
+    borderBottom: "1px solid rgba(243,193,66,0.08)",
   },
 
   headerRow: {
@@ -352,45 +384,49 @@ const styles = {
   eyebrow: {
     color: "var(--gold-accent)",
     textTransform: "uppercase",
-    letterSpacing: "0.18em",
+    letterSpacing: "0.22em",
     fontSize: "0.78rem",
     marginBottom: "10px",
+    fontWeight: 700,
   },
 
   sectionTitle: {
-    fontSize: "clamp(2rem, 5vw, 3rem)",
-    color: "#fff",
-    lineHeight: 1.1,
+    fontSize: "clamp(2rem, 5vw, 3.2rem)",
+    color: "var(--text-main)",
+    lineHeight: 1.08,
     margin: 0,
     fontFamily: "var(--font-serif)",
+    letterSpacing: "-0.03em",
   },
 
   tabsRow: {
     display: "flex",
     gap: "12px",
     flexWrap: "wrap",
-    marginBottom: "40px",
+    marginBottom: "42px",
     paddingBottom: "6px",
   },
 
   tabButton: {
-    background: "transparent",
-    color: "#fff",
-    border: "1px solid rgba(212,175,55,0.55)",
+    background: "rgba(1,18,32,0.55)",
+    color: "var(--text-main)",
+    border: "1px solid rgba(243,193,66,0.25)",
     padding: "12px 18px",
     cursor: "pointer",
     fontFamily: "var(--font-sans)",
     transition: "all 0.28s ease",
     minHeight: "46px",
     whiteSpace: "nowrap",
-    letterSpacing: "0.01em",
+    letterSpacing: "0.04em",
+    fontWeight: 700,
   },
 
   tabButtonActive: {
-    background: "rgba(212,175,55,0.12)",
+    background:
+      "linear-gradient(135deg, rgba(243,193,66,0.18), rgba(11,95,147,0.16))",
     color: "var(--gold-accent)",
     border: "1px solid var(--gold-accent)",
-    boxShadow: "0 0 22px rgba(212,175,55,0.12)",
+    boxShadow: "0 0 24px rgba(243,193,66,0.14)",
   },
 
   unitGrid: {
@@ -405,14 +441,16 @@ const styles = {
     width: "100%",
     aspectRatio: "16/10",
     overflow: "hidden",
-    background: "#111",
-    border: "1px solid rgba(255,255,255,0.06)",
+    background: "var(--azure-deep)",
+    border: "1px solid rgba(243,193,66,0.16)",
+    boxShadow: "0 24px 70px rgba(0,0,0,0.32)",
   },
 
   skeleton: {
     position: "absolute",
     inset: 0,
-    background: "linear-gradient(90deg, #1b1b1b 25%, #2a2a2a 50%, #1b1b1b 75%)",
+    background:
+      "linear-gradient(90deg, #04233a 25%, #08385c 50%, #04233a 75%)",
     backgroundSize: "200% 100%",
     animation: "skeletonLoading 1.4s ease-in-out infinite",
   },
@@ -430,13 +468,13 @@ const styles = {
     position: "absolute",
     inset: 0,
     background:
-      "linear-gradient(to top, rgba(0,0,0,0.18), rgba(0,0,0,0.02) 35%, rgba(0,0,0,0))",
+      "linear-gradient(to top, rgba(2,17,31,0.32), rgba(2,17,31,0.04) 45%, rgba(2,17,31,0))",
     pointerEvents: "none",
   },
 
   thumbGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit,minmax(82px,1fr))",
+    gridTemplateColumns: "repeat(auto-fit,minmax(78px,1fr))",
     gap: "10px",
     marginTop: "14px",
   },
@@ -447,21 +485,22 @@ const styles = {
     aspectRatio: "4/3",
     overflow: "hidden",
     cursor: "pointer",
-    background: "#151515",
+    background: "var(--azure-deep)",
     padding: 0,
-    border: "1px solid transparent",
+    border: "1px solid rgba(255,255,255,0.08)",
     transition: "all 0.25s ease",
   },
 
   thumbButtonActive: {
     border: "1px solid var(--gold-accent)",
-    boxShadow: "0 0 16px rgba(212,175,55,0.12)",
+    boxShadow: "0 0 18px rgba(243,193,66,0.18)",
   },
 
   thumbSkeleton: {
     position: "absolute",
     inset: 0,
-    background: "linear-gradient(90deg, #222 25%, #333 50%, #222 75%)",
+    background:
+      "linear-gradient(90deg, #04233a 25%, #08385c 50%, #04233a 75%)",
     backgroundSize: "200% 100%",
     animation: "skeletonLoading 1.4s ease-in-out infinite",
   },
@@ -478,23 +517,30 @@ const styles = {
 
   details: {
     width: "100%",
+    background:
+      "linear-gradient(180deg, rgba(6,43,70,0.52), rgba(2,17,31,0.38))",
+    border: "1px solid rgba(243,193,66,0.12)",
+    padding: "clamp(22px, 4vw, 34px)",
+    boxShadow: "0 22px 60px rgba(0,0,0,0.24)",
   },
 
   typeLabel: {
     color: "var(--gold-accent)",
-    letterSpacing: "0.18em",
+    letterSpacing: "0.22em",
     textTransform: "uppercase",
     fontSize: "0.8rem",
     display: "inline-block",
-    marginBottom: "10px",
+    marginBottom: "12px",
+    fontWeight: 700,
   },
 
   title: {
-    color: "#fff",
+    color: "var(--text-main)",
     fontSize: "clamp(2rem,5vw,3rem)",
     fontFamily: "var(--font-serif)",
     margin: "0 0 18px",
     lineHeight: 1.08,
+    letterSpacing: "-0.03em",
   },
 
   description: {
@@ -509,70 +555,76 @@ const styles = {
     display: "grid",
     gridTemplateColumns: "repeat(2,minmax(0,1fr))",
     gap: "18px",
-    marginBottom: "30px",
+    marginBottom: "26px",
   },
 
   infoCard: {
-    borderLeft: "1px solid rgba(212,175,55,0.6)",
-    paddingLeft: "15px",
+    borderLeft: "1px solid rgba(243,193,66,0.42)",
+    paddingLeft: "14px",
   },
 
   priceCard: {
     borderLeft: "1px solid var(--gold-accent)",
-    paddingLeft: "15px",
-    background: "linear-gradient(90deg, rgba(212,175,55,0.05), rgba(212,175,55,0))",
+    paddingLeft: "14px",
+    background:
+      "linear-gradient(90deg, rgba(243,193,66,0.08), rgba(11,95,147,0))",
     animation: "goldPulse 3s ease-in-out infinite",
   },
 
   labelStyle: {
-    color: "#777",
-    fontSize: "0.78rem",
+    color: "var(--text-muted)",
+    fontSize: "0.75rem",
     textTransform: "uppercase",
-    letterSpacing: "0.08em",
-    marginBottom: "8px",
+    letterSpacing: "0.1em",
+    marginBottom: "6px",
+    opacity: 0.75,
   },
 
   valueStyle: {
-    color: "#fff",
-    fontSize: "1.08rem",
-    lineHeight: 1.5,
+    color: "var(--text-main)",
+    fontSize: "1rem",
+    lineHeight: 1.4,
+    fontWeight: 700,
   },
 
   buttonRow: {
     display: "flex",
-    gap: "14px",
+    gap: "12px",
     flexWrap: "wrap",
   },
 
   primaryBtn: {
-    background: "var(--gold-accent)",
-    color: "#000",
-    border: "none",
-    padding: "14px 24px",
+    background:
+      "linear-gradient(135deg, var(--gold-soft), var(--gold-accent), var(--gold-hover))",
+    color: "var(--azure-deep)",
+    border: "1px solid rgba(255,255,255,0.14)",
+    padding: "14px 22px",
     cursor: "pointer",
-    fontWeight: "600",
+    fontWeight: "800",
     minHeight: "50px",
-    flex: "1 1 220px",
-    transition: "transform 0.25s ease, box-shadow 0.25s ease",
+    flex: "1 1 200px",
+    transition: "all 0.25s ease",
+    boxShadow:
+      "0 14px 36px rgba(243,193,66,0.22), inset 0 1px 0 rgba(255,255,255,0.24)",
   },
 
   secondaryBtn: {
-    background: "transparent",
-    color: "#fff",
-    border: "1px solid rgba(255,255,255,0.22)",
-    padding: "14px 24px",
+    background: "rgba(1,18,32,0.5)",
+    color: "var(--text-main)",
+    border: "1px solid rgba(243,193,66,0.22)",
+    padding: "14px 22px",
     cursor: "pointer",
-    fontWeight: "500",
+    fontWeight: "700",
     minHeight: "50px",
-    flex: "1 1 220px",
-    transition: "transform 0.25s ease, border-color 0.25s ease, color 0.25s ease",
+    flex: "1 1 200px",
+    transition: "all 0.25s ease",
   },
 
   tourPromptStyle: {
     position: "fixed",
     inset: 0,
-    background: "rgba(0,0,0,0.74)",
-    backdropFilter: "blur(8px)",
+    background: "rgba(1,12,22,0.82)",
+    backdropFilter: "blur(10px)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -581,65 +633,64 @@ const styles = {
   },
 
   tourCard: {
-    background: "linear-gradient(180deg, #111 0%, #0c0c0c 100%)",
-    padding: "34px 24px",
-    width: "460px",
+    background: `
+      radial-gradient(circle at top right, rgba(11,95,147,0.3), transparent 36%),
+      linear-gradient(180deg, var(--bg-card) 0%, var(--azure-deep) 100%)
+    `,
+    padding: "30px 22px",
+    width: "440px",
     maxWidth: "100%",
-    border: "1px solid rgba(255,255,255,0.08)",
-    boxShadow: "0 24px 70px rgba(0,0,0,0.5)",
+    border: "1px solid rgba(243,193,66,0.18)",
+    boxShadow: "0 28px 80px rgba(0,0,0,0.5)",
   },
 
   tourEyebrow: {
     color: "var(--gold-accent)",
     textTransform: "uppercase",
     letterSpacing: "0.18em",
-    fontSize: "0.76rem",
-    marginBottom: "12px",
+    fontSize: "0.75rem",
+    marginBottom: "10px",
+    fontWeight: 700,
   },
 
   tourTitle: {
-    color: "#fff",
+    color: "var(--text-main)",
     fontFamily: "var(--font-serif)",
-    margin: "0 0 14px",
-    fontSize: "1.7rem",
-    lineHeight: 1.2,
+    margin: "0 0 12px",
+    fontSize: "1.6rem",
   },
 
   tourText: {
-    color: "#bbb",
-    lineHeight: "1.75",
-    marginBottom: "24px",
-    fontFamily: "var(--font-sans)",
+    color: "var(--text-muted)",
+    lineHeight: "1.7",
+    marginBottom: "22px",
   },
 
   tourButtonRow: {
     display: "flex",
-    gap: "12px",
+    gap: "10px",
     flexWrap: "wrap",
   },
 
   tourPrimaryBtn: {
-    background: "var(--gold-accent)",
-    color: "#000",
+    background:
+      "linear-gradient(135deg, var(--gold-soft), var(--gold-accent), var(--gold-hover))",
+    color: "var(--azure-deep)",
     border: "none",
-    padding: "14px 22px",
+    padding: "12px 18px",
     textDecoration: "none",
-    fontWeight: "600",
-    minHeight: "48px",
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: "1 1 180px",
+    fontWeight: "800",
+    flex: "1 1 160px",
+    textAlign: "center",
   },
 
   tourSecondaryBtn: {
     background: "transparent",
-    color: "#fff",
-    border: "1px solid rgba(255,255,255,0.2)",
-    padding: "14px 22px",
+    color: "var(--text-main)",
+    border: "1px solid rgba(243,193,66,0.22)",
+    padding: "12px 18px",
     cursor: "pointer",
-    minHeight: "48px",
-    flex: "1 1 140px",
+    flex: "1 1 120px",
   },
 };
 

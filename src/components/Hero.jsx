@@ -58,7 +58,7 @@ const Hero = ({ onCtaClick }) => {
 
         <div className="fade-up delay-4" style={styles.buttonWrap}>
           <button onClick={onCtaClick} style={styles.button}>
-            Unlock Early Investor Pricing
+            Book A Unit Today
           </button>
         </div>
       </div>
@@ -79,16 +79,18 @@ const Hero = ({ onCtaClick }) => {
 export default Hero;
 
 const styles = {
-  section: {
-    minHeight: "100svh",
-    width: "100%",
-    position: "relative",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-    padding: "100px 16px 48px",
-  },
+section: {
+  minHeight: "100svh",
+  width: "100%",
+  position: "relative",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  overflow: "hidden",
+  padding: "100px 16px 48px",
+  background:
+    "radial-gradient(circle at top right, rgba(11,95,147,0.18), transparent 30%)",
+},
 
   video: {
     position: "absolute",
@@ -113,8 +115,15 @@ const styles = {
   overlay: {
     position: "absolute",
     inset: 0,
-    background:
-      "linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.65))",
+    background: `
+    linear-gradient(
+      180deg,
+      rgba(2, 17, 31, 0.38) 0%,
+      rgba(3, 27, 47, 0.58) 38%,
+      rgba(2, 24, 39, 0.78) 72%,
+      rgba(1, 12, 22, 0.92) 100%
+    )
+  `,
     zIndex: 1,
   },
 
@@ -130,19 +139,21 @@ const styles = {
   subText: {
     color: "var(--gold-accent)",
     textTransform: "uppercase",
-    letterSpacing: "2px",
-    marginBottom: "16px",
-    fontWeight: 600,
-    fontSize: "clamp(0.75rem, 2vw, 0.95rem)",
+    letterSpacing: "3px",
+    marginBottom: "18px",
+    fontWeight: 700,
+    fontSize: "clamp(0.78rem, 2vw, 1rem)",
     lineHeight: 1.5,
+    textShadow: "0 2px 12px rgba(0,0,0,0.25)",
   },
 
   heading: {
-    fontSize: "clamp(2.2rem, 8vw, 5rem)",
-    color: "#fff",
+    fontSize: "clamp(2.4rem, 8vw, 5.4rem)",
+    color: "var(--text-main)",
     marginBottom: "24px",
-    lineHeight: 1.05,
-    textShadow: "0 4px 20px rgba(0,0,0,0.6)",
+    lineHeight: 1.02,
+    letterSpacing: "-0.03em",
+    textShadow: "0 8px 30px rgba(0, 0, 0, 0.38)",
   },
 
   buttonWrap: {
@@ -151,19 +162,24 @@ const styles = {
     justifyContent: "center",
   },
 
-  button: {
-    background: "var(--gold-accent)",
-    color: "#000",
-    border: "none",
-    padding: "14px 24px",
-    fontSize: "clamp(0.95rem, 2.5vw, 1rem)",
-    fontWeight: "600",
-    cursor: "pointer",
-    width: "100%",
-    maxWidth: "340px",
-    minHeight: "52px",
-    lineHeight: 1.2,
-  },
+button: {
+  background:
+    "linear-gradient(135deg, var(--gold-soft), var(--gold-accent), var(--gold-hover))",
+  color: "var(--azure-deep)",
+  border: "1px solid rgba(255,255,255,0.12)",
+  padding: "16px 28px",
+  fontSize: "clamp(0.95rem, 2.5vw, 1rem)",
+  fontWeight: "700",
+  letterSpacing: "0.03em",
+  cursor: "pointer",
+  width: "100%",
+  maxWidth: "360px",
+  minHeight: "56px",
+  lineHeight: 1.2,
+  boxShadow:
+    "0 12px 35px rgba(243, 193, 66, 0.28), inset 0 1px 0 rgba(255,255,255,0.25)",
+  transition: "all 0.35s ease",
+},
 
   scrollIndicator: {
     position: "absolute",
@@ -173,12 +189,13 @@ const styles = {
     zIndex: 10,
   },
 
-  scrollLine: {
-    width: "2px",
-    height: "34px",
-    background: "#fff",
-    animation: "scrollMove 1.5s infinite",
-  },
+scrollLine: {
+  width: "2px",
+  height: "38px",
+  background:
+    "linear-gradient(to bottom, rgba(243,193,66,0), var(--gold-accent), rgba(243,193,66,0))",
+  animation: "scrollMove 1.5s infinite",
+},
 };
 
 const animations = `

@@ -11,7 +11,6 @@ const AgentApply = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Meta tracking
     if (window.fbq) {
       window.fbq("track", "Lead", {
         content_category: "Agent Application",
@@ -24,19 +23,21 @@ Phone: ${form.phone}
 Agency: ${form.agency}
 Experience: ${form.experience}`;
 
-    window.location.href = `https://wa.me/254796529997?text=${encodeURIComponent(
+    window.location.href = `https://wa.me/254700686666?text=${encodeURIComponent(
       message
     )}`;
   };
 
   return (
     <section style={styles.section}>
-      <div style={styles.container}>
+      <div style={styles.card}>
+        <p style={styles.eyebrow}>Sales Partner Opportunity</p>
+
         <h1 style={styles.title}>Apply as Sales Partner</h1>
 
         <p style={styles.subtitle}>
-          Join Riverside Azure and earn from one of Nairobi’s most exciting new
-          developments.
+          Join Riverside Azure and represent one of Nairobi’s most promising
+          new residential developments.
         </p>
 
         <form onSubmit={handleSubmit} style={styles.form}>
@@ -88,28 +89,54 @@ export default AgentApply;
 
 const styles = {
   section: {
-    background: "#0a0a0a",
-    minHeight: "100vh",
+    minHeight: "100svh",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    padding: "40px 20px",
+    padding: "clamp(88px, 12vw, 120px) 18px 48px",
+    background: `
+      radial-gradient(circle at top right, rgba(11,95,147,0.28), transparent 34%),
+      linear-gradient(180deg, #04395e 0%, #031b2f 45%, #021827 100%)
+    `,
   },
 
-  container: {
+  card: {
     width: "100%",
-    maxWidth: "420px",
+    maxWidth: "460px",
+    background: `
+      radial-gradient(circle at top right, rgba(243,193,66,0.12), transparent 30%),
+      linear-gradient(180deg, rgba(6,43,70,0.88), rgba(2,17,31,0.96))
+    `,
+    border: "1px solid rgba(243,193,66,0.26)",
+    boxShadow:
+      "0 30px 80px rgba(0,0,0,0.42), 0 0 38px rgba(11,95,147,0.18)",
+    padding: "clamp(24px, 6vw, 36px)",
+    boxSizing: "border-box",
+  },
+
+  eyebrow: {
+    color: "#f3c142",
+    textTransform: "uppercase",
+    letterSpacing: "0.22em",
+    fontSize: "0.75rem",
+    fontWeight: 800,
+    margin: "0 0 12px",
   },
 
   title: {
-    color: "#fff",
-    fontSize: "2rem",
-    marginBottom: "10px",
+    color: "#f7f4ec",
+    fontSize: "clamp(2rem, 7vw, 2.6rem)",
+    fontFamily: "var(--font-serif)",
+    lineHeight: 1.1,
+    letterSpacing: "-0.03em",
+    margin: "0 0 14px",
   },
 
   subtitle: {
-    color: "#aaa",
-    marginBottom: "30px",
+    color: "#c7d3dc",
+    fontSize: "clamp(0.95rem, 3.6vw, 1rem)",
+    lineHeight: 1.7,
+    margin: "0 0 28px",
   },
 
   form: {
@@ -119,17 +146,27 @@ const styles = {
   },
 
   input: {
-    padding: "14px",
-    background: "#111",
-    border: "1px solid #333",
-    color: "#fff",
+    padding: "15px 14px",
+    minHeight: "52px",
+    background: "rgba(1,18,32,0.72)",
+    border: "1px solid rgba(243,193,66,0.18)",
+    color: "#f7f4ec",
+    outline: "none",
+    fontSize: "16px",
+    width: "100%",
+    boxSizing: "border-box",
   },
 
   button: {
-    background: "var(--gold-accent)",
-    border: "none",
-    padding: "14px",
-    fontWeight: "700",
+    marginTop: "8px",
+    minHeight: "54px",
+    background: "linear-gradient(135deg, #ffe08a, #f3c142, #dba832)",
+    color: "#021827",
+    border: "1px solid rgba(255,255,255,0.14)",
+    padding: "15px",
+    fontWeight: "800",
     cursor: "pointer",
+    boxShadow:
+      "0 14px 34px rgba(243,193,66,0.24), inset 0 1px 0 rgba(255,255,255,0.24)",
   },
 };
