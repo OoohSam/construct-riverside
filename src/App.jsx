@@ -193,7 +193,6 @@ function App() {
 }
 
 export default App;
-
 const styles = {
   app: {
     display: "flex",
@@ -209,9 +208,9 @@ const styles = {
   },
 
   footer: {
-    background: "#050505",
+    background: "linear-gradient(180deg, #02111f 0%, #010c16 100%)",
     padding: "72px 0 28px",
-    borderTop: "1px solid rgba(255,255,255,0.08)",
+    borderTop: "1px solid rgba(243,193,66,0.12)",
   },
 
   footerContainer: {
@@ -227,11 +226,11 @@ const styles = {
   },
 
   footerBrand: {
-    maxWidth: "420px",
+    maxWidth: "440px",
   },
 
   footerTitle: {
-    color: "#fff",
+    color: "var(--text-main)",
     fontFamily: "var(--font-serif)",
     marginBottom: "16px",
     fontSize: "clamp(1.5rem, 4vw, 2rem)",
@@ -239,7 +238,7 @@ const styles = {
   },
 
   footerDescription: {
-    color: "rgba(255,255,255,0.65)",
+    color: "var(--text-muted)",
     fontSize: "0.95rem",
     lineHeight: 1.8,
     margin: 0,
@@ -254,8 +253,9 @@ const styles = {
     color: "var(--gold-accent)",
     fontSize: "0.85rem",
     textTransform: "uppercase",
-    letterSpacing: "0.12em",
+    letterSpacing: "0.14em",
     marginBottom: "16px",
+    fontWeight: 800,
   },
 
   footerLinks: {
@@ -271,21 +271,21 @@ const styles = {
   },
 
   footerLink: {
-    color: "#ddd",
+    color: "rgba(247,244,236,0.82)",
     textDecoration: "none",
     fontSize: "0.95rem",
     lineHeight: 1.6,
   },
 
   footerTextMuted: {
-    color: "rgba(255,255,255,0.6)",
+    color: "rgba(255,255,255,0.58)",
     fontSize: "0.95rem",
     lineHeight: 1.6,
     margin: 0,
   },
 
   footerBottom: {
-    borderTop: "1px solid rgba(255,255,255,0.08)",
+    borderTop: "1px solid rgba(243,193,66,0.08)",
     paddingTop: "22px",
     display: "flex",
     flexDirection: "column",
@@ -293,14 +293,14 @@ const styles = {
   },
 
   footerText: {
-    color: "#888",
+    color: "rgba(255,255,255,0.52)",
     fontSize: "0.85rem",
     lineHeight: 1.6,
     margin: 0,
   },
 
   footerDisclaimer: {
-    color: "#666",
+    color: "rgba(255,255,255,0.4)",
     fontSize: "0.8rem",
     lineHeight: 1.6,
     margin: 0,
