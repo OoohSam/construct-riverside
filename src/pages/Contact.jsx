@@ -128,7 +128,7 @@ const Contact = () => {
       </div>
 
       <a
-        href="https://wa.me/254796529997"
+        href="https://wa.me/254700686666"
         target="_blank"
         rel="noreferrer"
         style={styles.whatsappFloat}
