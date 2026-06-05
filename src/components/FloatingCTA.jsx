@@ -1,7 +1,7 @@
 import React from "react";
 
 const FloatingCTA = ({ onOpenModal }) => {
-  const whatsappNumber = "2547006868666";
+  const whatsappNumber = "254700686666";
   const whatsappMessage = encodeURIComponent(
     "I am interested in Riverside Azure"
   );
