@@ -106,6 +106,7 @@ Please share the price list and floor plans.`;
   );
 };
 
+
 export default LeadModal;
 
 const styles = {

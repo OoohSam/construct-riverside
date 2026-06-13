@@ -37,7 +37,10 @@ const Contact = () => {
             <h3 style={styles.cardTitle}>WhatsApp</h3>
             <p style={styles.muted}>Fastest way to reach us</p>
             <a
-              href="https://wa.me/254700686666"
+              href="https://wa.me/254700686666"  
+              //this link opens WhatsApp chat with the specified number
+              //Correct this initial.
+              // Note: Ensure the number is in international format without '+' or dashes
               target="_blank"
               rel="noreferrer"
               style={styles.link}
@@ -140,6 +143,7 @@ const Contact = () => {
   );
 };
 
+
 const styles = {
   section: {
     padding: "clamp(88px, 10vw, 120px) 0 80px",
@@ -183,6 +187,7 @@ const styles = {
   card: {
     border: "1px solid rgba(243,193,66,0.16)",
     padding: "24px",
+    
     background:
       "linear-gradient(180deg, rgba(6,43,70,0.72), rgba(2,17,31,0.82))",
     minHeight: "160px",
