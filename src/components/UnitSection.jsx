@@ -8,6 +8,7 @@ const units = [
     type: "Type A",
     name: "The Executive Suite",
     beds: "1 Bedroom",
+    availableUnits: 24,
     size: "65.62 - 69.58 SQM",
     desc: "High-yield asset ideal for Airbnb. Located in the diplomatic heart of Nairobi.",
     price: "KSh 8M - 13M",
@@ -26,11 +27,11 @@ const units = [
     type: "Type B",
     name: "The Urban Sanctuary",
     beds: "2 Bedroom",
+    availableUnits: 18,
     size: "98.00 - 104.63 SQM",
     desc: "Balanced proportions for long-term living. Perfect for young families.",
     price: "KSh 14.8M - 19M",
     tour: "https://vr.justeasy.cn/view/1d77467403q00cw9-1774860162.html",
-
     images: [
       new URL("../assets/Apartments/type-a/b11.jpg", import.meta.url).href,
       new URL("../assets/Apartments/type-a/b6.jpg", import.meta.url).href,
@@ -46,6 +47,7 @@ const units = [
     type: "Type C",
     name: "The Heritage Residence",
     beds: "3 Bedroom",
+    availableUnits: 9,
     size: "141.95 SQM",
     desc: "Versatile luxury. Expansive living spaces for those who value legacy.",
     price: "KSh 22.5M - 27M",
@@ -75,7 +77,7 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
 
   const activeUnit = useMemo(
     () => units.find((u) => u.id === activeTab) || units[0],
-    [activeTab],
+    [activeTab]
   );
 
   const currentImages =
@@ -93,30 +95,30 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
     setMainLoaded(false);
   };
 
-const handleInquiry = () => {
-  if (window.fbq) {
-    window.fbq("track", "Lead", {
-      content_name: activeUnit.beds,
-      content_category: "Unit Inquiry",
-      value:
-        activeUnit.beds === "1 Bedroom"
-          ? 8000000
-          : activeUnit.beds === "2 Bedroom"
-          ? 14800000
-          : 22500000,
-      currency: "KES",
-    });
-  }
+  const handleInquiry = () => {
+    if (window.fbq) {
+      window.fbq("track", "Lead", {
+        content_name: activeUnit.beds,
+        content_category: "Unit Inquiry",
+        value:
+          activeUnit.beds === "1 Bedroom"
+            ? 8000000
+            : activeUnit.beds === "2 Bedroom"
+            ? 14800000
+            : 22500000,
+        currency: "KES",
+      });
+    }
 
-  if (typeof onInquire === "function") {
-    onInquire(activeUnit.beds);
-    return;
-  }
+    if (typeof onInquire === "function") {
+      onInquire(activeUnit.beds);
+      return;
+    }
 
-  if (typeof onOpenModal === "function") {
-    onOpenModal(activeUnit.beds);
-  }
-};
+    if (typeof onOpenModal === "function") {
+      onOpenModal(activeUnit.beds);
+    }
+  };
 
   const handleTouchStart = (e) => {
     touchStartX.current = e.changedTouches[0].clientX;
@@ -140,7 +142,7 @@ const handleInquiry = () => {
       setActiveImage((prev) => (prev + 1) % currentImages.length);
     } else if (delta < -threshold) {
       setActiveImage((prev) =>
-        prev === 0 ? currentImages.length - 1 : prev - 1,
+        prev === 0 ? currentImages.length - 1 : prev - 1
       );
     }
 
@@ -250,6 +252,13 @@ const handleInquiry = () => {
                   <p style={styles.labelStyle}>Price Range</p>
                   <p style={styles.valueStyle}>{activeUnit.price}</p>
                 </div>
+
+                <div style={styles.availabilityCard}>
+                  <p style={styles.labelStyle}>Available Units</p>
+                  <p style={styles.valueStyle}>
+                    {activeUnit.availableUnits} Units
+                  </p>
+                </div>
               </div>
 
               <div className="button-row" style={styles.buttonRow}>
@@ -330,35 +339,39 @@ const handleInquiry = () => {
           transform: scale(1.04);
         }
 
-      @media (max-width: 900px) {
-  .unit-grid {
-    grid-template-columns: 1fr !important;
-    gap: 34px !important;
-  }
-}
+        @media (max-width: 900px) {
+          .unit-grid {
+            grid-template-columns: 1fr !important;
+            gap: 34px !important;
+          }
 
-@media (max-width: 768px) {
-  .info-grid {
-    grid-template-columns: 1fr !important;
-  }
+          .info-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
 
-  .button-row {
-    flex-direction: column !important;
-    gap: 10px !important;
-  }
+        @media (max-width: 768px) {
+          .info-grid {
+            grid-template-columns: 1fr !important;
+          }
 
-  .button-row button {
-    flex: none !important;
-    width: 100% !important;
-    min-height: 48px !important;
-    padding: 12px 16px !important;
-    font-size: 0.95rem !important;
-  }
+          .button-row {
+            flex-direction: column !important;
+            gap: 10px !important;
+          }
 
-  .tabs-row {
-    gap: 10px !important;
-  }
-}
+          .button-row button {
+            flex: none !important;
+            width: 100% !important;
+            min-height: 48px !important;
+            padding: 12px 16px !important;
+            font-size: 0.95rem !important;
+          }
+
+          .tabs-row {
+            gap: 10px !important;
+          }
+        }
       `}</style>
     </>
   );
@@ -553,7 +566,7 @@ const styles = {
 
   infoGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(2,minmax(0,1fr))",
+    gridTemplateColumns: "repeat(3,minmax(0,1fr))",
     gap: "18px",
     marginBottom: "26px",
   },
@@ -569,6 +582,13 @@ const styles = {
     background:
       "linear-gradient(90deg, rgba(243,193,66,0.08), rgba(11,95,147,0))",
     animation: "goldPulse 3s ease-in-out infinite",
+  },
+
+  availabilityCard: {
+    borderLeft: "1px solid rgba(243,193,66,0.42)",
+    paddingLeft: "14px",
+    background:
+      "linear-gradient(90deg, rgba(11,95,147,0.12), rgba(243,193,66,0))",
   },
 
   labelStyle: {
