@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { trackMetaEvent, createEventId } from "../lib/metaPixel.js";
 
 const rooms = [
   {
@@ -6,31 +7,45 @@ const rooms = [
     name: "Living Room",
     top: "40%",
     left: "55%",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c"
+    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
   },
   {
     id: 2,
     name: "Bedroom",
     top: "60%",
     left: "30%",
-    image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85"
+    image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85",
   },
   {
     id: 3,
     name: "Kitchen",
     top: "35%",
     left: "25%",
-    image: "https://images.unsplash.com/photo-1556911220-bff31c812dba"
-  }
+    image: "https://images.unsplash.com/photo-1556911220-bff31c812dba",
+  },
 ];
-
 
 const FloorPlanViewer = ({ image }) => {
   const [activeRoom, setActiveRoom] = useState(null);
 
+  const handleRoomClick = (room) => {
+    const eventId = createEventId("floor_plan_room_view");
+
+    trackMetaEvent(
+      "ViewContent",
+      {
+        content_name: room.name,
+        content_category: "Floor Plan Room View",
+        room_name: room.name,
+      },
+      eventId
+    );
+
+    setActiveRoom(room);
+  };
+
   return (
     <div style={{ position: "relative", width: "100%", height: "600px" }}>
-      
       {/* Floor Plan */}
       <img
         src={image}
@@ -38,7 +53,7 @@ const FloorPlanViewer = ({ image }) => {
         style={{
           width: "100%",
           height: "100%",
-          objectFit: "contain"
+          objectFit: "contain",
         }}
       />
 
@@ -46,7 +61,7 @@ const FloorPlanViewer = ({ image }) => {
       {rooms.map((room) => (
         <div
           key={room.id}
-          onClick={() => setActiveRoom(room)}
+          onClick={() => handleRoomClick(room)}
           style={{
             position: "absolute",
             top: room.top,
@@ -56,7 +71,7 @@ const FloorPlanViewer = ({ image }) => {
             borderRadius: "50%",
             background: "gold",
             cursor: "pointer",
-            transform: "translate(-50%, -50%)"
+            transform: "translate(-50%, -50%)",
           }}
         />
       ))}
@@ -71,14 +86,14 @@ const FloorPlanViewer = ({ image }) => {
             background: "#000",
             color: "#fff",
             padding: "20px",
-            width: "300px"
+            width: "300px",
           }}
         >
-
           <h3>{activeRoom.name}</h3>
 
           <img
             src={activeRoom.image}
+            alt={activeRoom.name}
             style={{ width: "100%", marginTop: "10px" }}
           />
 
@@ -88,7 +103,7 @@ const FloorPlanViewer = ({ image }) => {
               marginTop: "10px",
               background: "var(--gold-accent)",
               border: "none",
-              padding: "8px 15px"
+              padding: "8px 15px",
             }}
           >
             Close

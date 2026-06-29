@@ -15,7 +15,18 @@ export const initMetaPixel = () => {
 export const trackMetaEvent = (eventName, data = {}, eventId) => {
   if (!pixelId) return;
 
-  ReactPixel.track(eventName, data, {
-    eventID: eventId,
-  });
+  if (eventId) {
+    ReactPixel.track(eventName, data, {
+      eventID: eventId,
+    });
+  } else {
+    ReactPixel.track(eventName, data);
+  }
 };
+
+export const createEventId = (prefix) => {
+  return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+};
+
+
+

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo/Riverside-azure-Gold-Logo.png";
+import { trackMetaEvent, createEventId } from "../lib/metaPixel.js";
 
 const Navbar = ({ onOpenModal }) => {
   const [scrolled, setScrolled] = useState(false);

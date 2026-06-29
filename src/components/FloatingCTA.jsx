@@ -1,4 +1,5 @@
 import React from "react";
+import { trackMetaEvent, createEventId } from "../lib/metaPixel.js";
 
 const FloatingCTA = ({ onOpenModal }) => {
   const whatsappNumber = "254700686666";
@@ -6,9 +7,20 @@ const FloatingCTA = ({ onOpenModal }) => {
     "I am interested in Riverside Azure"
   );
 
-  const handleWhatsApp = () => {
-    window.location.href = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
-  };
+ const handleWhatsApp = () => {
+  const eventId = createEventId("whatsapp_click");
+
+  trackMetaEvent(
+    "Contact",
+    {
+      content_name: "WhatsApp Click",
+      contact_method: "WhatsApp",
+    },
+    eventId
+  );
+
+  window.location.href = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+};
 
   return (
     <>

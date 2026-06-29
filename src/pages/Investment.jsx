@@ -1,15 +1,72 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import heroImg from "../assets/hero/Front-View.webp";
 
+const roiData = [
+  {
+    id: 1,
+    unit: "1 Bedroom",
+    price: 8000000,
+    furnishedRent: 160000,
+    unfurnishedRent: 80000,
+    furnishedRoi: 24,
+    unfurnishedRoi: 12,
+    furnishedPayback: "4 years",
+    unfurnishedPayback: "8 years",
+  },
+  {
+    id: 2,
+    unit: "2 Bedrooms",
+    price: 14800000,
+    furnishedRent: 220000,
+    unfurnishedRent: 150000,
+    furnishedRoi: 18,
+    unfurnishedRoi: 12,
+    furnishedPayback: "6 years",
+    unfurnishedPayback: "8 years",
+  },
+  {
+    id: 3,
+    unit: "3 Bedrooms",
+    price: 22000000,
+    furnishedRent: 300000,
+    unfurnishedRent: 200000,
+    furnishedRoi: 16,
+    unfurnishedRoi: 14,
+    furnishedPayback: "6 years",
+    unfurnishedPayback: "7 years",
+  },
+];
+
+const formatKes = (value) => {
+  return `KSh ${Number(value).toLocaleString("en-KE")}`;
+};
+
 const InvestmentPage = ({ onCtaClick }) => {
-  const [price, setPrice] = useState(12000000);
-  const [rent, setRent] = useState(200000);
-  const [occupancy, setOccupancy] = useState(80);
+  const [selectedUnitId, setSelectedUnitId] = useState(1);
+  const [rentalType, setRentalType] = useState("furnished");
   const [scroll, setScroll] = useState(0);
 
-  const annual = rent * 12 * (occupancy / 100);
-  const yieldVal = price > 0 ? ((annual / price) * 100).toFixed(1) : "0.0";
+  const selectedUnit = useMemo(() => {
+    return roiData.find((item) => item.id === selectedUnitId) || roiData[0];
+  }, [selectedUnitId]);
+
+  const monthlyRent =
+    rentalType === "furnished"
+      ? selectedUnit.furnishedRent
+      : selectedUnit.unfurnishedRent;
+
+  const annualIncome = monthlyRent * 12;
+
+  const grossRoi =
+    selectedUnit.price > 0
+      ? ((annualIncome / selectedUnit.price) * 100).toFixed(1)
+      : "0.0";
+
+  const paybackPeriod =
+    rentalType === "furnished"
+      ? selectedUnit.furnishedPayback
+      : selectedUnit.unfurnishedPayback;
 
   useEffect(() => {
     const onScroll = () => {
@@ -28,35 +85,23 @@ const InvestmentPage = ({ onCtaClick }) => {
       text: "Riverside remains one of Nairobi’s most established residential and rental corridors.",
     },
     {
-      title: "Flexible End-Use Strategy",
-      text: "Units can appeal to both owner-occupiers and income-focused buyers.",
+      title: "Strong Rental Potential",
+      text: "Projected rental income is supported by demand from professionals, expatriates, investors, and short-stay tenants.",
     },
     {
-      title: "Illustrative Yield Potential",
-      text: "Model different income scenarios depending on furnishing, occupancy, and management approach.",
+      title: "Clear ROI Comparison",
+      text: "Compare furnished and unfurnished rental returns across 1, 2, and 3 bedroom units.",
     },
   ];
 
-  const scenarios = [
-    {
-      title: "Long-Term Rental",
-      income: "KSh 120,000 – 180,000 / month",
-      assumption: "Stable occupancy with professional or expatriate tenants.",
-      note: "Suitable for buyers seeking lower operational involvement and consistent income flow.",
-    },
-    {
-      title: "Short-Stay / Airbnb",
-      income: "KSh 180,000 – 280,000+ / month",
-      assumption: "Furnished unit with active short-stay management.",
-      note: "Can outperform standard leasing when occupancy and guest turnover are well managed.",
-    },
-    {
-      title: "Capital Appreciation",
-      income: "Value-led upside",
-      assumption: "Early-stage entry, location strength, and project progression.",
-      note: "Positioned for buyers who value rental income and medium-term appreciation potential.",
-    },
-  ];
+  const scenarios = roiData.map((item) => ({
+    title: item.unit,
+    income: `${formatKes(item.furnishedRent)} furnished / ${formatKes(
+      item.unfurnishedRent
+    )} unfurnished`,
+    assumption: `From ${formatKes(item.price)} purchase price.`,
+    note: `Projected gross ROI: ${item.furnishedRoi}% furnished or ${item.unfurnishedRoi}% unfurnished.`,
+  }));
 
   return (
     <section style={styles.page}>
@@ -81,10 +126,12 @@ const InvestmentPage = ({ onCtaClick }) => {
             style={styles.heroContent}
           >
             <p style={styles.eyebrow}>Riverside Drive, Nairobi</p>
-            <h1 style={styles.heroTitle}>Invest in the Future Skyline</h1>
+
+            <h1 style={styles.heroTitle}>Invest in Riverside Azure</h1>
+
             <p style={styles.heroText}>
-              Premium location, flexible income potential, and a structured path
-              for both local and diaspora buyers.
+              Premium location, clear rental potential, and projected gross ROI
+              for furnished and unfurnished investment strategies.
             </p>
 
             <button onClick={onCtaClick} style={styles.primaryCta}>
@@ -121,32 +168,53 @@ const InvestmentPage = ({ onCtaClick }) => {
       <section style={styles.sectionDark}>
         <div className="container">
           <div style={styles.sectionIntro}>
-            <p style={styles.sectionEyebrow}>Illustrative Scenarios</p>
-            <h2 style={styles.sectionTitle}>Income Pathways</h2>
+            <p style={styles.sectionEyebrow}>Rental Return Breakdown</p>
+            <h2 style={styles.sectionTitle}>
+              Return on Investment & Rental Breakdown
+            </h2>
           </div>
 
-          <div style={styles.scenarioGrid} className="scenario-grid">
-            {scenarios.map((scenario, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ y: -8 }}
-                transition={{ duration: 0.25 }}
-                style={styles.scenarioCard}
-                className="investment-card"
-              >
-                <p style={styles.scenarioLabel}>Scenario</p>
-                <h3 style={styles.scenarioTitle}>{scenario.title}</h3>
-                <p style={styles.scenarioValue}>{scenario.income}</p>
-                <p style={styles.scenarioAssumption}>{scenario.assumption}</p>
-                <p style={styles.scenarioText}>{scenario.note}</p>
-              </motion.div>
-            ))}
+          <div style={styles.tableWrapper}>
+            <table style={styles.roiTable}>
+              <thead>
+                <tr>
+                  <th style={styles.tableHead}>Unit Type</th>
+                  <th style={styles.tableHead}>Price From</th>
+                  <th style={styles.tableHead}>Furnished Rent</th>
+                  <th style={styles.tableHead}>Unfurnished Rent</th>
+                  <th style={styles.tableHead}>Furnished ROI</th>
+                  <th style={styles.tableHead}>Unfurnished ROI</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {roiData.map((item) => (
+                  <tr key={item.id}>
+                    <td style={styles.tableCell}>{item.unit}</td>
+                    <td style={styles.tableCell}>{formatKes(item.price)}</td>
+                    <td style={styles.tableCell}>
+                      {formatKes(item.furnishedRent)}
+                    </td>
+                    <td style={styles.tableCell}>
+                      {formatKes(item.unfurnishedRent)}
+                    </td>
+                    <td style={styles.tableCell}>
+                      {item.furnishedRoi}% ({item.furnishedPayback})
+                    </td>
+                    <td style={styles.tableCell}>
+                      {item.unfurnishedRoi}% ({item.unfurnishedPayback})
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
           <p style={styles.sectionDisclaimer}>
-            Income ranges above are indicative examples only and are not
-            guarantees. Actual performance depends on unit selection, furnishing,
-            occupancy, management approach, and operating costs.
+            Projected gross ROI is based on indicative monthly rental estimates.
+            Actual returns may vary depending on occupancy, furnishing standard,
+            service charge, management fees, taxes, operating costs, and market
+            conditions.
           </p>
         </div>
       </section>
@@ -161,50 +229,99 @@ const InvestmentPage = ({ onCtaClick }) => {
           <div style={styles.calculatorShell}>
             <div style={styles.calculatorGrid}>
               <label style={styles.field}>
-                <span style={styles.label}>Purchase Price (KES)</span>
-                <input
-                  type="number"
-                  value={price}
-                  onChange={(e) => setPrice(Number(e.target.value) || 0)}
+                <span style={styles.label}>Unit Type</span>
+                <select
+                  value={selectedUnitId}
+                  onChange={(e) => setSelectedUnitId(Number(e.target.value))}
                   style={styles.input}
-                />
+                >
+                  {roiData.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.unit}
+                    </option>
+                  ))}
+                </select>
               </label>
 
               <label style={styles.field}>
-                <span style={styles.label}>Monthly Rent (KES)</span>
-                <input
-                  type="number"
-                  value={rent}
-                  onChange={(e) => setRent(Number(e.target.value) || 0)}
+                <span style={styles.label}>Rental Strategy</span>
+                <select
+                  value={rentalType}
+                  onChange={(e) => setRentalType(e.target.value)}
                   style={styles.input}
-                />
+                >
+                  <option value="furnished">Furnished</option>
+                  <option value="unfurnished">Unfurnished</option>
+                </select>
               </label>
 
-              <label style={styles.field}>
-                <span style={styles.label}>Occupancy Rate (%)</span>
-                <input
-                  type="number"
-                  value={occupancy}
-                  onChange={(e) => setOccupancy(Number(e.target.value) || 0)}
-                  style={styles.input}
-                  min="0"
-                  max="100"
-                />
-              </label>
+              <div style={styles.readOnlyField}>
+                <span style={styles.label}>Purchase Price From</span>
+                <strong style={styles.readOnlyValue}>
+                  {formatKes(selectedUnit.price)}
+                </strong>
+              </div>
+
+              <div style={styles.readOnlyField}>
+                <span style={styles.label}>Estimated Monthly Rent</span>
+                <strong style={styles.readOnlyValue}>
+                  {formatKes(monthlyRent)}
+                </strong>
+              </div>
             </div>
 
             <div style={styles.results}>
               <div style={styles.resultCard}>
                 <p style={styles.resultLabel}>Projected Annual Income</p>
-                <h3 style={styles.resultValue}>KES {annual.toLocaleString()}</h3>
+                <h3 style={styles.resultValue}>{formatKes(annualIncome)}</h3>
               </div>
 
               <div style={styles.resultCard}>
-                <p style={styles.resultLabel}>Estimated Gross Yield</p>
-                <h3 style={styles.resultValue}>{yieldVal}%</h3>
+                <p style={styles.resultLabel}>Estimated Gross ROI</p>
+                <h3 style={styles.resultValue}>{grossRoi}%</h3>
+              </div>
+
+              <div style={styles.resultCard}>
+                <p style={styles.resultLabel}>Estimated Payback Period</p>
+                <h3 style={styles.resultValue}>{paybackPeriod}</h3>
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section style={styles.sectionDark}>
+        <div className="container">
+          <div style={styles.sectionIntro}>
+            <p style={styles.sectionEyebrow}>Income Scenarios</p>
+            <h2 style={styles.sectionTitle}>Rental Income by Unit Type</h2>
+          </div>
+
+          <div style={styles.scenarioGrid} className="scenario-grid">
+            {scenarios.map((scenario, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ y: -8 }}
+                transition={{ duration: 0.25 }}
+                style={styles.scenarioCard}
+                className="investment-card"
+              >
+                <p style={styles.scenarioLabel}>Unit Type</p>
+                <h3 style={styles.scenarioTitle}>{scenario.title}</h3>
+                <p style={styles.scenarioValue}>{scenario.income}</p>
+                <p style={styles.scenarioAssumption}>
+                  {scenario.assumption}
+                </p>
+                <p style={styles.scenarioText}>{scenario.note}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <p style={styles.sectionDisclaimer}>
+            Figures are indicative examples only and are not guarantees. Buyers
+            should seek independent financial advice before making an investment
+            decision.
+          </p>
         </div>
       </section>
 
@@ -333,7 +450,7 @@ const styles = {
 
   sectionIntro: {
     textAlign: "center",
-    maxWidth: "780px",
+    maxWidth: "820px",
     margin: "0 auto 40px",
     padding: "0 14px",
   },
@@ -378,6 +495,40 @@ const styles = {
     color: "var(--text-muted)",
     lineHeight: 1.8,
     fontSize: "0.98rem",
+  },
+
+  tableWrapper: {
+    width: "100%",
+    overflowX: "auto",
+    border: "1px solid rgba(243,193,66,0.16)",
+    background: "rgba(1,18,32,0.36)",
+    boxShadow: "0 20px 50px rgba(0,0,0,0.22)",
+  },
+
+  roiTable: {
+    width: "100%",
+    borderCollapse: "collapse",
+    minWidth: "860px",
+  },
+
+  tableHead: {
+    background: "rgba(243,193,66,0.18)",
+    color: "var(--gold-accent)",
+    textAlign: "left",
+    padding: "16px",
+    fontSize: "0.86rem",
+    textTransform: "uppercase",
+    letterSpacing: "0.08em",
+    borderBottom: "1px solid rgba(243,193,66,0.24)",
+    whiteSpace: "nowrap",
+  },
+
+  tableCell: {
+    padding: "16px",
+    color: "rgba(247,244,236,0.9)",
+    borderBottom: "1px solid rgba(255,255,255,0.08)",
+    fontSize: "0.96rem",
+    whiteSpace: "nowrap",
   },
 
   scenarioGrid: {
@@ -436,7 +587,7 @@ const styles = {
   },
 
   sectionDisclaimer: {
-    maxWidth: "860px",
+    maxWidth: "920px",
     margin: "26px auto 0",
     color: "rgba(255,255,255,0.62)",
     lineHeight: 1.75,
@@ -445,7 +596,7 @@ const styles = {
   },
 
   calculatorShell: {
-    maxWidth: "820px",
+    maxWidth: "920px",
     margin: "0 auto",
     background:
       "linear-gradient(180deg, rgba(6,43,70,0.66), rgba(2,17,31,0.82))",
@@ -455,6 +606,7 @@ const styles = {
 
   calculatorGrid: {
     display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
     gap: "16px",
     marginBottom: "24px",
   },
@@ -479,6 +631,19 @@ const styles = {
     outline: "none",
     boxSizing: "border-box",
     fontSize: "16px",
+  },
+
+  readOnlyField: {
+    display: "grid",
+    gap: "8px",
+    padding: "14px 16px",
+    background: "rgba(1,18,32,0.42)",
+    border: "1px solid rgba(243,193,66,0.12)",
+  },
+
+  readOnlyValue: {
+    color: "var(--gold-accent)",
+    fontSize: "1.05rem",
   },
 
   results: {

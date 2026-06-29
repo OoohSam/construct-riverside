@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { trackMetaEvent, createEventId } from "../lib/metaPixel.js";
 
 const fallbackImage = "/JNCBROTHERS.png";
 
@@ -8,7 +9,7 @@ const units = [
     type: "Type A",
     name: "The Executive Suite",
     beds: "1 Bedroom",
-    availableUnits: 24,
+    availableUnits: 198,
     size: "65.62 - 69.58 SQM",
     desc: "High-yield asset ideal for Airbnb. Located in the diplomatic heart of Nairobi.",
     price: "KSh 8M - 13M",
@@ -27,7 +28,7 @@ const units = [
     type: "Type B",
     name: "The Urban Sanctuary",
     beds: "2 Bedroom",
-    availableUnits: 18,
+    availableUnits: 139,
     size: "98.00 - 104.63 SQM",
     desc: "Balanced proportions for long-term living. Perfect for young families.",
     price: "KSh 14.8M - 19M",
@@ -47,7 +48,7 @@ const units = [
     type: "Type C",
     name: "The Heritage Residence",
     beds: "3 Bedroom",
-    availableUnits: 9,
+    availableUnits: 66,
     size: "141.95 SQM",
     desc: "Versatile luxury. Expansive living spaces for those who value legacy.",
     price: "KSh 22.5M - 27M",
@@ -89,26 +90,65 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
     setMainLoaded(false);
   }, [activeTab, activeImage]);
 
+  const getUnitValue = (beds) => {
+    if (beds === "1 Bedroom") return 8000000;
+    if (beds === "2 Bedroom") return 14800000;
+    if (beds === "3 Bedroom") return 22500000;
+    return 0;
+  };
+
+  const trackUnitView = (unit) => {
+    const eventId = createEventId(
+      `view_${unit.beds.replaceAll(" ", "_").toLowerCase()}`
+    );
+
+    trackMetaEvent(
+      "ViewContent",
+      {
+        content_name: unit.beds,
+        content_category: "Unit Type",
+        unit_type: unit.beds,
+        unit_name: unit.name,
+        price_range: unit.price,
+        size: unit.size,
+        available_units: unit.availableUnits,
+        currency: "KES",
+        value: getUnitValue(unit.beds),
+      },
+      eventId
+    );
+  };
+
   const handleTabChange = (id) => {
+    const selectedUnit = units.find((u) => u.id === id);
+
+    if (selectedUnit) {
+      trackUnitView(selectedUnit);
+    }
+
     setActiveTab(id);
     setActiveImage(0);
     setMainLoaded(false);
   };
 
   const handleInquiry = () => {
-    if (window.fbq) {
-      window.fbq("track", "Lead", {
+    const eventId = createEventId("unit_inquiry");
+
+    trackMetaEvent(
+      "Lead",
+      {
         content_name: activeUnit.beds,
         content_category: "Unit Inquiry",
-        value:
-          activeUnit.beds === "1 Bedroom"
-            ? 8000000
-            : activeUnit.beds === "2 Bedroom"
-            ? 14800000
-            : 22500000,
+        unit_type: activeUnit.beds,
+        unit_name: activeUnit.name,
+        price_range: activeUnit.price,
+        size: activeUnit.size,
+        available_units: activeUnit.availableUnits,
+        value: getUnitValue(activeUnit.beds),
         currency: "KES",
-      });
-    }
+      },
+      eventId
+    );
 
     if (typeof onInquire === "function") {
       onInquire(activeUnit.beds);
@@ -262,12 +302,27 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
               </div>
 
               <div className="button-row" style={styles.buttonRow}>
-                <button
-                  onClick={() => setTourPrompt(true)}
-                  style={styles.secondaryBtn}
-                >
-                  Virtual Tour
-                </button>
+            <button
+  onClick={() => {
+    const eventId = createEventId("virtual_tour_click");
+
+    trackMetaEvent(
+      "ViewContent",
+      {
+        content_name: `${activeUnit.beds} Virtual Tour`,
+        content_category: "Virtual Tour",
+        unit_type: activeUnit.beds,
+        unit_name: activeUnit.name,
+      },
+      eventId
+    );
+
+    setTourPrompt(true);
+  }}
+  style={styles.secondaryBtn}
+>
+  Virtual Tour
+</button>
 
                 <button onClick={handleInquiry} style={styles.primaryBtn}>
                   Request Availability
@@ -301,14 +356,28 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
                 Cancel
               </button>
 
-              <a
-                href={activeUnit.tour}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={styles.tourPrimaryBtn}
-              >
-                Open Tour
-              </a>
+     <a
+  href={activeUnit.tour}
+  target="_blank"
+  rel="noopener noreferrer"
+  style={styles.tourPrimaryBtn}
+  onClick={() => {
+    const eventId = createEventId("virtual_tour_open");
+
+    trackMetaEvent(
+      "ViewContent",
+      {
+        content_name: `${activeUnit.beds} Virtual Tour Opened`,
+        content_category: "Virtual Tour Open",
+        unit_type: activeUnit.beds,
+        unit_name: activeUnit.name,
+      },
+      eventId
+    );
+  }}
+>
+  Open Tour
+</a>
             </div>
           </div>
         </div>
