@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import fallbackImage from "../assets/hero/Front-View.webp";
 import heroVideo from "../assets/Video/hero-house.mp4";
+import { trackMetaEvent, createEventId } from "../lib/metaPixel.js";
 
 const Hero = ({ onCtaClick }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -18,6 +19,24 @@ const Hero = ({ onCtaClick }) => {
   }, []);
 
   const showVideo = !isMobile && !videoError;
+
+  const handleHeroCtaClick = () => {
+    const eventId = createEventId("hero_book_unit_click");
+
+    trackMetaEvent(
+      "Contact",
+      {
+        content_name: "Book A Unit Today",
+        content_category: "Hero CTA",
+        contact_method: "Lead Modal",
+      },
+      eventId
+    );
+
+    if (typeof onCtaClick === "function") {
+      onCtaClick();
+    }
+  };
 
   return (
     <section style={styles.section}>
@@ -51,13 +70,13 @@ const Hero = ({ onCtaClick }) => {
         </p>
 
         <h1 style={styles.heading}>
-          <span className="fade-up delay-2">Own the Skyline</span>
+          <span className="fade-up delay-2">Own a Piece of Riverside</span>
           <br />
           <span className="fade-up delay-3">Before It Rises.</span>
         </h1>
 
         <div className="fade-up delay-4" style={styles.buttonWrap}>
-          <button onClick={onCtaClick} style={styles.button}>
+          <button onClick={handleHeroCtaClick} style={styles.button}>
             Book A Unit Today
           </button>
         </div>
@@ -79,18 +98,18 @@ const Hero = ({ onCtaClick }) => {
 export default Hero;
 
 const styles = {
-section: {
-  minHeight: "100svh",
-  width: "100%",
-  position: "relative",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  overflow: "hidden",
-  padding: "100px 16px 48px",
-  background:
-    "radial-gradient(circle at top right, rgba(11,95,147,0.18), transparent 30%)",
-},
+  section: {
+    minHeight: "100svh",
+    width: "100%",
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+    padding: "100px 16px 48px",
+    background:
+      "radial-gradient(circle at top right, rgba(11,95,147,0.18), transparent 30%)",
+  },
 
   video: {
     position: "absolute",
@@ -162,24 +181,24 @@ section: {
     justifyContent: "center",
   },
 
-button: {
-  background:
-    "linear-gradient(135deg, var(--gold-soft), var(--gold-accent), var(--gold-hover))",
-  color: "var(--azure-deep)",
-  border: "1px solid rgba(255,255,255,0.12)",
-  padding: "16px 28px",
-  fontSize: "clamp(0.95rem, 2.5vw, 1rem)",
-  fontWeight: "700",
-  letterSpacing: "0.03em",
-  cursor: "pointer",
-  width: "100%",
-  maxWidth: "360px",
-  minHeight: "56px",
-  lineHeight: 1.2,
-  boxShadow:
-    "0 12px 35px rgba(243, 193, 66, 0.28), inset 0 1px 0 rgba(255,255,255,0.25)",
-  transition: "all 0.35s ease",
-},
+  button: {
+    background:
+      "linear-gradient(135deg, var(--gold-soft), var(--gold-accent), var(--gold-hover))",
+    color: "var(--azure-deep)",
+    border: "1px solid rgba(255,255,255,0.12)",
+    padding: "16px 28px",
+    fontSize: "clamp(0.95rem, 2.5vw, 1rem)",
+    fontWeight: "700",
+    letterSpacing: "0.03em",
+    cursor: "pointer",
+    width: "100%",
+    maxWidth: "360px",
+    minHeight: "56px",
+    lineHeight: 1.2,
+    boxShadow:
+      "0 12px 35px rgba(243, 193, 66, 0.28), inset 0 1px 0 rgba(255,255,255,0.25)",
+    transition: "all 0.35s ease",
+  },
 
   scrollIndicator: {
     position: "absolute",
@@ -189,13 +208,13 @@ button: {
     zIndex: 10,
   },
 
-scrollLine: {
-  width: "2px",
-  height: "38px",
-  background:
-    "linear-gradient(to bottom, rgba(243,193,66,0), var(--gold-accent), rgba(243,193,66,0))",
-  animation: "scrollMove 1.5s infinite",
-},
+  scrollLine: {
+    width: "2px",
+    height: "38px",
+    background:
+      "linear-gradient(to bottom, rgba(243,193,66,0), var(--gold-accent), rgba(243,193,66,0))",
+    animation: "scrollMove 1.5s infinite",
+  },
 };
 
 const animations = `

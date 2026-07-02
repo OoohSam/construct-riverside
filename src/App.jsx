@@ -105,78 +105,113 @@ function AppShell() {
         </AnimatePresence>
       </main>
 
-      <footer style={styles.footer}>
-        <div className="container" style={styles.footerContainer}>
-          <div style={styles.footerTop} className="footer-top-grid">
-            <div style={styles.footerBrand}>
-              <h2 style={styles.footerTitle}>RIVERSIDE AZURE</h2>
-              <p style={styles.footerDescription}>
-                Refined urban living in Riverside, Nairobi. Luxury 1, 2 & 3
-                bedroom residences designed for modern investors and homeowners.
-              </p>
-            </div>
+     <footer style={styles.footer}>
+  <div className="container" style={styles.footerContainer}>
+    <div style={styles.footerTop} className="footer-top-grid">
+      <div style={styles.footerBrand}>
+        <h2 style={styles.footerTitle}>RIVERSIDE AZURE</h2>
+        <p style={styles.footerDescription}>
+          Refined urban living in Riverside, Nairobi. Luxury 1, 2 & 3
+          bedroom residences designed for modern investors and homeowners.
+        </p>
+      </div>
 
-            <div style={styles.footerColumn}>
-              <h4 style={styles.footerHeading}>Quick Links</h4>
-              <div style={styles.footerLinks}>
-                <Link to="/" style={styles.footerLink}>
-                  Home
-                </Link>
-                <Link to="/about" style={styles.footerLink}>
-                  About
-                </Link>
-                <Link to="/units" style={styles.footerLink}>
-                  Units
-                </Link>
-                <Link to="/investment" style={styles.footerLink}>
-                  Investment
-                </Link>
-                <Link to="/contact" style={styles.footerLink}>
-                  Contact
-                </Link>
-              </div>
-            </div>
-
-            <div style={styles.footerColumn}>
-              <h4 style={styles.footerHeading}>Contact</h4>
-              <div style={styles.footerContact}>
-                <a href="tel:+254700686666" style={styles.footerLink}>
-                  +254 700 686 666
-                </a>
-                <a
-                  href="mailto:info@riversideazure.com"
-                  style={styles.footerLink}
-                >
-                  info@riversideazure.com
-                </a>
-                <p style={styles.footerTextMuted}>
-                  25 Riverside Drive, Nairobi
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div style={styles.footerBottom}>
-            <p style={styles.footerText}>
-              &copy; {new Date().getFullYear()} JNC Brothers & Company Limited.
-              All Rights Reserved.
-            </p>
-            <p style={styles.footerDisclaimer}>
-              Prices, layouts, images, and availability are subject to change
-              without notice.
-            </p>
-          </div>
+      <div style={styles.footerColumn}>
+        <h4 style={styles.footerHeading}>Quick Links</h4>
+        <div style={styles.footerLinks}>
+          <Link to="/" style={styles.footerLink}>
+            Home
+          </Link>
+          <Link to="/about" style={styles.footerLink}>
+            About
+          </Link>
+          <Link to="/units" style={styles.footerLink}>
+            Units
+          </Link>
+          <Link to="/investment" style={styles.footerLink}>
+            Investment
+          </Link>
+          <Link to="/contact" style={styles.footerLink}>
+            Contact
+          </Link>
         </div>
+      </div>
 
-        <style>{`
-          @media (max-width: 900px) {
-            .footer-top-grid {
-              grid-template-columns: 1fr !important;
-              gap: 32px !important;
-            }
-          }
-        `}</style>
-      </footer>
+      <div style={styles.footerColumn}>
+        <h4 style={styles.footerHeading}>Contact</h4>
+        <div style={styles.footerContact}>
+          <a href="tel:+254700686666" style={styles.footerLink}>
+            +254 700 686 666
+          </a>
+          <a
+            href="mailto:info@riversideazure.com"
+            style={styles.footerLink}
+          >
+            info@riversideazure.com
+          </a>
+          <p style={styles.footerTextMuted}>
+            25 Riverside Drive, Nairobi
+          </p>
+        </div>
+      </div>
+
+      <div style={styles.footerColumn}>
+        <h4 style={styles.footerHeading}>Follow Us</h4>
+        <div style={styles.footerSocialLinks}>
+          <a
+            href="https://www.facebook.com/profile.php?id=61578426218430"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.footerLink}
+            aria-label="Follow Riverside Azure on Facebook"
+          >
+            Facebook
+          </a>
+
+          <a
+            href="https://www.instagram.com/riversideazure/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.footerLink}
+            aria-label="Follow Riverside Azure on Instagram"
+          >
+            Instagram
+          </a>
+
+          <a
+            href="https://www.tiktok.com/@riversideazure"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.footerLink}
+            aria-label="Follow Riverside Azure on TikTok"
+          >
+            TikTok
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div style={styles.footerBottom}>
+      <p style={styles.footerText}>
+        &copy; {new Date().getFullYear()} JNC Brothers & Company Limited.
+        All Rights Reserved.
+      </p>
+      <p style={styles.footerDisclaimer}>
+        Prices, layouts, images, and availability are subject to change
+        without notice.
+      </p>
+    </div>
+  </div>
+
+  <style>{`
+    @media (max-width: 900px) {
+      .footer-top-grid {
+        grid-template-columns: 1fr !important;
+        gap: 32px !important;
+      }
+    }
+  `}</style>
+</footer>
 
       <LeadModal isOpen={isModalOpen} onClose={handleCloseModal} />
       <FloatingCTA onOpenModal={handleOpenModal} />
@@ -219,11 +254,18 @@ const styles = {
     gap: "36px",
   },
 
-  footerTop: {
-    display: "grid",
-    gridTemplateColumns: "1.4fr 1fr 1fr",
-    gap: "40px",
-  },
+  footerSocialLinks: {
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px",
+},
+
+ footerTop: {
+  display: "grid",
+  gridTemplateColumns: "2fr 1fr 1fr 1fr",
+  gap: "40px",
+  alignItems: "flex-start",
+},
 
   footerBrand: {
     maxWidth: "440px",
