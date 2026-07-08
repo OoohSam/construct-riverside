@@ -10,10 +10,15 @@ export const initMetaPixel = () => {
 
   ReactPixel.init(pixelId);
   ReactPixel.pageView();
+
+  console.log("Meta Pixel initialized:", pixelId);
 };
 
 export const trackMetaEvent = (eventName, data = {}, eventId) => {
-  if (!pixelId) return;
+  if (!pixelId) {
+    console.warn("Meta Pixel ID is missing. Event not tracked:", eventName);
+    return;
+  }
 
   if (eventId) {
     ReactPixel.track(eventName, data, {
@@ -22,11 +27,10 @@ export const trackMetaEvent = (eventName, data = {}, eventId) => {
   } else {
     ReactPixel.track(eventName, data);
   }
+
+  console.log("Meta Pixel event tracked:", eventName, data, eventId);
 };
 
 export const createEventId = (prefix) => {
   return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
 };
-
-
-
