@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 const LeadModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -7,14 +7,54 @@ const LeadModal = ({ isOpen, onClose }) => {
     unit: "1 Bedroom",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Prevents the conversion from firing twice if the user double-clicks.
+  const submissionStartedRef = useRef(false);
+
   if (!isOpen) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Prevent duplicate submissions and duplicate conversion events.
+    if (submissionStartedRef.current) return;
+
+    const cleanName = formData.name.trim();
+    const cleanPhone = formData.phone.trim();
+
+    // Additional validation in case the browser validation is bypassed.
+    if (!cleanName || !cleanPhone) {
+      return;
+    }
+
+    submissionStartedRef.current = true;
+    setIsSubmitting(true);
+
+    /*
+     * GOOGLE TAG MANAGER EVENT
+     *
+     * GTM will listen for this event:
+     * lead_form_success
+     *
+     * Do not send the visitor's name or phone number to the data layer.
+     */
+    window.dataLayer = window.dataLayer || [];
+
+    window.dataLayer.push({
+      event: "lead_form_success",
+      form_name: "riverside_azure_lead_modal",
+      unit_type: formData.unit,
+      lead_destination: "whatsapp",
+    });
+
+    // Remember that the visitor has already completed the lead form.
     localStorage.setItem("riverside_lead", "true");
 
-    if (window.fbq) {
+    /*
+     * META PIXEL EVENTS
+     */
+    if (typeof window.fbq === "function") {
       window.fbq("track", "Lead", {
         content_name: formData.unit,
         content_category: "Brochure Request",
@@ -27,34 +67,76 @@ const LeadModal = ({ isOpen, onClose }) => {
       });
     }
 
+    /*
+     * WHATSAPP MESSAGE
+     */
     const message = `Hello, I am interested in Riverside Azure.
-My name is ${formData.name}.
-My phone number is ${formData.phone}.
+My name is ${cleanName}.
+My phone number is ${cleanPhone}.
 I am interested in the ${formData.unit}.
 Please share the price list and floor plans.`;
 
-    setTimeout(() => {
-      window.open("/riverside-azure-brochure-and-pricelist.pdf", "_blank");
-    }, 700);
+    const brochureUrl =
+      "/riverside-azure-brochure-and-pricelist.pdf";
 
-    window.location.href = `https://wa.me/254700686666?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/254700686666?text=${encodeURIComponent(
       message
     )}`;
 
-    onClose();
+    /*
+     * Open the brochure immediately.
+     *
+     * Opening it directly inside the submit handler reduces the chance
+     * that the browser will block it as a popup.
+     */
+    window.open(brochureUrl, "_blank", "noopener,noreferrer");
+
+    /*
+     * Wait briefly before redirecting to WhatsApp.
+     *
+     * This gives GTM time to process lead_form_success and fire the
+     * Google Ads conversion tag before the page navigates away.
+     */
+    window.setTimeout(() => {
+      onClose();
+      window.location.assign(whatsappUrl);
+    }, 1200);
+  };
+
+  const handleOverlayClick = () => {
+    if (!isSubmitting) {
+      onClose();
+    }
   };
 
   return (
-    <div style={styles.overlay} onClick={onClose}>
-      <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <button onClick={onClose} style={styles.closeButton}>
+    <div style={styles.overlay} onClick={handleOverlayClick}>
+      <div
+        style={styles.modal}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="lead-modal-title"
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          style={{
+            ...styles.closeButton,
+            ...(isSubmitting ? styles.closeButtonDisabled : {}),
+          }}
+          aria-label="Close lead form"
+          disabled={isSubmitting}
+        >
           &times;
         </button>
 
         <div style={styles.content}>
           <p style={styles.kicker}>Private Access</p>
 
-          <h3 style={styles.title}>Unlock Investor Pricing</h3>
+          <h3 id="lead-modal-title" style={styles.title}>
+            Unlock Investor Pricing
+          </h3>
 
           <p style={styles.subtitle}>
             Receive Phase 1 pricing, floor plans, and the brochure directly via
@@ -64,30 +146,47 @@ Please share the price list and floor plans.`;
           <form onSubmit={handleSubmit} style={styles.form}>
             <input
               type="text"
+              name="name"
               placeholder="Full Name"
+              autoComplete="name"
               required
+              disabled={isSubmitting}
               value={formData.name}
               onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
+                setFormData((currentData) => ({
+                  ...currentData,
+                  name: e.target.value,
+                }))
               }
               style={styles.input}
             />
 
             <input
               type="tel"
+              name="phone"
               placeholder="Phone Number"
+              autoComplete="tel"
               required
+              disabled={isSubmitting}
               value={formData.phone}
               onChange={(e) =>
-                setFormData({ ...formData, phone: e.target.value })
+                setFormData((currentData) => ({
+                  ...currentData,
+                  phone: e.target.value,
+                }))
               }
               style={styles.input}
             />
 
             <select
+              name="unit"
               value={formData.unit}
+              disabled={isSubmitting}
               onChange={(e) =>
-                setFormData({ ...formData, unit: e.target.value })
+                setFormData((currentData) => ({
+                  ...currentData,
+                  unit: e.target.value,
+                }))
               }
               style={styles.input}
             >
@@ -96,8 +195,18 @@ Please share the price list and floor plans.`;
               <option value="3 Bedrooms">3 Bedrooms Interest</option>
             </select>
 
-            <button type="submit" style={styles.submitButton}>
-              Continue to WhatsApp
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              aria-busy={isSubmitting}
+              style={{
+                ...styles.submitButton,
+                ...(isSubmitting ? styles.submitButtonDisabled : {}),
+              }}
+            >
+              {isSubmitting
+                ? "Opening WhatsApp..."
+                : "Continue to WhatsApp"}
             </button>
           </form>
         </div>
@@ -105,7 +214,6 @@ Please share the price list and floor plans.`;
     </div>
   );
 };
-
 
 export default LeadModal;
 
@@ -130,8 +238,16 @@ const styles = {
     maxHeight: "calc(100svh - 32px)",
     overflowY: "auto",
     background: `
-      radial-gradient(circle at top right, rgba(11,95,147,0.34), transparent 34%),
-      linear-gradient(180deg, var(--bg-card) 0%, var(--azure-deep) 100%)
+      radial-gradient(
+        circle at top right,
+        rgba(11,95,147,0.34),
+        transparent 34%
+      ),
+      linear-gradient(
+        180deg,
+        var(--bg-card) 0%,
+        var(--azure-deep) 100%
+      )
     `,
     border: "1px solid rgba(243,193,66,0.24)",
     boxShadow:
@@ -158,6 +274,11 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  closeButtonDisabled: {
+    cursor: "not-allowed",
+    opacity: 0.5,
   },
 
   content: {
@@ -221,12 +342,17 @@ const styles = {
       "linear-gradient(135deg, var(--gold-soft), var(--gold-accent), var(--gold-hover))",
     color: "var(--azure-deep)",
     border: "1px solid rgba(255,255,255,0.12)",
-    fontWeight: "800",
+    fontWeight: 800,
     fontSize: "0.95rem",
     letterSpacing: "0.03em",
     cursor: "pointer",
     transition: "0.25s ease",
     boxShadow:
       "0 14px 36px rgba(243,193,66,0.24), inset 0 1px 0 rgba(255,255,255,0.25)",
+  },
+
+  submitButtonDisabled: {
+    cursor: "wait",
+    opacity: 0.72,
   },
 };
