@@ -39,7 +39,7 @@ const FloatingCTA = ({ onOpenModal }) => {
       {/* Mobile Sticky CTA */}
       <div className="mobile-only" style={styles.mobileWrap}>
         <div style={styles.mobileBar}>
-          <a href="tel:+254700686666" style={styles.callButton}>
+          <a href="tel:+254796529997" style={styles.callButton}>
             <span style={styles.buttonLabel}>Call</span>
           </a>
 

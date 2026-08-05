@@ -73,7 +73,7 @@ const Contact = () => {
           <div style={styles.card}>
             <h3 style={styles.cardTitle}>Call Us</h3>
             <p style={styles.muted}>Mon–Fri 8am–5pm</p>
-            <a href="tel:+254700686666" style={styles.link}>
+            <a href="tel:+254796529997" style={styles.link}>
               0700 686 666
             </a>
           </div>

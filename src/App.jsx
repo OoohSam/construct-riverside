@@ -140,7 +140,7 @@ function AppShell() {
       <div style={styles.footerColumn}>
         <h4 style={styles.footerHeading}>Contact</h4>
         <div style={styles.footerContact}>
-          <a href="tel:+254700686666" style={styles.footerLink}>
+          <a href="tel:+254796529997" style={styles.footerLink}>
             +254 700 686 666
           </a>
           <a
