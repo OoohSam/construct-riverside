@@ -79,7 +79,7 @@ Please share the price list and floor plans.`;
     const brochureUrl =
       "/riverside-azure-brochure-and-pricelist.pdf";
 
-    const whatsappUrl = `https://wa.me/254700686666?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/254796529997?text=${encodeURIComponent(
       message
     )}`;
 

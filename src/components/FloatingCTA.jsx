@@ -2,7 +2,7 @@ import React from "react";
 import { trackMetaEvent, createEventId } from "../lib/metaPixel.js";
 
 const FloatingCTA = ({ onOpenModal }) => {
-  const whatsappNumber = "254700686666";
+  const whatsappNumber = "254796529997";
   const whatsappMessage = encodeURIComponent(
     "I am interested in Riverside Azure"
   );

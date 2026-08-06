@@ -23,7 +23,7 @@ Phone: ${form.phone}
 Agency: ${form.agency}
 Experience: ${form.experience}`;
 
-    window.location.href = `https://wa.me/254700686666?text=${encodeURIComponent(
+    window.location.href = `https://wa.me/254796529997?text=${encodeURIComponent(
       message
     )}`;
   };
