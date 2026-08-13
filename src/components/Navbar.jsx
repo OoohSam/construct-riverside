@@ -26,14 +26,15 @@ const Navbar = ({ onOpenModal }) => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Units", path: "/units" },
-    { name: "Investment", path: "/investment" },
-    { name: "Agents", path: "/agent-apply" },
-    { name: "Contact", path: "/contact" },
-  ];
+const navLinks = [
+  { name: "Home", path: "/" },
+  { name: "About", path: "/about" },
+  { name: "Units", path: "/units" },
+  { name: "Investment", path: "/investment" },
+  { name: "Blog", path: "/blog" },
+  { name: "Agents", path: "/agent-apply" },
+  { name: "Contact", path: "/contact" },
+];
 
   return (
     <>

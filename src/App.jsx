@@ -25,6 +25,10 @@ import AboutSection from "./pages/About";
 import AgentApply from "./pages/AgentApply";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
+// Blog
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+
 function usePageTracking() {
   const location = useLocation();
 
@@ -47,13 +51,17 @@ function AppShell() {
 
   return (
     <div style={styles.app}>
+      {/* SCROLL TO TOP */}
       <ScrollToTop />
 
+      {/* NAVIGATION */}
       <Navbar onOpenModal={handleOpenModal} />
 
+      {/* PAGE CONTENT */}
       <main style={styles.main}>
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
+            {/* HOME */}
             <Route
               path="/"
               element={
@@ -62,6 +70,8 @@ function AppShell() {
                 </PageTransition>
               }
             />
+
+            {/* ABOUT */}
             <Route
               path="/about"
               element={
@@ -70,6 +80,8 @@ function AppShell() {
                 </PageTransition>
               }
             />
+
+            {/* UNITS */}
             <Route
               path="/units"
               element={
@@ -78,6 +90,8 @@ function AppShell() {
                 </PageTransition>
               }
             />
+
+            {/* INVESTMENT */}
             <Route
               path="/investment"
               element={
@@ -86,6 +100,28 @@ function AppShell() {
                 </PageTransition>
               }
             />
+
+            {/* BLOG HOMEPAGE */}
+            <Route
+              path="/blog"
+              element={
+                <PageTransition>
+                  <Blog />
+                </PageTransition>
+              }
+            />
+
+            {/* INDIVIDUAL BLOG ARTICLE */}
+            <Route
+              path="/blog/:slug"
+              element={
+                <PageTransition>
+                  <BlogPost />
+                </PageTransition>
+              }
+            />
+
+            {/* CONTACT */}
             <Route
               path="/contact"
               element={
@@ -94,6 +130,8 @@ function AppShell() {
                 </PageTransition>
               }
             />
+
+            {/* AGENT APPLICATION */}
             <Route
               path="/agent-apply"
               element={
@@ -102,12 +140,13 @@ function AppShell() {
                 </PageTransition>
               }
             />
+
+            {/* PRIVACY POLICY */}
             <Route
               path="/privacy-policy"
               element={
                 <PageTransition>
-                  {" "}
-                  <PrivacyPolicy />{" "}
+                  <PrivacyPolicy />
                 </PageTransition>
               }
             />
@@ -115,61 +154,81 @@ function AppShell() {
         </AnimatePresence>
       </main>
 
+      {/* FOOTER */}
       <footer style={styles.footer}>
         <div className="container" style={styles.footerContainer}>
           <div style={styles.footerTop} className="footer-top-grid">
+            {/* BRAND */}
             <div style={styles.footerBrand}>
               <h2 style={styles.footerTitle}>RIVERSIDE AZURE</h2>
+
               <p style={styles.footerDescription}>
                 Refined urban living in Riverside, Nairobi. Luxury 1, 2 & 3
                 bedroom residences designed for modern investors and homeowners.
               </p>
             </div>
 
+            {/* QUICK LINKS */}
             <div style={styles.footerColumn}>
               <h4 style={styles.footerHeading}>Quick Links</h4>
+
               <div style={styles.footerLinks}>
                 <Link to="/" style={styles.footerLink}>
                   Home
                 </Link>
+
                 <Link to="/about" style={styles.footerLink}>
                   About
                 </Link>
+
                 <Link to="/units" style={styles.footerLink}>
                   Units
                 </Link>
+
                 <Link to="/investment" style={styles.footerLink}>
                   Investment
                 </Link>
+
+                <Link to="/blog" style={styles.footerLink}>
+                  Blog
+                </Link>
+
                 <Link to="/contact" style={styles.footerLink}>
                   Contact
                 </Link>
+
                 <Link to="/privacy-policy" style={styles.footerLink}>
                   Privacy Policy
                 </Link>
               </div>
             </div>
 
+            {/* CONTACT */}
             <div style={styles.footerColumn}>
               <h4 style={styles.footerHeading}>Contact</h4>
+
               <div style={styles.footerContact}>
                 <a href="tel:+254796529997" style={styles.footerLink}>
                   +254 796 529 997
                 </a>
+
                 <a
                   href="mailto:info@riversideazure.com"
                   style={styles.footerLink}
                 >
                   info@riversideazure.com
                 </a>
+
                 <p style={styles.footerTextMuted}>
                   25 Riverside Drive, Nairobi
                 </p>
               </div>
             </div>
 
+            {/* SOCIAL MEDIA */}
             <div style={styles.footerColumn}>
               <h4 style={styles.footerHeading}>Follow Us</h4>
+
               <div style={styles.footerSocialLinks}>
                 <a
                   href="https://www.facebook.com/profile.php?id=61578426218430"
@@ -204,11 +263,13 @@ function AppShell() {
             </div>
           </div>
 
+          {/* FOOTER BOTTOM */}
           <div style={styles.footerBottom}>
             <p style={styles.footerText}>
               &copy; {new Date().getFullYear()} JNC Brothers & Company Limited.
               All Rights Reserved.
             </p>
+
             <p style={styles.footerDisclaimer}>
               Prices, layouts, images, and availability are subject to change
               without notice.
@@ -217,16 +278,22 @@ function AppShell() {
         </div>
 
         <style>{`
-    @media (max-width: 900px) {
-      .footer-top-grid {
-        grid-template-columns: 1fr !important;
-        gap: 32px !important;
-      }
-    }
-  `}</style>
+          @media (max-width: 900px) {
+            .footer-top-grid {
+              grid-template-columns: 1fr !important;
+              gap: 32px !important;
+            }
+          }
+        `}</style>
       </footer>
 
-      <LeadModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      {/* GLOBAL LEAD MODAL */}
+      <LeadModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
+
+      {/* FLOATING CTA */}
       <FloatingCTA onOpenModal={handleOpenModal} />
     </div>
   );
@@ -241,6 +308,7 @@ function App() {
 }
 
 export default App;
+
 const styles = {
   app: {
     display: "flex",
@@ -265,12 +333,6 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     gap: "36px",
-  },
-
-  footerSocialLinks: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
   },
 
   footerTop: {
@@ -325,11 +387,18 @@ const styles = {
     gap: "12px",
   },
 
+  footerSocialLinks: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+  },
+
   footerLink: {
     color: "rgba(247,244,236,0.82)",
     textDecoration: "none",
     fontSize: "0.95rem",
     lineHeight: 1.6,
+    transition: "color 0.25s ease",
   },
 
   footerTextMuted: {
