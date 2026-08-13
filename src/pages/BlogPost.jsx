@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import blogPosts from "../data/blogPosts";
+import blogPosts from "../data/blogPosts.js";
 
 const slugify = (value) =>
   value

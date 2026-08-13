@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import blogPosts from "../data/blogPosts";
+import blogPosts from "../data/blogPosts.js";
 
 const Blog = () => {
   const featuredPost = blogPosts.find((post) => post.featured) || blogPosts[0];
