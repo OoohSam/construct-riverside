@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Link,
   useLocation,
 } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
@@ -13,8 +14,8 @@ import LeadModal from "./components/LeadModal";
 import FloatingCTA from "./components/FloatingCTA";
 import ScrollToTop from "./components/ScrollToTop";
 import PageTransition from "./components/PageTransition";
-import Footer from "./components/Footer";
 import useScrollReveal from "./hooks/useScrollReveal";
+
 
 // Pages
 import Home from "./pages/Home";
@@ -30,6 +31,11 @@ import ThankYou from "./pages/ThankYou";
 // Blog
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+
+
+const isLandingExperience =
+  location.pathname === "/riverside" ||
+  location.pathname === "/riverside/thank-you";
 
 function usePageTracking() {
   const location = useLocation();
@@ -51,20 +57,13 @@ function AppShell() {
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
-  // Dedicated landing-page experience:
-  // no normal Navbar, global lead modal, floating CTA, or global footer.
-  const isLandingExperience =
-    location.pathname === "/riverside" ||
-    location.pathname === "/riverside/thank-you";
-
   return (
     <div style={styles.app}>
+      {/* SCROLL TO TOP */}
       <ScrollToTop />
 
-      {/* NORMAL WEBSITE NAVIGATION */}
-      {!isLandingExperience && (
-        <Navbar onOpenModal={handleOpenModal} />
-      )}
+      {/* NAVIGATION */}
+      <Navbar onOpenModal={handleOpenModal} />
 
       {/* PAGE CONTENT */}
       <main style={styles.main}>
@@ -159,35 +158,21 @@ function AppShell() {
                 </PageTransition>
               }
             />
-
-            {/* DEDICATED RIVERSIDE AZURE LANDING PAGE */}
-            <Route path="/riverside" element={<LandingPage />} />
-
-            {/* LANDING PAGE THANK-YOU */}
-            <Route
-              path="/riverside/thank-you"
-              element={<ThankYou />}
-            />
           </Routes>
         </AnimatePresence>
       </main>
 
-      {/* NORMAL WEBSITE FOOTER
-          LandingPage.jsx and ThankYou.jsx will use Footer.jsx themselves. */}
-      {!isLandingExperience && <Footer />}
+      {/* FOOTER */}
+     <SiteFooter/>
 
-      {/* NORMAL WEBSITE LEAD MODAL */}
-      {!isLandingExperience && (
-        <LeadModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-        />
-      )}
+      {/* GLOBAL LEAD MODAL */}
+      <LeadModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
 
-      {/* NORMAL WEBSITE FLOATING CTA */}
-      {!isLandingExperience && (
-        <FloatingCTA onOpenModal={handleOpenModal} />
-      )}
+      {/* FLOATING CTA */}
+      <FloatingCTA onOpenModal={handleOpenModal} />
     </div>
   );
 }
@@ -214,5 +199,112 @@ const styles = {
     flex: 1,
     width: "100%",
     overflowX: "hidden",
+  },
+
+  footer: {
+    background: "linear-gradient(180deg, #02111f 0%, #010c16 100%)",
+    padding: "72px 0 28px",
+    borderTop: "1px solid rgba(243,193,66,0.12)",
+  },
+
+  footerContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "36px",
+  },
+
+  footerTop: {
+    display: "grid",
+    gridTemplateColumns: "2fr 1fr 1fr 1fr",
+    gap: "40px",
+    alignItems: "flex-start",
+  },
+
+  footerBrand: {
+    maxWidth: "440px",
+  },
+
+  footerTitle: {
+    color: "var(--text-main)",
+    fontFamily: "var(--font-serif)",
+    marginBottom: "16px",
+    fontSize: "clamp(1.5rem, 4vw, 2rem)",
+    lineHeight: 1.1,
+  },
+
+  footerDescription: {
+    color: "var(--text-muted)",
+    fontSize: "0.95rem",
+    lineHeight: 1.8,
+    margin: 0,
+  },
+
+  footerColumn: {
+    display: "flex",
+    flexDirection: "column",
+  },
+
+  footerHeading: {
+    color: "var(--gold-accent)",
+    fontSize: "0.85rem",
+    textTransform: "uppercase",
+    letterSpacing: "0.14em",
+    marginBottom: "16px",
+    fontWeight: 800,
+  },
+
+  footerLinks: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px",
+  },
+
+  footerContact: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px",
+  },
+
+  footerSocialLinks: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+  },
+
+  footerLink: {
+    color: "rgba(247,244,236,0.82)",
+    textDecoration: "none",
+    fontSize: "0.95rem",
+    lineHeight: 1.6,
+    transition: "color 0.25s ease",
+  },
+
+  footerTextMuted: {
+    color: "rgba(255,255,255,0.58)",
+    fontSize: "0.95rem",
+    lineHeight: 1.6,
+    margin: 0,
+  },
+
+  footerBottom: {
+    borderTop: "1px solid rgba(243,193,66,0.08)",
+    paddingTop: "22px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+  },
+
+  footerText: {
+    color: "rgba(255,255,255,0.52)",
+    fontSize: "0.85rem",
+    lineHeight: 1.6,
+    margin: 0,
+  },
+
+  footerDisclaimer: {
+    color: "rgba(255,255,255,0.4)",
+    fontSize: "0.8rem",
+    lineHeight: 1.6,
+    margin: 0,
   },
 };
