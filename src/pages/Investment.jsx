@@ -6,7 +6,7 @@ const roiData = [
   {
     id: 1,
     unit: "1 Bedroom",
-    price: 8000000,
+    price: 7800000,
     furnishedRent: 160000,
     unfurnishedRent: 80000,
     furnishedRoi: 24,
@@ -14,10 +14,11 @@ const roiData = [
     furnishedPayback: "4 years",
     unfurnishedPayback: "8 years",
   },
+
   {
     id: 2,
     unit: "2 Bedrooms",
-    price: 14800000,
+    price: 12,
     furnishedRent: 220000,
     unfurnishedRent: 150000,
     furnishedRoi: 18,
@@ -25,6 +26,7 @@ const roiData = [
     furnishedPayback: "6 years",
     unfurnishedPayback: "8 years",
   },
+  
   {
     id: 3,
     unit: "3 Bedrooms",

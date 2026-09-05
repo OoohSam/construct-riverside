@@ -129,3 +129,11 @@
           }
         `}</style>
       </footer>
+
+
+//Be Still and Know that I am God.
+//Psalm 46:10
+//Seek the Lord while He may be found, call upon Him while He is near.
+//Isaiah 55:6
+//isaiah 54:1-17
+//with a little wrath did i put you to silence, and with a little anger i hid my face from you for a moment. but with everlasting kindness i will have mercy on you, says the lord your redeemer.
