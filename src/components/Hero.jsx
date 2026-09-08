@@ -62,7 +62,7 @@ const Hero = ({ onCtaClick }) => {
         />
       )}
 
-      <div style={styles.overlay} />
+      {/* <div style={styles.overlay} /> */}
 
       <div style={styles.content}>
         <p style={styles.subText} className="fade-up delay-1">
@@ -136,11 +136,11 @@ const styles = {
     inset: 0,
     background: `
     linear-gradient(
-      180deg,
-      rgba(2, 17, 31, 0.38) 0%,
-      rgba(3, 27, 47, 0.58) 38%,
-      rgba(2, 24, 39, 0.78) 72%,
-      rgba(1, 12, 22, 0.92) 100%
+      90deg,
+  rgba(255, 255, 255, 0.96) 0%,
+  rgba(255, 255, 255, 0.88) 32%,
+  rgba(255, 255, 255, 0.25) 58%,
+  rgba(255, 255, 255, 0) 100%
     )
   `,
     zIndex: 1,
