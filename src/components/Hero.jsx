@@ -1,259 +1,392 @@
 import React, { useEffect, useState } from "react";
+
 import fallbackImage from "../assets/hero/Front-View.webp";
-import heroVideo from "../assets/Video/hero-house.mp4";
+import heroVideo from "../assets/Video/Web Lead Video.mp4";
+import heroMobileVideo from "../assets/Video/Web Mobile Hero Video.mp4";
+
 import { trackMetaEvent, createEventId } from "../lib/metaPixel.js";
 
-const Hero = ({ onCtaClick }) => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [videoError, setVideoError] = useState(false);
+const MOBILE_BREAKPOINT = 768;
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
+export default function Hero({ onCtaClick }) {
+const [isMobile, setIsMobile] = useState(false);
+const [videoError, setVideoError] = useState(false);
 
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
+// Detect mobile / desktop screen size
+useEffect(() => {
+const checkScreenSize = () => {
+setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+};
 
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
-  const showVideo = !isMobile && !videoError;
+checkScreenSize();
 
-  const handleHeroCtaClick = () => {
-    const eventId = createEventId("hero_book_unit_click");
+window.addEventListener("resize", checkScreenSize);
 
-    trackMetaEvent(
-      "Contact",
-      {
-        content_name: "Book A Unit Today",
-        content_category: "Hero CTA",
-        contact_method: "Lead Modal",
-      },
-      eventId
-    );
+return () => {
+  window.removeEventListener("resize", checkScreenSize);
+};
 
-    if (typeof onCtaClick === "function") {
-      onCtaClick();
-    }
-  };
 
-  return (
-    <section style={styles.section}>
-      {showVideo ? (
+}, []);
+
+// Select the correct video
+const selectedVideo = isMobile ? heroMobileVideo : heroVideo;
+
+// Reset video error when switching between desktop and mobile
+useEffect(() => {
+setVideoError(false);
+}, [selectedVideo]);
+
+const handleVideoError = () => {
+setVideoError(true);
+};
+
+const handleCta = () => {
+// Meta Pixel tracking
+try {
+const eventId = createEventId();
+
+
+  trackMetaEvent("Contact", {
+    eventID: eventId,
+    content_name: "Book A Unit Today",
+    content_category: "Hero CTA",
+    contact_method: "Lead Modal",
+  });
+} catch (error) {
+  console.warn("Meta Pixel tracking failed:", error);
+}
+
+// Open the existing lead modal
+if (typeof onCtaClick === "function") {
+  onCtaClick();
+}
+
+
+};
+
+return (
+<> <section className="hero-section" aria-label="Riverside Azure">
+
+```
+    {/* Background video */}
+    <div className="hero-background">
+      {videoError ? (
+        <img
+          className="hero-fallback"
+          src={fallbackImage}
+          alt="Riverside Azure"
+        />
+      ) : (
         <video
+          key={selectedVideo}
+          className="hero-video"
           autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           poster={fallbackImage}
-          onError={() => setVideoError(true)}
-          style={styles.video}
+          onError={handleVideoError}
+          aria-hidden="true"
         >
-          <source src={heroVideo} type="video/mp4" />
+          <source src={selectedVideo} type="video/mp4" />
         </video>
-      ) : (
-        <div
-          style={{
-            ...styles.background,
-            backgroundImage: `url(${fallbackImage})`,
-          }}
-        />
       )}
+    </div>
 
-      {/* <div style={styles.overlay} /> */}
+    {/* Hero text and CTA */}
+    <div className="hero-content">
+      <h1 className="hero-heading">
+        Own a Piece of Riverside
+        <br />
+        Before It Rises.
+      </h1>
 
-      <div style={styles.content}>
-        <p style={styles.subText} className="fade-up delay-1">
-          Excavation | 25 Riverside Drive, Nairobi
-        </p>
-
-        <h1 style={styles.heading}>
-          <span className="fade-up delay-2">Own a Piece of Riverside</span>
-          <br />
-          <span className="fade-up delay-3">Before It Rises.</span>
-        </h1>
-
-        <div className="fade-up delay-4" style={styles.buttonWrap}>
-          <button onClick={handleHeroCtaClick} style={styles.button}>
-            Book A Unit Today
-          </button>
-        </div>
-      </div>
-
-      <div
-        className="hero-scroll-indicator"
-        style={styles.scrollIndicator}
-        aria-hidden="true"
+      <button
+        type="button"
+        className="hero-button"
+        onClick={handleCta}
       >
-        <div style={styles.scrollLine}></div>
-      </div>
+        Book A Unit Today
+      </button>
+    </div>
 
-      <style>{animations}</style>
-    </section>
-  );
-};
+    {/* Desktop scroll indicator */}
+    <div
+      className="hero-scroll-indicator"
+      aria-hidden="true"
+    >
+      <span />
+    </div>
+  </section>
 
-export default Hero;
+  <style>{`
+    .hero-section {
+      position: relative;
+      width: 100%;
+      height: 100svh;
+      min-height: 620px;
 
-const styles = {
-  section: {
-    minHeight: "100svh",
-    width: "100%",
-    position: "relative",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-    padding: "100px 16px 48px",
-    background:
-      "radial-gradient(circle at top right, rgba(11,95,147,0.18), transparent 30%)",
-  },
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
 
-  video: {
-    position: "absolute",
-    inset: 0,
-    zIndex: 0,
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-  },
+      padding: 100px 16px 100px;
 
-  background: {
-    position: "absolute",
-    inset: 0,
-    zIndex: 0,
-    backgroundSize: "cover",
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat",
-    animation: "zoomSlow 20s ease-in-out infinite alternate",
-    transform: "scale(1)",
-  },
+      box-sizing: border-box;
+      overflow: hidden;
+      isolation: isolate;
+    }
 
-  overlay: {
-    position: "absolute",
-    inset: 0,
-    background: `
-    linear-gradient(
-      90deg,
-  rgba(255, 255, 255, 0.96) 0%,
-  rgba(255, 255, 255, 0.88) 32%,
-  rgba(255, 255, 255, 0.25) 58%,
-  rgba(255, 255, 255, 0) 100%
-    )
-  `,
-    zIndex: 1,
-  },
+    .hero-background {
+      position: absolute;
+      inset: 0;
 
-  content: {
-    position: "relative",
-    zIndex: 10,
-    textAlign: "center",
-    width: "100%",
-    maxWidth: "900px",
-    margin: "0 auto",
-  },
+      width: 100%;
+      height: 100%;
 
-  subText: {
-    color: "var(--gold-accent)",
-    textTransform: "uppercase",
-    letterSpacing: "3px",
-    marginBottom: "18px",
-    fontWeight: 700,
-    fontSize: "clamp(0.78rem, 2vw, 1rem)",
-    lineHeight: 1.5,
-    textShadow: "0 2px 12px rgba(0,0,0,0.25)",
-  },
+      z-index: -1;
+      overflow: hidden;
 
-  heading: {
-    fontSize: "clamp(2.4rem, 8vw, 5.4rem)",
-    color: "var(--text-main)",
-    marginBottom: "24px",
-    lineHeight: 1.02,
-    letterSpacing: "-0.03em",
-    textShadow: "0 8px 30px rgba(0, 0, 0, 0.38)",
-  },
+      background: #111;
+    }
 
-  buttonWrap: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-  },
+    .hero-video,
+    .hero-fallback {
+      position: absolute;
+      inset: 0;
 
-  button: {
-    background:
-      "linear-gradient(135deg, var(--gold-soft), var(--gold-accent), var(--gold-hover))",
-    color: "var(--azure-deep)",
-    border: "1px solid rgba(255,255,255,0.12)",
-    padding: "16px 28px",
-    fontSize: "clamp(0.95rem, 2.5vw, 1rem)",
-    fontWeight: "700",
-    letterSpacing: "0.03em",
-    cursor: "pointer",
-    width: "100%",
-    maxWidth: "360px",
-    minHeight: "56px",
-    lineHeight: 1.2,
-    boxShadow:
-      "0 12px 35px rgba(243, 193, 66, 0.28), inset 0 1px 0 rgba(255,255,255,0.25)",
-    transition: "all 0.35s ease",
-  },
+      width: 100%;
+      height: 100%;
 
-  scrollIndicator: {
-    position: "absolute",
-    bottom: "20px",
-    left: "50%",
-    transform: "translateX(-50%)",
-    zIndex: 10,
-  },
+      display: block;
 
-  scrollLine: {
-    width: "2px",
-    height: "38px",
-    background:
-      "linear-gradient(to bottom, rgba(243,193,66,0), var(--gold-accent), rgba(243,193,66,0))",
-    animation: "scrollMove 1.5s infinite",
-  },
-};
+      object-fit: cover;
+      object-position: center center;
+    }
 
-const animations = `
-.fade-up {
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fadeUp 1s forwards;
+    .hero-fallback {
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+
+      width: 100%;
+      max-width: 1100px;
+
+      margin: 0 auto 20px;
+      padding: 0 20px;
+
+      box-sizing: border-box;
+
+      text-align: center;
+    }
+
+    .hero-heading {
+      margin: 0 0 28px;
+
+      color: var(--text-main, #ffffff);
+
+      font-family: inherit;
+
+      font-size: clamp(2.3rem, 7vw, 5.2rem);
+      font-weight: 600;
+
+      line-height: 1.03;
+      letter-spacing: -0.03em;
+
+      text-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    .hero-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 56px;
+      padding: 0 34px;
+
+      border: 1px solid var(--accent-gold, #c9a227);
+      border-radius: 0;
+
+      background: var(--accent-gold, #c9a227);
+      color: var(--button-text, #111);
+
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+
+      cursor: pointer;
+
+      box-sizing: border-box;
+
+      transition:
+        background-color 180ms ease,
+        color 180ms ease,
+        transform 180ms ease,
+        box-shadow 180ms ease;
+    }
+
+    .hero-button:hover {
+      background: transparent;
+      color: #ffffff;
+
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .hero-button:active {
+      transform: translateY(0);
+    }
+
+    .hero-button:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 4px;
+    }
+
+    .hero-scroll-indicator {
+      position: absolute;
+
+      left: 50%;
+      bottom: 28px;
+
+      z-index: 3;
+
+      width: 20px;
+      height: 32px;
+
+      transform: translateX(-50%);
+
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      border-radius: 12px;
+
+      pointer-events: none;
+    }
+
+    .hero-scroll-indicator span {
+      position: absolute;
+
+      top: 6px;
+      left: 50%;
+
+      width: 3px;
+      height: 6px;
+
+      transform: translateX(-50%);
+
+      background: #ffffff;
+      border-radius: 3px;
+
+      animation: heroScroll 1.8s ease-in-out infinite;
+    }
+
+    @keyframes heroScroll {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      30% {
+        opacity: 1;
+      }
+
+      70% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-section {
+        height: 100svh;
+        min-height: 580px;
+
+        padding: 80px 16px 60px;
+      }
+
+      .hero-content {
+        padding: 0 16px;
+        margin-bottom: 5px;
+      }
+
+      .hero-heading {
+        font-size: clamp(2.15rem, 10vw, 3.2rem);
+
+        line-height: 1.05;
+        letter-spacing: -0.025em;
+
+        margin-bottom: 22px;
+      }
+
+      .hero-button {
+        width: 100%;
+        max-width: 300px;
+
+        min-height: 54px;
+        padding: 0 24px;
+
+        font-size: 0.88rem;
+      }
+
+      .hero-scroll-indicator {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) and (max-height: 700px) {
+      .hero-section {
+        padding-bottom: 45px;
+      }
+
+      .hero-heading {
+        font-size: 2rem;
+        line-height: 1.05;
+
+        margin-bottom: 18px;
+      }
+    }
+
+    @media (min-width: 769px) and (max-height: 750px) {
+      .hero-section {
+        padding-bottom: 65px;
+      }
+
+      .hero-content {
+        margin-bottom: 0;
+      }
+
+      .hero-heading {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        margin-bottom: 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-button {
+        transition: none;
+      }
+
+      .hero-scroll-indicator span {
+        animation: none;
+      }
+    }
+  `}</style>
+</>
+
+);
 }
-
-.delay-1 { animation-delay: 0.3s; }
-.delay-2 { animation-delay: 0.6s; }
-.delay-3 { animation-delay: 0.9s; }
-.delay-4 { animation-delay: 1.2s; }
-
-@keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes zoomSlow {
-  from { transform: scale(1); }
-  to { transform: scale(1.08); }
-}
-
-@keyframes scrollMove {
-  0% { opacity: 0; transform: translateY(0); }
-  50% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(12px); }
-}
-
-@media (max-width: 768px) {
-  .fade-up {
-    transform: translateY(20px);
-  }
-
-  .hero-scroll-indicator {
-    display: none;
-  }
-}
-`;

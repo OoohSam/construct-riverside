@@ -7,7 +7,7 @@ import liuImg from "../assets/Directors/Liu.webp";
 import Kavata from "../assets/Directors/Kavata.webp";
 
 const directors = [
-  { name: "Martin", role: "Head of Sales", image: martinImg },
+  // { name: "Martin", role: "Head of Sales", image: martinImg },
   { name: "Lin", role: "Head of Operations", image: linnImg },
   { name: "Liu", role: "Site Manager", image: liuImg },
   // { name: "Kavata", role: "Sales Manager", image: Kavata },

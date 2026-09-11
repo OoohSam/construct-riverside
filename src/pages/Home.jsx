@@ -12,7 +12,7 @@ function Home({ onOpenModal }) {
       <Hero onCtaClick={onOpenModal} />
       <IntroSection />
 
-       <AgentPartnerSection />
+       {/* <AgentPartnerSection /> */}
       <UnitSection onInquire={onOpenModal} />
       <Amenities />
     </main>

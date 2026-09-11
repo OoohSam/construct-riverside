@@ -13,8 +13,9 @@ const units = [
     size: "65.62 - 69.58 SQM",
     desc: "High-yield asset ideal for Airbnb. Located in the diplomatic heart of Nairobi.",
     price: "KSh 7.9M - 10.2M",
-    tour: "https://vr.justeasy.cn/view/17f74741k11h3gj1-1774860063.html",
+    tour: "https://vr.justeasy.cn/view/1u7358gi64383759-1788920225.html",
     images: [
+      new URL("../assets/Apartments/type-b/1 bedroom.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-b/b1.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-b/c1.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-b/b2.webp", import.meta.url).href,
@@ -32,8 +33,9 @@ const units = [
     size: "98.00 - 104.63 SQM",
     desc: "Balanced proportions for long-term living. Perfect for young families.",
      price: "KSh 11M - 15.2M",
-    tour: "https://vr.justeasy.cn/view/1d77467403q00cw9-1774860162.html",
+    tour: "https://vr.justeasy.cn/view/1w7863l61p4164c2-1788937305.html",
     images: [
+      new URL("../assets/Apartments/type-a/2 Bedroom.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-a/d.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-a/d1.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-a/d2.webp", import.meta.url).href,
@@ -52,8 +54,9 @@ const units = [
     size: "141.95 -SQM",
     desc: "Versatile luxury. Expansive living spaces for those who value legacy.",
     price: "KSh 16.75M - 20.7M",
-    tour: "https://vr.justeasy.cn/view/1w77n7g4h7387018-1774860206.html",
+    tour: "https://vr.justeasy.cn/view/vav178w609449re1-1788937329.html",
     images: [
+      new URL("../assets/Apartments/type-c/3 Bedroom.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-c/a2.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-c/a3.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-c/a4.webp", import.meta.url).href,
