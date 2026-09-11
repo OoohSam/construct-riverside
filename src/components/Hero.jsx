@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import fallbackImage from "../assets/hero/Front-View.webp";
-import heroVideo from "../assets/Video/Web Lead Video.mp4";
-import heroMobileVideo from "../assets/Video/Web Mobile Hero Video.mp4";
+import heroVideo from "../assets/Video/web-lead-video.mp4";
+import heroMobileVideo from "../assets/Video/web-mobile-hero.mp4";
 
 import { trackMetaEvent, createEventId } from "../lib/metaPixel.js";
 
