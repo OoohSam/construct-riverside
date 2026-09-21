@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import heroImg from "../assets/hero/Front-View.webp";
 
@@ -6,6 +6,7 @@ const roiData = [
   {
     id: 1,
     unit: "1 Bedroom",
+    shortUnit: "01",
     price: 7800000,
     furnishedRent: 160000,
     unfurnishedRent: 80000,
@@ -14,11 +15,11 @@ const roiData = [
     furnishedPayback: "4 years",
     unfurnishedPayback: "8 years",
   },
-
   {
     id: 2,
     unit: "2 Bedrooms",
-    price: 12,
+    shortUnit: "02",
+    price: 12000000,
     furnishedRent: 220000,
     unfurnishedRent: 150000,
     furnishedRoi: 18,
@@ -26,10 +27,10 @@ const roiData = [
     furnishedPayback: "6 years",
     unfurnishedPayback: "8 years",
   },
-  
   {
     id: 3,
     unit: "3 Bedrooms",
+    shortUnit: "03",
     price: 22000000,
     furnishedRent: 300000,
     unfurnishedRent: 200000,
@@ -40,637 +41,1151 @@ const roiData = [
   },
 ];
 
-const formatKes = (value) => {
-  return `KSh ${Number(value).toLocaleString("en-KE")}`;
-};
+const formatKes = (value) => `KSh ${Number(value).toLocaleString("en-KE")}`;
 
 const InvestmentPage = ({ onCtaClick }) => {
   const [selectedUnitId, setSelectedUnitId] = useState(1);
   const [rentalType, setRentalType] = useState("furnished");
   const [scroll, setScroll] = useState(0);
 
-  const selectedUnit = useMemo(() => {
-    return roiData.find((item) => item.id === selectedUnitId) || roiData[0];
-  }, [selectedUnitId]);
+  const selectedUnit = useMemo(
+    () => roiData.find((item) => item.id === selectedUnitId) || roiData[0],
+    [selectedUnitId]
+  );
 
-  const monthlyRent =
-    rentalType === "furnished"
-      ? selectedUnit.furnishedRent
-      : selectedUnit.unfurnishedRent;
-
+  const monthlyRent = rentalType === "furnished" ? selectedUnit.furnishedRent : selectedUnit.unfurnishedRent;
   const annualIncome = monthlyRent * 12;
-
-  const grossRoi =
-    selectedUnit.price > 0
-      ? ((annualIncome / selectedUnit.price) * 100).toFixed(1)
-      : "0.0";
-
-  const paybackPeriod =
-    rentalType === "furnished"
-      ? selectedUnit.furnishedPayback
-      : selectedUnit.unfurnishedPayback;
+  const grossRoi = selectedUnit.price > 0 ? ((annualIncome / selectedUnit.price) * 100).toFixed(1) : "0.0";
+  const paybackPeriod = rentalType === "furnished" ? selectedUnit.furnishedPayback : selectedUnit.unfurnishedPayback;
 
   useEffect(() => {
     const onScroll = () => {
       const total = document.body.scrollHeight - window.innerHeight;
-      const scrolled = total > 0 ? window.scrollY / total : 0;
-      setScroll(scrolled);
+      const progress = total > 0 ? window.scrollY / total : 0;
+      setScroll(progress);
     };
-
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const highlights = [
     {
-      title: "Prime Riverside Address",
-      text: "Riverside remains one of Nairobi’s most established residential and rental corridors.",
+      number: "01",
+      title: "Riverside Address",
+      text: "A strategically positioned residential address within one of Nairobi's established business and lifestyle corridors.",
     },
     {
-      title: "Strong Rental Potential",
-      text: "Projected rental income is supported by demand from professionals, expatriates, investors, and short-stay tenants.",
+      number: "02",
+      title: "Rental Demand",
+      text: "The location is positioned to serve professionals, expatriates, corporate tenants, long-term residents and short-stay demand.",
     },
     {
-      title: "Clear ROI Comparison",
-      text: "Compare furnished and unfurnished rental returns across 1, 2, and 3 bedroom units.",
+      number: "03",
+      title: "Multiple Strategies",
+      text: "Investors can evaluate furnished and unfurnished rental approaches across three distinct residential typologies.",
     },
   ];
 
-  const scenarios = roiData.map((item) => ({
-    title: item.unit,
-    income: `${formatKes(item.furnishedRent)} furnished / ${formatKes(
-      item.unfurnishedRent
-    )} unfurnished`,
-    assumption: `From ${formatKes(item.price)} purchase price.`,
-    note: `Projected gross ROI: ${item.furnishedRoi}% furnished or ${item.unfurnishedRoi}% unfurnished.`,
-  }));
+  /* =========================================================
+     GALLERY MOTION (Quiet & Restrained)
+     ========================================================= */
+  const quietEase = [0.25, 1, 0.5, 1];
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: quietEase } }
+  };
+
+  const fadeStagger = {
+    hidden: { opacity: 0, y: 10 },
+    visible: (customDelay) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, delay: customDelay, ease: quietEase }
+    })
+  };
 
   return (
-    <section style={styles.page}>
-      <div style={{ ...styles.scrollBar, width: `${scroll * 100}%` }} />
+    <>
+      <main className="investment-page">
+        {/* Progress Bar */}
+        <div className="scroll-progress" style={{ transform: `scaleX(${scroll})` }} />
 
-      <section style={styles.heroSection}>
-        <motion.img
-          src={heroImg}
-          alt="Riverside Azure investment"
-          style={styles.heroImg}
-          animate={{ scale: 1.12 }}
-          transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
-        />
-
-        <div style={styles.heroOverlay} />
-
-        <div className="container" style={styles.heroContainer}>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9 }}
-            style={styles.heroContent}
-          >
-            <p style={styles.eyebrow}>Riverside Drive, Nairobi</p>
-
-            <h1 style={styles.heroTitle}>Invest in Riverside Azure</h1>
-
-            <p style={styles.heroText}>
-              Premium location, clear rental potential, and projected gross ROI
-              for furnished and unfurnished investment strategies.
-            </p>
-
-            <button onClick={onCtaClick} style={styles.primaryCta}>
-              Speak to Advisor
-            </button>
-          </motion.div>
-        </div>
-      </section>
-
-      <section style={styles.section}>
-        <div className="container">
-          <div style={styles.sectionIntro}>
-            <p style={styles.sectionEyebrow}>Investment Highlights</p>
-            <h2 style={styles.sectionTitle}>Why Invest</h2>
+        {/* =========================================================
+            HERO
+            ========================================================= */}
+        <section className="inv-hero">
+          <div className="inv-hero-bg">
+            <motion.img
+              src={heroImg}
+              alt="Riverside Azure"
+              initial={{ scale: 1.05 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 2, ease: quietEase }}
+            />
+            <div className="inv-hero-overlay" />
           </div>
 
-          <div style={styles.grid}>
-            {highlights.map((item, i) => (
+          <div className="container inv-hero-content">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={{ visible: { transition: { staggerChildren: 0.15 } } }}
+            >
+              <motion.span className="section-meta gold-text" variants={fadeUp}>
+                Investment · Riverside, Nairobi
+              </motion.span>
+              <motion.h1 className="hero-title" variants={fadeUp}>
+                Invest in a<br />
+                considered address.
+              </motion.h1>
+              <motion.p className="hero-desc" variants={fadeUp}>
+                Riverside Azure combines a prime Nairobi address with flexible
+                residential typologies and projected rental income potential.
+              </motion.p>
+              <motion.button type="button" onClick={onCtaClick} className="btn-solid-hero" variants={fadeUp}>
+                Speak to an Advisor
+              </motion.button>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            INTRO
+            ========================================================= */}
+        <section className="inv-intro">
+          <div className="container">
+            <div className="inv-grid-50">
               <motion.div
-                key={i}
-                whileHover={{ y: -8 }}
-                transition={{ duration: 0.25 }}
-                style={styles.card}
-                className="investment-card"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={fadeUp}
               >
-                <h3 style={styles.cardTitle}>{item.title}</h3>
-                <p style={styles.cardText}>{item.text}</p>
+                <span className="section-meta">The Investment Case</span>
+                <h2 className="section-title">
+                  A residential<br />asset with purpose.
+                </h2>
               </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      <section style={styles.sectionDark}>
-        <div className="container">
-          <div style={styles.sectionIntro}>
-            <p style={styles.sectionEyebrow}>Rental Return Breakdown</p>
-            <h2 style={styles.sectionTitle}>
-              Return on Investment & Rental Breakdown
-            </h2>
-          </div>
-
-          <div style={styles.tableWrapper}>
-            <table style={styles.roiTable}>
-              <thead>
-                <tr>
-                  <th style={styles.tableHead}>Unit Type</th>
-                  <th style={styles.tableHead}>Price From</th>
-                  <th style={styles.tableHead}>Furnished Rent</th>
-                  <th style={styles.tableHead}>Unfurnished Rent</th>
-                  <th style={styles.tableHead}>Furnished ROI</th>
-                  <th style={styles.tableHead}>Unfurnished ROI</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {roiData.map((item) => (
-                  <tr key={item.id}>
-                    <td style={styles.tableCell}>{item.unit}</td>
-                    <td style={styles.tableCell}>{formatKes(item.price)}</td>
-                    <td style={styles.tableCell}>
-                      {formatKes(item.furnishedRent)}
-                    </td>
-                    <td style={styles.tableCell}>
-                      {formatKes(item.unfurnishedRent)}
-                    </td>
-                    <td style={styles.tableCell}>
-                      {item.furnishedRoi}% ({item.furnishedPayback})
-                    </td>
-                    <td style={styles.tableCell}>
-                      {item.unfurnishedRoi}% ({item.unfurnishedPayback})
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <p style={styles.sectionDisclaimer}>
-            Projected gross ROI is based on indicative monthly rental estimates.
-            Actual returns may vary depending on occupancy, furnishing standard,
-            service charge, management fees, taxes, operating costs, and market
-            conditions.
-          </p>
-        </div>
-      </section>
-
-      <section style={styles.sectionDark}>
-        <div className="container">
-          <div style={styles.sectionIntro}>
-            <p style={styles.sectionEyebrow}>Investment Tool</p>
-            <h2 style={styles.sectionTitle}>ROI Calculator</h2>
-          </div>
-
-          <div style={styles.calculatorShell}>
-            <div style={styles.calculatorGrid}>
-              <label style={styles.field}>
-                <span style={styles.label}>Unit Type</span>
-                <select
-                  value={selectedUnitId}
-                  onChange={(e) => setSelectedUnitId(Number(e.target.value))}
-                  style={styles.input}
-                >
-                  {roiData.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.unit}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label style={styles.field}>
-                <span style={styles.label}>Rental Strategy</span>
-                <select
-                  value={rentalType}
-                  onChange={(e) => setRentalType(e.target.value)}
-                  style={styles.input}
-                >
-                  <option value="furnished">Furnished</option>
-                  <option value="unfurnished">Unfurnished</option>
-                </select>
-              </label>
-
-              <div style={styles.readOnlyField}>
-                <span style={styles.label}>Purchase Price From</span>
-                <strong style={styles.readOnlyValue}>
-                  {formatKes(selectedUnit.price)}
-                </strong>
-              </div>
-
-              <div style={styles.readOnlyField}>
-                <span style={styles.label}>Estimated Monthly Rent</span>
-                <strong style={styles.readOnlyValue}>
-                  {formatKes(monthlyRent)}
-                </strong>
-              </div>
-            </div>
-
-            <div style={styles.results}>
-              <div style={styles.resultCard}>
-                <p style={styles.resultLabel}>Projected Annual Income</p>
-                <h3 style={styles.resultValue}>{formatKes(annualIncome)}</h3>
-              </div>
-
-              <div style={styles.resultCard}>
-                <p style={styles.resultLabel}>Estimated Gross ROI</p>
-                <h3 style={styles.resultValue}>{grossRoi}%</h3>
-              </div>
-
-              <div style={styles.resultCard}>
-                <p style={styles.resultLabel}>Estimated Payback Period</p>
-                <h3 style={styles.resultValue}>{paybackPeriod}</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section style={styles.sectionDark}>
-        <div className="container">
-          <div style={styles.sectionIntro}>
-            <p style={styles.sectionEyebrow}>Income Scenarios</p>
-            <h2 style={styles.sectionTitle}>Rental Income by Unit Type</h2>
-          </div>
-
-          <div style={styles.scenarioGrid} className="scenario-grid">
-            {scenarios.map((scenario, i) => (
               <motion.div
-                key={i}
-                whileHover={{ y: -8 }}
-                transition={{ duration: 0.25 }}
-                style={styles.scenarioCard}
-                className="investment-card"
+                className="inv-copy"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                custom={0.15}
+                variants={fadeStagger}
               >
-                <p style={styles.scenarioLabel}>Unit Type</p>
-                <h3 style={styles.scenarioTitle}>{scenario.title}</h3>
-                <p style={styles.scenarioValue}>{scenario.income}</p>
-                <p style={styles.scenarioAssumption}>
-                  {scenario.assumption}
+                <p className="lead-text">
+                  The value of a residential investment is shaped by more than its purchase price.
                 </p>
-                <p style={styles.scenarioText}>{scenario.note}</p>
+                <p className="body-text">
+                  Location, tenant demand, usability, rental strategy and the
+                  quality of the underlying development all influence an asset's long-term potential.
+                </p>
+                <p className="body-text">
+                  Riverside Azure is positioned within Riverside, giving
+                  investors access to an established Nairobi neighbourhood while
+                  offering a contemporary residential product designed for modern urban living.
+                </p>
+                <div className="inv-signature">
+                  <span className="gold-rule" />
+                  <span>25 Riverside Drive · Nairobi</span>
+                </div>
               </motion.div>
-            ))}
+            </div>
           </div>
+        </section>
 
-          <p style={styles.sectionDisclaimer}>
-            Figures are indicative examples only and are not guarantees. Buyers
-            should seek independent financial advice before making an investment
-            decision.
-          </p>
-        </div>
-      </section>
+        {/* =========================================================
+            THESIS (Highlights)
+            ========================================================= */}
+        <section className="inv-thesis">
+          <div className="container">
+            <motion.div
+              className="inv-header-row"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={fadeUp}
+            >
+              <div>
+                <span className="section-meta">01 — Why Riverside</span>
+                <h2 className="section-title">Three reasons to consider the address.</h2>
+              </div>
+              <p className="body-text">
+                An investment case built around location, demand and choice —
+                rather than a single return figure.
+              </p>
+            </motion.div>
 
+            <div className="thesis-grid">
+              {highlights.map((item, index) => (
+                <motion.article
+                  key={item.number}
+                  className="thesis-card"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.2 }}
+                  custom={index * 0.15}
+                  variants={fadeStagger}
+                >
+                  <span className="thesis-number">{item.number}</span>
+                  <h3 className="thesis-title">{item.title}</h3>
+                  <p className="thesis-text">{item.text}</p>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            ROI TABLE (Dark Prospectus Style)
+            ========================================================= */}
+        <section className="inv-roi">
+          <div className="container">
+            <motion.div
+              className="inv-header-row"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={fadeUp}
+            >
+              <div>
+                <span className="section-meta gold-text">02 — Rental Return</span>
+                <h2 className="section-title light-text">Understand the numbers.</h2>
+              </div>
+              <p className="body-text light-text-soft">
+                Indicative rental scenarios across the three Riverside Azure residential typologies.
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="roi-table-wrapper"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              variants={fadeUp}
+            >
+              <div className="roi-table-header">
+                <span>UNIT TYPE</span>
+                <span>PRICE FROM</span>
+                <span>FURNISHED</span>
+                <span>UNFURNISHED</span>
+              </div>
+
+              {roiData.map((item) => (
+                <div className="roi-table-row" key={item.id}>
+                  <div className="roi-col-unit">
+                    <span className="roi-short">{item.shortUnit}</span>
+                    <strong className="roi-name">{item.unit}</strong>
+                  </div>
+                  <div className="roi-col">
+                    <span className="roi-label">Purchase price</span>
+                    <strong className="roi-val">{formatKes(item.price)}</strong>
+                  </div>
+                  <div className="roi-col">
+                    <span className="roi-label">Monthly rent · Gross ROI</span>
+                    <strong className="roi-val">{formatKes(item.furnishedRent)} <span className="roi-highlight">{item.furnishedRoi}%</span></strong>
+                    <span className="roi-sub">{item.furnishedPayback} indicative payback</span>
+                  </div>
+                  <div className="roi-col">
+                    <span className="roi-label">Monthly rent · Gross ROI</span>
+                    <strong className="roi-val">{formatKes(item.unfurnishedRent)} <span className="roi-highlight">{item.unfurnishedRoi}%</span></strong>
+                    <span className="roi-sub">{item.unfurnishedPayback} indicative payback</span>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+
+            <p className="roi-disclaimer">
+              Projected gross ROI is based on indicative monthly rental estimates. Actual returns may vary depending on occupancy, furnishing standard, service charges, management fees, taxes, operating costs and market conditions.
+            </p>
+          </div>
+        </section>
+
+        {/* =========================================================
+            CALCULATOR
+            ========================================================= */}
+        <section className="inv-calculator">
+          <div className="container">
+            <motion.div
+              className="inv-header-row"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={fadeUp}
+            >
+              <div>
+                <span className="section-meta">03 — Investment Tool</span>
+                <h2 className="section-title">Explore your rental scenario.</h2>
+              </div>
+              <p className="body-text">
+                Select a residence and rental strategy to see an indicative income and gross return scenario.
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="calc-box"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              variants={fadeUp}
+            >
+              <div className="calc-controls-grid">
+                <div className="calc-inputs">
+                  <div className="calc-field">
+                    <label>Residence</label>
+                    <div className="calc-select-wrap">
+                      <select value={selectedUnitId} onChange={(e) => setSelectedUnitId(Number(e.target.value))}>
+                        {roiData.map((item) => <option key={item.id} value={item.id}>{item.unit}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="calc-field">
+                    <label>Rental Strategy</label>
+                    <div className="calc-select-wrap">
+                      <select value={rentalType} onChange={(e) => setRentalType(e.target.value)}>
+                        <option value="furnished">Furnished</option>
+                        <option value="unfurnished">Unfurnished</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="calc-reference">
+                  <span className="ref-label">Selected Residence</span>
+                  <strong className="ref-name">{selectedUnit.unit}</strong>
+                  <span className="ref-price">From {formatKes(selectedUnit.price)}</span>
+                </div>
+              </div>
+
+              <div className="calc-results-grid">
+                <div className="calc-result calc-highlight">
+                  <span className="res-label">Est. Monthly Rent</span>
+                  <strong className="res-val">{formatKes(monthlyRent)}</strong>
+                </div>
+                <div className="calc-result">
+                  <span className="res-label">Projected Annual Income</span>
+                  <strong className="res-val">{formatKes(annualIncome)}</strong>
+                </div>
+                <div className="calc-result">
+                  <span className="res-label">Est. Gross ROI</span>
+                  <strong className="res-val">{grossRoi}%</strong>
+                </div>
+                <div className="calc-result">
+                  <span className="res-label">Indicative Payback</span>
+                  <strong className="res-val">{paybackPeriod}</strong>
+                </div>
+              </div>
+
+              <div className="calc-footer">
+                <span className="calc-footer-note">Based on indicative {rentalType} rental assumptions.</span>
+                <button type="button" onClick={onCtaClick} className="btn-text">
+                  Request Full Details ↗
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            SCENARIOS (Editorial Cards)
+            ========================================================= */}
+        <section className="inv-scenarios">
+          <div className="container">
+            <motion.div
+              className="inv-header-row"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={fadeUp}
+            >
+              <div>
+                <span className="section-meta">04 — Income Scenarios</span>
+                <h2 className="section-title">Different homes. Different strategies.</h2>
+              </div>
+              <p className="body-text">
+                The right unit depends on your intended holding strategy,
+                capital position and target tenant profile.
+              </p>
+            </motion.div>
+
+            <div className="scenario-grid">
+              {roiData.map((item, index) => (
+                <motion.article
+                  key={item.id}
+                  className={`scenario-card ${index === 1 ? 'scenario-card-featured' : ''}`}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.2 }}
+                  custom={index * 0.15}
+                  variants={fadeStagger}
+                >
+                  <div className="scenario-top">
+                    <span>{item.shortUnit}</span>
+                    <span>{item.unit}</span>
+                  </div>
+                  <h3 className="scenario-title">
+                    {index === 0 ? "Accessible entry point." : index === 1 ? "Balanced residential asset." : "A larger legacy residence."}
+                  </h3>
+                  <div className="scenario-divider" />
+                  <div className="scenario-stats">
+                    <div className="stat-row">
+                      <span className="stat-label">Furnished ROI</span>
+                      <strong className="stat-val">{item.furnishedRoi}%</strong>
+                    </div>
+                    <div className="stat-row">
+                      <span className="stat-label">Unfurnished ROI</span>
+                      <strong className="stat-val">{item.unfurnishedRoi}%</strong>
+                    </div>
+                  </div>
+                  <div className="scenario-bottom">
+                    From {formatKes(item.price)}
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            FINAL CTA
+            ========================================================= */}
+        <section className="inv-cta">
+          <div className="container">
+            <motion.div
+              className="inv-cta-content"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={fadeUp}
+            >
+              <span className="section-meta gold-text">Riverside Azure</span>
+              <h2 className="section-title light-text">Invest in the address.<br />Live in the value.</h2>
+              <p className="body-text light-text-soft">
+                Speak with our team for current pricing, floor plans, payment options and the complete investment pack.
+              </p>
+              <button type="button" onClick={onCtaClick} className="btn-solid-cta">
+                Request Investment Pack
+              </button>
+            </motion.div>
+          </div>
+        </section>
+      </main>
+
+      {/* =========================================================
+          STYLES (Gallery Minimalist Structure)
+          ========================================================= */}
       <style>{`
-        @media (max-width: 980px) {
+        .investment-page {
+          background: var(--white);
+          color: var(--text-dark);
+          overflow-x: hidden;
+        }
+
+        /* SCROLL PROGRESS */
+        .scroll-progress {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: var(--gold-accent);
+          transform-origin: 0%;
+          z-index: 9999;
+        }
+
+        /* TYPOGRAPHY UTILITIES */
+        .section-meta {
+          display: block;
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: var(--text-dark-soft);
+          margin-bottom: 24px;
+        }
+
+        .gold-text { color: var(--gold-accent); }
+        .light-text { color: var(--white) !important; }
+        .light-text-soft { color: rgba(255, 255, 255, 0.7) !important; }
+
+        .section-title {
+          margin: 0;
+          font-family: var(--font-display);
+          font-size: clamp(2.5rem, 5vw, 4rem);
+          font-weight: 400;
+          line-height: 1.05;
+          letter-spacing: -0.02em;
+          color: var(--azure-deep);
+        }
+
+        .lead-text {
+          margin: 0 0 24px 0;
+          font-family: var(--font-body);
+          font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+          font-weight: 600;
+          line-height: 1.6;
+          color: var(--text-dark);
+        }
+
+        .body-text {
+          margin: 0 0 24px 0;
+          font-family: var(--font-body);
+          font-size: 0.95rem;
+          line-height: 1.7;
+          color: var(--text-dark-soft);
+        }
+
+        /* HERO */
+        .inv-hero {
+          position: relative;
+          min-height: 85svh;
+          display: flex;
+          align-items: flex-end;
+          background: var(--azure-deep);
+        }
+
+        .inv-hero-bg {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+
+        .inv-hero-bg img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .inv-hero-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, rgba(17, 26, 85, 0.95) 0%, rgba(17, 26, 85, 0.4) 50%, rgba(17, 26, 85, 0.1) 100%);
+        }
+
+        .inv-hero-content {
+          position: relative;
+          z-index: 2;
+          padding-bottom: clamp(60px, 10vw, 100px);
+          max-width: 800px;
+        }
+
+        .hero-title {
+          margin: 0 0 24px 0;
+          color: var(--white);
+          font-family: var(--font-display);
+          font-size: clamp(3rem, 6vw, 5.5rem);
+          font-weight: 400;
+          line-height: 1;
+          letter-spacing: -0.03em;
+        }
+
+        .hero-desc {
+          margin: 0 0 40px 0;
+          color: rgba(255, 255, 255, 0.8);
+          font-family: var(--font-body);
+          font-size: 1.05rem;
+          line-height: 1.7;
+          max-width: 500px;
+        }
+
+        .btn-solid-hero {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 56px;
+          padding: 0 32px;
+          background: var(--gold-accent);
+          color: var(--azure-deep);
+          border: none;
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+
+        .btn-solid-hero:hover {
+          background: var(--white);
+        }
+
+        /* SHARED HEADER ROW */
+        .inv-header-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: clamp(40px, 8vw, 100px);
+          align-items: end;
+          margin-bottom: clamp(60px, 8vw, 100px);
+          border-bottom: 1px solid var(--border-light);
+          padding-bottom: 40px;
+        }
+
+        .inv-header-row .body-text {
+          margin: 0;
+          max-width: 400px;
+        }
+
+        /* INTRO */
+        .inv-intro {
+          padding: clamp(100px, 12vw, 160px) 0;
+          background: var(--white);
+        }
+
+        .inv-grid-50 {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: clamp(60px, 8vw, 120px);
+          align-items: start;
+        }
+
+        .inv-signature {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          margin-top: 40px;
+        }
+
+        .gold-rule {
+          width: 40px;
+          height: 1px;
+          background: var(--gold-accent);
+        }
+
+        .inv-signature span:last-child {
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: var(--text-dark-soft);
+        }
+
+        /* THESIS */
+        .inv-thesis {
+          padding: 0 0 clamp(100px, 12vw, 160px) 0;
+          background: var(--white);
+        }
+
+        .thesis-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 40px;
+        }
+
+        .thesis-card {
+          display: flex;
+          flex-direction: column;
+          padding-top: 24px;
+          border-top: 1px solid var(--border-light);
+        }
+
+        .thesis-number {
+          color: var(--gold-accent);
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          font-weight: 700;
+          margin-bottom: 24px;
+        }
+
+        .thesis-title {
+          margin: 0 0 16px 0;
+          font-family: var(--font-display);
+          font-size: 1.5rem;
+          font-weight: 400;
+          color: var(--azure-deep);
+        }
+
+        .thesis-text {
+          margin: 0;
+          font-family: var(--font-body);
+          font-size: 0.95rem;
+          line-height: 1.6;
+          color: var(--text-dark-soft);
+        }
+
+        /* ROI TABLE */
+        .inv-roi {
+          background: var(--azure-deep);
+          color: var(--white);
+          padding: clamp(100px, 12vw, 160px) 0;
+        }
+
+        .inv-roi .inv-header-row {
+          border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .roi-table-wrapper {
+          border-top: 1px solid rgba(255,255,255,0.2);
+          overflow-x: auto;
+          scrollbar-width: none;
+        }
+
+        .roi-table-header {
+          display: grid;
+          grid-template-columns: 1.2fr 1fr 1.2fr 1.2fr;
+          gap: 24px;
+          padding: 24px 0;
+          color: var(--gold-accent);
+          font-family: var(--font-body);
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.15em;
+        }
+
+        .roi-table-row {
+          display: grid;
+          grid-template-columns: 1.2fr 1fr 1.2fr 1.2fr;
+          gap: 24px;
+          padding: 32px 0;
+          border-top: 1px solid rgba(255,255,255,0.1);
+          align-items: center;
+        }
+
+        .roi-col-unit {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .roi-short {
+          color: var(--gold-accent);
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          font-weight: 700;
+        }
+
+        .roi-name {
+          font-family: var(--font-display);
+          font-size: 1.5rem;
+          font-weight: 400;
+        }
+
+        .roi-col {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .roi-label {
+          color: rgba(255,255,255,0.5);
+          font-family: var(--font-body);
+          font-size: 0.7rem;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+        }
+
+        .roi-val {
+          font-family: var(--font-body);
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: var(--white);
+        }
+
+        .roi-highlight {
+          color: var(--gold-accent);
+          margin-left: 8px;
+        }
+
+        .roi-sub {
+          color: rgba(255,255,255,0.4);
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+        }
+
+        .roi-disclaimer {
+          margin: 40px 0 0 0;
+          color: rgba(255,255,255,0.4);
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          line-height: 1.6;
+          text-align: center;
+        }
+
+        /* CALCULATOR */
+        .inv-calculator {
+          padding: clamp(100px, 12vw, 160px) 0;
+          background: var(--off-white);
+        }
+
+        .calc-box {
+          border-top: 1px solid var(--border-light);
+        }
+
+        .calc-controls-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 60px;
+          padding: 48px 0;
+          border-bottom: 1px solid var(--border-light);
+        }
+
+        .calc-inputs {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 24px;
+        }
+
+        .calc-field {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .calc-field label {
+          font-family: var(--font-body);
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: var(--text-dark-soft);
+        }
+
+        .calc-select-wrap {
+          position: relative;
+        }
+
+        .calc-select-wrap::after {
+          content: "↓";
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          color: var(--gold-accent);
+          pointer-events: none;
+        }
+
+        .calc-select-wrap select {
+          width: 100%;
+          appearance: none;
+          -webkit-appearance: none;
+          background: transparent;
+          border: none;
+          border-bottom: 1px solid var(--border-light);
+          padding: 12px 24px 12px 0;
+          font-family: var(--font-body);
+          font-size: 1rem;
+          color: var(--text-dark);
+          outline: none;
+          cursor: pointer;
+          transition: border-color 0.3s ease;
+        }
+
+        .calc-select-wrap select:focus {
+          border-bottom-color: var(--gold-accent);
+        }
+
+        .calc-reference {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding-left: 48px;
+          border-left: 1px solid var(--border-light);
+        }
+
+        .ref-label {
+          color: var(--gold-accent);
+          font-family: var(--font-body);
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          margin-bottom: 8px;
+        }
+
+        .ref-name {
+          font-family: var(--font-display);
+          font-size: 2rem;
+          font-weight: 400;
+          color: var(--azure-deep);
+          margin-bottom: 4px;
+        }
+
+        .ref-price {
+          font-family: var(--font-body);
+          font-size: 0.9rem;
+          color: var(--text-dark-soft);
+        }
+
+        .calc-results-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          border-bottom: 1px solid var(--border-light);
+        }
+
+        .calc-result {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 12px;
+          padding: 40px 24px;
+          border-right: 1px solid var(--border-light);
+        }
+
+        .calc-result:last-child {
+          border-right: none;
+        }
+
+        .calc-highlight .res-val {
+          color: var(--gold-accent);
+        }
+
+        .res-label {
+          font-family: var(--font-body);
+          font-size: 0.7rem;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--text-dark-soft);
+        }
+
+        .res-val {
+          font-family: var(--font-display);
+          font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+          font-weight: 400;
+          color: var(--azure-deep);
+        }
+
+        .calc-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-top: 24px;
+        }
+
+        .calc-footer-note {
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          color: var(--text-dark-soft);
+        }
+
+        .btn-text {
+          background: none;
+          border: none;
+          color: var(--azure-main);
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: color 0.3s ease;
+        }
+
+        .btn-text:hover {
+          color: var(--gold-accent);
+        }
+
+        /* SCENARIOS */
+        .inv-scenarios {
+          padding: 0 0 clamp(100px, 12vw, 160px) 0;
+          background: var(--off-white);
+        }
+
+        .scenario-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 32px;
+        }
+
+        .scenario-card {
+          display: flex;
+          flex-direction: column;
+          padding: 40px;
+          background: var(--white);
+          border: 1px solid var(--border-light);
+        }
+
+        .scenario-card-featured {
+          background: var(--azure-deep);
+          color: var(--white);
+          border-color: var(--azure-deep);
+        }
+
+        .scenario-top {
+          display: flex;
+          justify-content: space-between;
+          color: var(--gold-accent);
+          font-family: var(--font-body);
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          margin-bottom: 40px;
+        }
+
+        .scenario-title {
+          margin: 0 0 32px 0;
+          font-family: var(--font-display);
+          font-size: 1.75rem;
+          font-weight: 400;
+          line-height: 1.2;
+          color: var(--azure-deep);
+        }
+
+        .scenario-card-featured .scenario-title {
+          color: var(--white);
+        }
+
+        .scenario-divider {
+          width: 100%;
+          height: 1px;
+          background: var(--border-light);
+          margin-bottom: 32px;
+        }
+
+        .scenario-card-featured .scenario-divider {
+          background: rgba(255,255,255,0.1);
+        }
+
+        .scenario-stats {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+          margin-bottom: 48px;
+        }
+
+        .stat-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .stat-label {
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          color: var(--text-dark-soft);
+        }
+
+        .scenario-card-featured .stat-label {
+          color: rgba(255,255,255,0.6);
+        }
+
+        .stat-val {
+          font-family: var(--font-body);
+          font-size: 1.1rem;
+          font-weight: 700;
+        }
+
+        .scenario-card-featured .stat-val {
+          color: var(--gold-accent);
+        }
+
+        .scenario-bottom {
+          margin-top: auto;
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          color: var(--text-dark-soft);
+        }
+
+        .scenario-card-featured .scenario-bottom {
+          color: rgba(255,255,255,0.5);
+        }
+
+        /* FINAL CTA */
+        .inv-cta {
+          padding: clamp(100px, 12vw, 160px) 0;
+          background: var(--azure-deep);
+          text-align: center;
+        }
+
+        .inv-cta-content {
+          max-width: 600px;
+          margin: 0 auto;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .btn-solid-cta {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 56px;
+          margin-top: 32px;
+          padding: 0 32px;
+          background: var(--white);
+          color: var(--azure-deep);
+          border: none;
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-solid-cta:hover {
+          background: var(--gold-accent);
+          color: var(--white);
+        }
+
+        /* =========================================================
+           MOBILE RESPONSIVENESS
+           ========================================================= */
+        @media (max-width: 1024px) {
+          .inv-header-row, .inv-grid-50, .calc-controls-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+          }
+          .roi-table-header, .roi-table-row {
+            min-width: 800px; /* Forces scroll on tablet/mobile */
+          }
+          .calc-reference {
+            padding: 24px 0 0 0;
+            border-left: none;
+            border-top: 1px solid var(--border-light);
+          }
+          .calc-results-grid {
+            grid-template-columns: 1fr 1fr;
+          }
+          .calc-result {
+            border-bottom: 1px solid var(--border-light);
+          }
+          .calc-result:nth-child(2) { border-right: none; }
+          .calc-result:nth-child(3), .calc-result:nth-child(4) { border-bottom: none; }
           .scenario-grid {
-            grid-template-columns: 1fr !important;
+            grid-template-columns: 1fr;
           }
         }
 
         @media (max-width: 768px) {
-          .investment-card:hover {
-            transform: none !important;
+          .inv-hero {
+            min-height: 75svh;
+          }
+          .inv-intro, .inv-thesis, .inv-roi, .inv-calculator, .inv-cta {
+            padding: 80px 0;
+          }
+          .inv-scenarios {
+            padding: 0 0 80px 0;
+          }
+          .thesis-grid {
+            grid-template-columns: 1fr;
+          }
+          .calc-inputs, .calc-results-grid {
+            grid-template-columns: 1fr;
+          }
+          .calc-result {
+            border-right: none;
+            padding: 24px 0;
+          }
+          .calc-result:last-child {
+            border-bottom: none;
+          }
+          .calc-footer {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
           }
         }
       `}</style>
-    </section>
+    </>
   );
 };
 
 export default InvestmentPage;
-
-const styles = {
-  page: {
-    color: "var(--text-main)",
-    position: "relative",
-    overflowX: "hidden",
-    background:
-      "linear-gradient(180deg, #04395e 0%, #031b2f 42%, #021827 100%)",
-  },
-
-  scrollBar: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    height: "3px",
-    background:
-      "linear-gradient(90deg, var(--gold-soft), var(--gold-accent), var(--gold-hover))",
-    zIndex: 9999,
-  },
-
-  heroSection: {
-    position: "relative",
-    minHeight: "100svh",
-    overflow: "hidden",
-    display: "flex",
-    alignItems: "center",
-  },
-
-  heroImg: {
-    position: "absolute",
-    inset: 0,
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-  },
-
-  heroOverlay: {
-    position: "absolute",
-    inset: 0,
-    background:
-      "linear-gradient(180deg, rgba(2,17,31,0.38), rgba(3,27,47,0.72), rgba(1,12,22,0.94))",
-  },
-
-  heroContainer: {
-    position: "relative",
-    zIndex: 2,
-    width: "100%",
-    paddingTop: "110px",
-    paddingBottom: "120px",
-  },
-
-  heroContent: {
-    maxWidth: "820px",
-    textAlign: "center",
-    margin: "0 auto",
-    padding: "0 14px",
-  },
-
-  eyebrow: {
-    color: "var(--gold-accent)",
-    textTransform: "uppercase",
-    letterSpacing: "0.24em",
-    fontSize: "0.82rem",
-    marginBottom: "18px",
-    fontWeight: 800,
-  },
-
-  heroTitle: {
-    fontSize: "clamp(2.5rem, 8vw, 5.2rem)",
-    lineHeight: 1.02,
-    marginBottom: "18px",
-    fontFamily: "var(--font-serif)",
-    letterSpacing: "-0.04em",
-  },
-
-  heroText: {
-    fontSize: "clamp(1rem, 3vw, 1.18rem)",
-    lineHeight: 1.8,
-    color: "rgba(247,244,236,0.88)",
-    maxWidth: "720px",
-    margin: "0 auto 28px",
-  },
-
-  primaryCta: {
-    padding: "16px 28px",
-    background:
-      "linear-gradient(135deg, var(--gold-soft), var(--gold-accent), var(--gold-hover))",
-    color: "var(--azure-deep)",
-    border: "1px solid rgba(255,255,255,0.14)",
-    cursor: "pointer",
-    fontWeight: "800",
-    minHeight: "54px",
-    fontSize: "0.98rem",
-  },
-
-  section: {
-    padding: "clamp(74px, 10vw, 100px) 0",
-  },
-
-  sectionDark: {
-    padding: "clamp(74px, 10vw, 100px) 0",
-    background:
-      "linear-gradient(180deg, rgba(2,17,31,0.78), rgba(1,12,22,0.92))",
-  },
-
-  sectionIntro: {
-    textAlign: "center",
-    maxWidth: "820px",
-    margin: "0 auto 40px",
-    padding: "0 14px",
-  },
-
-  sectionEyebrow: {
-    color: "var(--gold-accent)",
-    textTransform: "uppercase",
-    letterSpacing: "0.22em",
-    fontSize: "0.8rem",
-    marginBottom: "12px",
-    fontWeight: 800,
-  },
-
-  sectionTitle: {
-    fontSize: "clamp(2rem, 6vw, 3.4rem)",
-    lineHeight: 1.06,
-    fontFamily: "var(--font-serif)",
-    letterSpacing: "-0.03em",
-  },
-
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-    gap: "20px",
-  },
-
-  card: {
-    padding: "24px",
-    background:
-      "linear-gradient(180deg, rgba(6,43,70,0.58), rgba(2,17,31,0.78))",
-    border: "1px solid rgba(243,193,66,0.14)",
-    minHeight: "210px",
-  },
-
-  cardTitle: {
-    fontSize: "1.25rem",
-    marginBottom: "12px",
-    fontFamily: "var(--font-serif)",
-  },
-
-  cardText: {
-    color: "var(--text-muted)",
-    lineHeight: 1.8,
-    fontSize: "0.98rem",
-  },
-
-  tableWrapper: {
-    width: "100%",
-    overflowX: "auto",
-    border: "1px solid rgba(243,193,66,0.16)",
-    background: "rgba(1,18,32,0.36)",
-    boxShadow: "0 20px 50px rgba(0,0,0,0.22)",
-  },
-
-  roiTable: {
-    width: "100%",
-    borderCollapse: "collapse",
-    minWidth: "860px",
-  },
-
-  tableHead: {
-    background: "rgba(243,193,66,0.18)",
-    color: "var(--gold-accent)",
-    textAlign: "left",
-    padding: "16px",
-    fontSize: "0.86rem",
-    textTransform: "uppercase",
-    letterSpacing: "0.08em",
-    borderBottom: "1px solid rgba(243,193,66,0.24)",
-    whiteSpace: "nowrap",
-  },
-
-  tableCell: {
-    padding: "16px",
-    color: "rgba(247,244,236,0.9)",
-    borderBottom: "1px solid rgba(255,255,255,0.08)",
-    fontSize: "0.96rem",
-    whiteSpace: "nowrap",
-  },
-
-  scenarioGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-    gap: "20px",
-  },
-
-  scenarioCard: {
-    padding: "26px 24px",
-    background:
-      "linear-gradient(180deg, rgba(6,43,70,0.72), rgba(2,17,31,0.9))",
-    border: "1px solid rgba(243,193,66,0.18)",
-    minHeight: "280px",
-    display: "flex",
-    flexDirection: "column",
-    boxShadow: "0 20px 50px rgba(0,0,0,0.22)",
-  },
-
-  scenarioLabel: {
-    color: "var(--gold-accent)",
-    textTransform: "uppercase",
-    letterSpacing: "0.18em",
-    fontSize: "0.76rem",
-    fontWeight: 800,
-    marginBottom: "12px",
-  },
-
-  scenarioTitle: {
-    fontSize: "1.35rem",
-    marginBottom: "16px",
-    lineHeight: 1.25,
-    fontFamily: "var(--font-serif)",
-  },
-
-  scenarioValue: {
-    fontSize: "1.25rem",
-    fontWeight: "800",
-    marginBottom: "14px",
-    color: "var(--gold-accent)",
-    lineHeight: 1.35,
-  },
-
-  scenarioAssumption: {
-    color: "rgba(247,244,236,0.82)",
-    lineHeight: 1.65,
-    marginBottom: "14px",
-    fontSize: "0.94rem",
-  },
-
-  scenarioText: {
-    color: "var(--text-muted)",
-    lineHeight: 1.75,
-    fontSize: "0.95rem",
-    marginBottom: 0,
-  },
-
-  sectionDisclaimer: {
-    maxWidth: "920px",
-    margin: "26px auto 0",
-    color: "rgba(255,255,255,0.62)",
-    lineHeight: 1.75,
-    fontSize: "0.9rem",
-    textAlign: "center",
-  },
-
-  calculatorShell: {
-    maxWidth: "920px",
-    margin: "0 auto",
-    background:
-      "linear-gradient(180deg, rgba(6,43,70,0.66), rgba(2,17,31,0.82))",
-    border: "1px solid rgba(243,193,66,0.16)",
-    padding: "clamp(22px, 5vw, 34px)",
-  },
-
-  calculatorGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-    gap: "16px",
-    marginBottom: "24px",
-  },
-
-  field: {
-    display: "grid",
-    gap: "8px",
-  },
-
-  label: {
-    fontSize: "0.9rem",
-    color: "rgba(255,255,255,0.76)",
-  },
-
-  input: {
-    width: "100%",
-    padding: "15px 16px",
-    background: "rgba(1,18,32,0.72)",
-    border: "1px solid rgba(243,193,66,0.16)",
-    color: "var(--text-main)",
-    minHeight: "52px",
-    outline: "none",
-    boxSizing: "border-box",
-    fontSize: "16px",
-  },
-
-  readOnlyField: {
-    display: "grid",
-    gap: "8px",
-    padding: "14px 16px",
-    background: "rgba(1,18,32,0.42)",
-    border: "1px solid rgba(243,193,66,0.12)",
-  },
-
-  readOnlyValue: {
-    color: "var(--gold-accent)",
-    fontSize: "1.05rem",
-  },
-
-  results: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-    gap: "16px",
-  },
-
-  resultCard: {
-    background: "rgba(1,18,32,0.42)",
-    border: "1px solid rgba(243,193,66,0.12)",
-    padding: "18px",
-    textAlign: "center",
-  },
-
-  resultLabel: {
-    margin: "0 0 8px",
-    color: "rgba(255,255,255,0.68)",
-    fontSize: "0.88rem",
-  },
-
-  resultValue: {
-    margin: 0,
-    fontSize: "clamp(1.4rem, 4vw, 2.1rem)",
-    color: "var(--gold-accent)",
-    fontWeight: 800,
-  },
-};

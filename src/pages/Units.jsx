@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const fallbackImage = "/JNCBROTHERS.png";
 
@@ -13,12 +14,13 @@ const units = [
     price: "KSh 7.9M - 11M",
     tour: "https://vr.justeasy.cn/view/1w77n7g4h7387018-1774860206.html",
     images: [
-      new URL("../assets/Apartments/type-b/c6.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-b/c1.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-b/c2.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-b/c3.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-b/c4.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-b/c5.jpg", import.meta.url).href,
+      new URL("../assets/Apartments/type-b/1 bedroom.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-b/b1.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-b/c1.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-b/b2.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-b/b3.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-b/b4.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-b/b5.webp", import.meta.url).href,
     ],
   },
   {
@@ -28,16 +30,16 @@ const units = [
     beds: "2 Bedroom",
     size: "98.00 - 104.63 SQM",
     desc: "Balanced proportions for long-term living. Perfect for young families.",
-     price: "KSh 11M - 17M",
+    price: "KSh 11M - 17M",
     tour: "https://vr.justeasy.cn/view/17f74741k11h3gj1-1774860063.html",
     images: [
-      new URL("../assets/Apartments/type-a/b11.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-a/b6.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-a/b3.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-a/b5.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-a/b4.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-a/b10.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-a/b8.jpg", import.meta.url).href,
+      new URL("../assets/Apartments/type-a/2 Bedroom.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-a/d.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-a/d1.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-a/d2.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-a/d3.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-a/d4.webp", import.meta.url).href,
+      new URL("../assets/Apartments/type-a/d5.webp", import.meta.url).href,
     ],
   },
   {
@@ -47,7 +49,7 @@ const units = [
     beds: "3 Bedroom",
     size: "141.95 SQM",
     desc: "Versatile luxury. Expansive living spaces for those who value legacy.",
-     price: "KSh 16M - 23M",
+    price: "KSh 16M - 23M",
     tour: "https://vr.justeasy.cn/view/1w77n7g4h7387018-1774860206.html",
     images: [
       new URL("../assets/Apartments/type-c/a14.webp", import.meta.url).href,
@@ -69,18 +71,27 @@ const Units = ({ onOpenModal, onInquire }) => {
   const [activeImage, setActiveImage] = useState(0);
   const [mainLoaded, setMainLoaded] = useState(false);
   const [tourPrompt, setTourPrompt] = useState(false);
+
   const touchStartX = useRef(null);
   const touchEndX = useRef(null);
 
   const activeUnit = useMemo(
-    () => units.find((u) => u.id === activeTab) || units[0],
+    () => units.find((unit) => unit.id === activeTab) || units[0],
     [activeTab]
   );
 
-  const currentImages =
-    activeUnit?.images?.length > 0 ? activeUnit.images : [fallbackImage];
-
+  const currentImages = activeUnit?.images?.length > 0 ? activeUnit.images : [fallbackImage];
   const currentMainImage = currentImages[activeImage] || fallbackImage;
+
+  /* =========================================================
+     GALLERY MOTION (Quiet & Restrained)
+     ========================================================= */
+  const quietEase = [0.25, 1, 0.5, 1];
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: quietEase } }
+  };
 
   useEffect(() => {
     setMainLoaded(false);
@@ -97,7 +108,6 @@ const Units = ({ onOpenModal, onInquire }) => {
       onInquire(activeUnit.beds);
       return;
     }
-
     if (typeof onOpenModal === "function") {
       onOpenModal(activeUnit.beds);
     }
@@ -109,14 +119,7 @@ const Units = ({ onOpenModal, onInquire }) => {
 
   const handleTouchEnd = (e) => {
     touchEndX.current = e.changedTouches[0].clientX;
-
-    if (
-      touchStartX.current === null ||
-      touchEndX.current === null ||
-      currentImages.length <= 1
-    ) {
-      return;
-    }
+    if (touchStartX.current === null || touchEndX.current === null || currentImages.length <= 1) return;
 
     const delta = touchStartX.current - touchEndX.current;
     const threshold = 40;
@@ -124,522 +127,735 @@ const Units = ({ onOpenModal, onInquire }) => {
     if (delta > threshold) {
       setActiveImage((prev) => (prev + 1) % currentImages.length);
     } else if (delta < -threshold) {
-      setActiveImage((prev) =>
-        prev === 0 ? currentImages.length - 1 : prev - 1
-      );
+      setActiveImage((prev) => (prev === 0 ? currentImages.length - 1 : prev - 1));
     }
-
     touchStartX.current = null;
     touchEndX.current = null;
   };
 
   return (
     <>
-      <section
-        style={{
-          padding: "100px 0",
-          background: "var(--bg-dark)",
-        }}
-      >
-        <div className="container">
-          <div style={styles.headerRow}>
-            <div>
-              <p style={styles.eyebrow}>Residences</p>
-              <h2 style={styles.sectionTitle}>Our Collection</h2>
+      <main className="units-page">
+        {/* =====================================================
+            PAGE INTRO
+        ====================================================== */}
+        <section className="units-intro">
+          <div className="container">
+            <div className="units-intro-grid">
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={{ visible: { transition: { staggerChildren: 0.15 } } }}
+              >
+                <motion.p className="section-meta gold-text" variants={fadeUp}>
+                  Riverside Azure · Residences
+                </motion.p>
+                <motion.h1 className="units-hero-title" variants={fadeUp}>
+                  Designed for<br />
+                  the way you live.
+                </motion.h1>
+              </motion.div>
+
+              <motion.div
+                className="units-intro-aside"
+                initial="hidden"
+                animate="visible"
+                variants={fadeUp}
+                transition={{ delay: 0.2 }}
+              >
+                <span className="aside-number">01</span>
+                <p className="body-text">
+                  A considered collection of one, two and three-bedroom residences 
+                  at the heart of Nairobi's Riverside neighbourhood.
+                </p>
+              </motion.div>
             </div>
           </div>
+        </section>
 
-          <div className="tabs-row" style={styles.tabsRow}>
-            {units.map((unit) => (
-              <button
-                key={unit.id}
-                onClick={() => handleTabChange(unit.id)}
-                style={{
-                  ...styles.tabButton,
-                  ...(activeTab === unit.id ? styles.tabButtonActive : {}),
-                }}
-              >
-                {unit.beds}
-              </button>
-            ))}
-          </div>
+        {/* =====================================================
+            RESIDENCE CATALOGUE
+        ====================================================== */}
+        <section className="units-catalogue">
+          <div className="container">
+            <div className="catalogue-header">
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={fadeUp}>
+                <p className="section-meta">The Collection</p>
+                <h2 className="section-title">
+                  Three ways to<br />call Riverside home.
+                </h2>
+              </motion.div>
+            </div>
 
-          <div className="unit-grid" style={styles.unitGrid}>
-            <div>
-              <div
-                className="main-image-box"
-                style={styles.mainImageBox}
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-              >
-                {!mainLoaded && <div style={styles.skeleton} />}
-
-                <img
-                  key={currentMainImage}
-                  src={currentMainImage}
-                  alt={activeUnit.name}
-                  onLoad={() => setMainLoaded(true)}
-                  onError={(e) => {
-                    e.currentTarget.src = fallbackImage;
-                    setMainLoaded(true);
-                  }}
-                  style={{
-                    ...styles.mainImage,
-                    opacity: mainLoaded ? 1 : 0,
-                  }}
-                />
-
-                <div style={styles.imageOverlay} />
-              </div>
-
-              <div className="thumb-grid" style={styles.thumbGrid}>
-                {currentImages.map((img, index) => (
+            {/* MINIMALIST TABS */}
+            <div className="catalogue-tabs">
+              {units.map((unit, index) => {
+                const active = activeTab === unit.id;
+                return (
                   <button
-                    key={index}
+                    key={unit.id}
                     type="button"
-                    onClick={() => {
-                      setActiveImage(index);
-                      setMainLoaded(false);
-                    }}
-                    aria-label={`View ${activeUnit.name} image ${index + 1}`}
-                    style={{
-                      ...styles.thumbButton,
-                      ...(activeImage === index ? styles.thumbButtonActive : {}),
-                    }}
+                    onClick={() => handleTabChange(unit.id)}
+                    className={`catalogue-tab ${active ? "active" : ""}`}
                   >
-                    <div style={styles.thumbSkeleton} />
-                    <img
-                      src={img}
-                      alt={`${activeUnit.name} ${index + 1}`}
-                      onError={(e) => {
-                        e.currentTarget.src = fallbackImage;
-                      }}
-                      style={styles.thumbImage}
-                    />
+                    <span className="tab-number">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="tab-name">{unit.beds}</span>
+                    {active && (
+                      <motion.span 
+                        layoutId="unitTabIndicator" 
+                        className="tab-indicator"
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      />
+                    )}
                   </button>
-                ))}
-              </div>
+                );
+              })}
             </div>
 
-            <div style={styles.details}>
-              <span style={styles.typeLabel}>{activeUnit.type}</span>
+            {/* RESIDENCE DISPLAY */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeUnit.id}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.5, ease: quietEase }}
+                className="residence-display"
+              >
+                {/* GALLERY */}
+                <div className="residence-gallery">
+                  <div
+                    className="main-image-wrap"
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={handleTouchEnd}
+                  >
+                    {!mainLoaded && <div className="image-skeleton" />}
+                    <img
+                      key={currentMainImage}
+                      src={currentMainImage}
+                      alt={activeUnit.name}
+                      onLoad={() => setMainLoaded(true)}
+                      onError={(e) => {
+                        // FIX: Prevent infinite loop if fallback image is also missing
+                        if (e.currentTarget.src !== fallbackImage) {
+                          e.currentTarget.onerror = null; 
+                          e.currentTarget.src = fallbackImage;
+                        }
+                        setMainLoaded(true);
+                      }}
+                      className={mainLoaded ? "loaded" : ""}
+                    />
+                    <div className="image-counter">
+                      {String(activeImage + 1).padStart(2, "0")} / {String(currentImages.length).padStart(2, "0")}
+                    </div>
+                  </div>
 
-              <h3 style={styles.title}>{activeUnit.name}</h3>
-
-              <p style={styles.description}>{activeUnit.desc}</p>
-
-              <div className="info-grid" style={styles.infoGrid}>
-                <div style={styles.infoCard}>
-                  <p style={styles.labelStyle}>Total Area</p>
-                  <p style={styles.valueStyle}>{activeUnit.size}</p>
+                  <div className="thumbnails-grid">
+                    {currentImages.map((img, index) => (
+                      <button
+                        key={`${activeUnit.id}-thumb-${index}`}
+                        type="button"
+                        onClick={() => {
+                          setActiveImage(index);
+                          setMainLoaded(false);
+                        }}
+                        className={`thumbnail-btn ${activeImage === index ? "active" : ""}`}
+                      >
+                        <img
+                          src={img}
+                          alt={`${activeUnit.name} thumbnail`}
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = fallbackImage;
+                          }}
+                        />
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
-                <div style={styles.priceCard}>
-                  <p style={styles.labelStyle}>Price Range</p>
-                  <p style={styles.valueStyle}>{activeUnit.price}</p>
+                {/* DETAILS */}
+                <div className="residence-details">
+                  <div className="detail-header">
+                    <span className="unit-type">{activeUnit.type}</span>
+                    <h3 className="unit-name">{activeUnit.name}</h3>
+                  </div>
+                  <p className="unit-desc">{activeUnit.desc}</p>
+
+                  <ul className="unit-specs">
+                    <li>
+                      <span className="spec-label">Residence</span>
+                      <span className="spec-val">{activeUnit.beds}</span>
+                    </li>
+                    <li>
+                      <span className="spec-label">Total Area</span>
+                      <span className="spec-val">{activeUnit.size}</span>
+                    </li>
+                    <li className="spec-price-row">
+                      <span className="spec-label">From</span>
+                      <span className="spec-price">{activeUnit.price}</span>
+                    </li>
+                  </ul>
+
+                  <div className="unit-actions">
+                    <button type="button" onClick={handleInquiry} className="btn-solid">
+                      Request Availability
+                    </button>
+                    <button type="button" onClick={() => setTourPrompt(true)} className="btn-outline">
+                      Virtual Tour ↗
+                    </button>
+                  </div>
                 </div>
-              </div>
-
-              <div className="button-row" style={styles.buttonRow}>
-                <button
-                  onClick={() => setTourPrompt(true)}
-                  style={styles.secondaryBtn}
-                >
-                  Virtual Tour
-                </button>
-
-                <button onClick={handleInquiry} style={styles.primaryBtn}>
-                  Request Availability
-                </button>
-              </div>
-            </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {tourPrompt && (
-        <div style={styles.tourPromptStyle} onClick={() => setTourPrompt(false)}>
-          <div style={styles.tourCard} onClick={(e) => e.stopPropagation()}>
-            <p style={styles.tourEyebrow}>Virtual Experience</p>
-
-            <h3 style={styles.tourTitle}>Launch Virtual Tour</h3>
-
-            <p style={styles.tourText}>
-              The virtual tour for {activeUnit.beds} will open in a new tab so
-              you can continue browsing Riverside Azure afterward.
-            </p>
-
-            <div style={styles.tourButtonRow}>
-              <button
-                onClick={() => setTourPrompt(false)}
-                style={styles.tourSecondaryBtn}
-              >
-                Cancel
-              </button>
-
-              <a
-                href={activeUnit.tour}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={styles.tourPrimaryBtn}
-              >
-                Open Tour
-              </a>
-            </div>
+        {/* =====================================================
+            BOTTOM STATEMENT
+        ====================================================== */}
+        <section className="units-statement">
+          <div className="container">
+            <motion.div
+              className="statement-grid"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={fadeUp}
+            >
+              <div className="statement-left">
+                <span className="section-meta">02 — The Address</span>
+                <h2 className="section-title">
+                  A quieter side of<br />modern Nairobi.
+                </h2>
+              </div>
+              <div className="statement-right">
+                <p className="body-text">
+                  Riverside Azure brings together considered residences, 
+                  contemporary amenities, and a well-connected address along Riverside Drive.
+                </p>
+              </div>
+            </motion.div>
           </div>
-        </div>
-      )}
+        </section>
 
+        {/* =====================================================
+            VIRTUAL TOUR MODAL (Gallery Minimalist)
+        ====================================================== */}
+        <AnimatePresence>
+          {tourPrompt && (
+            <motion.div
+              className="tour-modal-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setTourPrompt(false)}
+            >
+              <motion.div
+                className="tour-modal"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.4, ease: quietEase }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button type="button" className="tour-modal-close" onClick={() => setTourPrompt(false)}>
+                  ✕
+                </button>
+                <h3 className="tour-modal-title">Virtual Experience</h3>
+                <p className="tour-modal-text">
+                  Explore the {activeUnit.beds} virtually. The tour will open in a new tab.
+                </p>
+                <div className="tour-modal-actions">
+                  <a href={activeUnit.tour} target="_blank" rel="noopener noreferrer" className="btn-solid">
+                    Enter Tour
+                  </a>
+                  <button type="button" onClick={() => setTourPrompt(false)} className="btn-text">
+                    Cancel
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </main>
+
+      {/* =========================================================
+          STYLES (Gallery Minimalist Structure)
+          ========================================================= */}
       <style>{`
-        @keyframes skeletonLoading {
+        .units-page {
+          background: var(--white);
+          color: var(--text-dark);
+          overflow-x: hidden;
+        }
+
+        /* TYPOGRAPHY UTILITIES */
+        .section-meta {
+          display: block;
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: var(--text-dark-soft);
+          margin-bottom: 24px;
+        }
+
+        .gold-text { color: var(--gold-accent); }
+
+        .section-title {
+          margin: 0;
+          font-family: var(--font-display);
+          font-size: clamp(2.5rem, 5vw, 4rem);
+          font-weight: 400;
+          line-height: 1.05;
+          letter-spacing: -0.02em;
+          color: var(--azure-deep);
+        }
+
+        .body-text {
+          margin: 0;
+          font-family: var(--font-body);
+          font-size: 0.95rem;
+          line-height: 1.7;
+          color: var(--text-dark-soft);
+        }
+
+        /* INTRO */
+        .units-intro {
+          padding: clamp(140px, 15vw, 180px) 0 clamp(80px, 10vw, 120px) 0;
+          background: var(--off-white);
+        }
+
+        .units-intro-grid {
+          display: grid;
+          grid-template-columns: 1.2fr 0.8fr;
+          gap: clamp(60px, 8vw, 100px);
+          align-items: end;
+        }
+
+        .units-hero-title {
+          margin: 0;
+          font-family: var(--font-display);
+          font-size: clamp(3rem, 7vw, 6.5rem);
+          font-weight: 400;
+          line-height: 0.98;
+          letter-spacing: -0.03em;
+          color: var(--azure-deep);
+        }
+
+        .units-intro-aside {
+          padding-left: 40px;
+          border-left: 1px solid var(--border-light);
+        }
+
+        .aside-number {
+          display: block;
+          color: var(--gold-accent);
+          font-family: var(--font-serif);
+          font-size: 2.5rem;
+          line-height: 1;
+          margin-bottom: 24px;
+        }
+
+        /* CATALOGUE */
+        .units-catalogue {
+          padding: clamp(100px, 12vw, 160px) 0;
+          background: var(--white);
+        }
+
+        .catalogue-header {
+          margin-bottom: 60px;
+        }
+
+        /* TABS (Gallery Minimalist Style) */
+        .catalogue-tabs {
+          display: flex;
+          gap: 48px;
+          margin-bottom: clamp(40px, 6vw, 60px);
+          border-bottom: 1px solid var(--border-light);
+        }
+
+        .catalogue-tab {
+          position: relative;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 0 0 16px 0;
+          background: transparent;
+          border: none;
+          color: rgba(21, 24, 42, 0.4);
+          cursor: pointer;
+          transition: color 0.3s ease;
+        }
+
+        .catalogue-tab:hover {
+          color: var(--azure-deep);
+        }
+
+        .catalogue-tab.active {
+          color: var(--azure-deep);
+        }
+
+        .tab-number {
+          font-family: var(--font-body);
+          font-size: 0.7rem;
+          font-weight: 600;
+        }
+
+        .tab-name {
+          font-family: var(--font-body);
+          font-size: 1rem;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+        }
+
+        .tab-indicator {
+          position: absolute;
+          bottom: -1px;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: var(--gold-accent);
+        }
+
+        /* RESIDENCE DISPLAY */
+        .residence-display {
+          display: grid;
+          grid-template-columns: 1.2fr 0.8fr;
+          gap: clamp(40px, 6vw, 80px);
+          align-items: start;
+        }
+
+        /* GALLERY */
+        .main-image-wrap {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16 / 10;
+          background: var(--off-white);
+          overflow: hidden;
+        }
+
+        .main-image-wrap img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          opacity: 0;
+          transition: opacity 0.5s ease;
+        }
+
+        .main-image-wrap img.loaded {
+          opacity: 1;
+        }
+
+        .image-skeleton {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, rgba(21,24,42,0.02) 0%, rgba(21,24,42,0.05) 50%, rgba(21,24,42,0.02) 100%);
+          background-size: 200% 100%;
+          animation: pulse 1.5s infinite linear;
+        }
+
+        @keyframes pulse {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
         }
 
-        @keyframes fadeInImage {
-          from { opacity: 0; transform: scale(1.02); }
-          to { opacity: 1; transform: scale(1); }
+        .image-counter {
+          position: absolute;
+          bottom: 24px;
+          right: 24px;
+          background: rgba(255, 255, 255, 0.9);
+          color: var(--azure-deep);
+          padding: 8px 16px;
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.1em;
         }
 
-        @keyframes goldPulse {
-          0% { box-shadow: 0 0 0 rgba(212,175,55,0); }
-          50% { box-shadow: 0 0 22px rgba(212,175,55,0.14); }
-          100% { box-shadow: 0 0 0 rgba(212,175,55,0); }
+        .thumbnails-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+          gap: 12px;
+          margin-top: 12px;
         }
 
-        .tabs-row button:hover {
-          transform: translateY(-1px);
+        .thumbnail-btn {
+          aspect-ratio: 16 / 10;
+          padding: 0;
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          opacity: 0.4;
+          transition: opacity 0.3s ease;
         }
 
-        .main-image-box:hover img {
-          transform: scale(1.04);
+        .thumbnail-btn:hover {
+          opacity: 0.8;
         }
 
-        @media (max-width: 900px) {
-          .unit-grid {
-            grid-template-columns: 1fr !important;
-            gap: 34px !important;
+        .thumbnail-btn.active {
+          opacity: 1;
+        }
+
+        .thumbnail-btn img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        /* DETAILS */
+        .detail-header {
+          margin-bottom: 24px;
+        }
+
+        .unit-type {
+          display: block;
+          color: var(--gold-accent);
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          margin-bottom: 12px;
+        }
+
+        .unit-name {
+          margin: 0;
+          font-family: var(--font-display);
+          font-size: clamp(2rem, 3vw, 2.5rem);
+          font-weight: 400;
+          color: var(--azure-deep);
+        }
+
+        .unit-desc {
+          margin: 0 0 40px 0;
+          font-family: var(--font-body);
+          font-size: 1rem;
+          line-height: 1.7;
+          color: var(--text-dark-soft);
+        }
+
+        .unit-specs {
+          list-style: none;
+          padding: 0;
+          margin: 0 0 48px 0;
+          border-top: 1px solid var(--border-light);
+        }
+
+        .unit-specs li {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 20px 0;
+          border-bottom: 1px solid var(--border-light);
+        }
+
+        .spec-label {
+          color: var(--text-dark-soft);
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+        }
+
+        .spec-val {
+          color: var(--azure-deep);
+          font-family: var(--font-body);
+          font-size: 0.9rem;
+          font-weight: 600;
+        }
+
+        .spec-price-row {
+          background: var(--off-white);
+          padding: 24px !important;
+          margin-top: -1px; /* Overlaps border */
+        }
+
+        .spec-price {
+          color: var(--gold-hover); /* Deeper gold for readability */
+          font-family: var(--font-serif);
+          font-size: 1.4rem;
+        }
+
+        /* BUTTONS */
+        .unit-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .btn-solid {
+          width: 100%;
+          min-height: 56px;
+          background: var(--azure-deep);
+          color: var(--white);
+          border: none;
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+
+        .btn-solid:hover {
+          background: var(--gold-accent);
+          color: var(--azure-deep);
+        }
+
+        .btn-outline {
+          width: 100%;
+          min-height: 56px;
+          background: transparent;
+          color: var(--azure-deep);
+          border: 1px solid rgba(21, 24, 42, 0.2);
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: border-color 0.3s ease;
+        }
+
+        .btn-outline:hover {
+          border-color: var(--azure-deep);
+        }
+
+        /* BOTTOM STATEMENT */
+        .units-statement {
+          padding: clamp(100px, 12vw, 160px) 0;
+          background: var(--azure-deep);
+          color: var(--white);
+        }
+
+        .statement-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: clamp(40px, 8vw, 100px);
+          align-items: end;
+        }
+
+        .statement-right .body-text {
+          color: rgba(255, 255, 255, 0.7);
+          max-width: 400px;
+        }
+
+        /* MODAL */
+        .tour-modal-backdrop {
+          position: fixed;
+          inset: 0;
+          z-index: 9999;
+          background: rgba(17, 26, 85, 0.9);
+          backdrop-filter: blur(8px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 24px;
+        }
+
+        .tour-modal {
+          background: var(--white);
+          padding: 48px;
+          width: 100%;
+          max-width: 480px;
+          position: relative;
+        }
+
+        .tour-modal-close {
+          position: absolute;
+          top: 24px;
+          right: 24px;
+          background: none;
+          border: none;
+          color: var(--azure-deep);
+          font-size: 1.5rem;
+          cursor: pointer;
+          opacity: 0.5;
+        }
+
+        .tour-modal-title {
+          font-family: var(--font-display);
+          font-size: 2rem;
+          margin: 0 0 16px 0;
+          color: var(--azure-deep);
+        }
+
+        .tour-modal-text {
+          color: var(--text-dark-soft);
+          margin-bottom: 32px;
+          line-height: 1.6;
+        }
+
+        .tour-modal-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .btn-text {
+          background: none;
+          border: none;
+          color: var(--text-dark-soft);
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          cursor: pointer;
+          padding: 16px 0;
+        }
+
+        /* =========================================================
+           MOBILE RESPONSIVENESS
+           ========================================================= */
+        @media (max-width: 1024px) {
+          .units-intro-grid, .residence-display, .statement-grid {
+            grid-template-columns: 1fr;
+            gap: 60px;
+          }
+          .units-intro-aside {
+            padding-left: 0;
+            border-left: none;
+            border-top: 1px solid var(--border-light);
+            padding-top: 32px;
           }
         }
 
         @media (max-width: 768px) {
-          .info-grid {
-            grid-template-columns: 1fr !important;
+          .units-intro {
+            padding: 120px 0 80px;
           }
-
-          .button-row {
-            flex-direction: column !important;
+          .units-catalogue {
+            padding: 80px 0;
           }
-
-          .tabs-row {
-            gap: 10px !important;
+          .catalogue-tabs {
+            overflow-x: auto;
+            margin: 0 -24px 40px;
+            padding: 0 24px;
+            scrollbar-width: none;
+          }
+          .catalogue-tabs::-webkit-scrollbar {
+            display: none;
+          }
+          .catalogue-tab {
+            flex-shrink: 0;
+          }
+          .spec-price-row {
+            padding: 24px 0 !important;
+            background: transparent;
+          }
+          .tour-modal {
+            padding: 32px 24px;
           }
         }
       `}</style>
     </>
   );
-};
-
-const styles = {
-  headerRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
-    marginBottom: "34px",
-  },
-
-  eyebrow: {
-    color: "var(--gold-accent)",
-    textTransform: "uppercase",
-    letterSpacing: "0.18em",
-    fontSize: "0.78rem",
-    marginBottom: "10px",
-  },
-
-  sectionTitle: {
-    fontSize: "clamp(2rem, 5vw, 3rem)",
-    color: "#fff",
-    lineHeight: 1.1,
-    margin: 0,
-    fontFamily: "var(--font-serif)",
-  },
-
-  tabsRow: {
-    display: "flex",
-    gap: "12px",
-    flexWrap: "wrap",
-    marginBottom: "40px",
-    paddingBottom: "6px",
-  },
-
-  tabButton: {
-    background: "transparent",
-    color: "#fff",
-    border: "1px solid rgba(212,175,55,0.55)",
-    padding: "12px 18px",
-    cursor: "pointer",
-    fontFamily: "var(--font-sans)",
-    transition: "all 0.28s ease",
-    minHeight: "46px",
-    whiteSpace: "nowrap",
-    letterSpacing: "0.01em",
-  },
-
-  tabButtonActive: {
-    background: "rgba(212,175,55,0.12)",
-    color: "var(--gold-accent)",
-    border: "1px solid var(--gold-accent)",
-    boxShadow: "0 0 22px rgba(212,175,55,0.12)",
-  },
-
-  unitGrid: {
-    display: "grid",
-    gridTemplateColumns: "1.18fr 1fr",
-    gap: "52px",
-    alignItems: "start",
-  },
-
-  mainImageBox: {
-    position: "relative",
-    width: "100%",
-    aspectRatio: "16/10",
-    overflow: "hidden",
-    background: "#111",
-    border: "1px solid rgba(255,255,255,0.06)",
-  },
-
-  skeleton: {
-    position: "absolute",
-    inset: 0,
-    background: "linear-gradient(90deg, #1b1b1b 25%, #2a2a2a 50%, #1b1b1b 75%)",
-    backgroundSize: "200% 100%",
-    animation: "skeletonLoading 1.4s ease-in-out infinite",
-  },
-
-  mainImage: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    display: "block",
-    transition: "transform 0.7s ease, opacity 0.35s ease",
-    animation: "fadeInImage 0.45s ease",
-  },
-
-  imageOverlay: {
-    position: "absolute",
-    inset: 0,
-    background:
-      "linear-gradient(to top, rgba(0,0,0,0.18), rgba(0,0,0,0.02) 35%, rgba(0,0,0,0))",
-    pointerEvents: "none",
-  },
-
-  thumbGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit,minmax(82px,1fr))",
-    gap: "10px",
-    marginTop: "14px",
-  },
-
-  thumbButton: {
-    position: "relative",
-    width: "100%",
-    aspectRatio: "4/3",
-    overflow: "hidden",
-    cursor: "pointer",
-    background: "#151515",
-    padding: 0,
-    border: "1px solid transparent",
-    transition: "all 0.25s ease",
-  },
-
-  thumbButtonActive: {
-    border: "1px solid var(--gold-accent)",
-    boxShadow: "0 0 16px rgba(212,175,55,0.12)",
-  },
-
-  thumbSkeleton: {
-    position: "absolute",
-    inset: 0,
-    background: "linear-gradient(90deg, #222 25%, #333 50%, #222 75%)",
-    backgroundSize: "200% 100%",
-    animation: "skeletonLoading 1.4s ease-in-out infinite",
-  },
-
-  thumbImage: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    position: "relative",
-    zIndex: 1,
-    display: "block",
-    transition: "transform 0.4s ease",
-  },
-
-  details: {
-    width: "100%",
-  },
-
-  typeLabel: {
-    color: "var(--gold-accent)",
-    letterSpacing: "0.18em",
-    textTransform: "uppercase",
-    fontSize: "0.8rem",
-    display: "inline-block",
-    marginBottom: "10px",
-  },
-
-  title: {
-    color: "#fff",
-    fontSize: "clamp(2rem,5vw,3rem)",
-    fontFamily: "var(--font-serif)",
-    margin: "0 0 18px",
-    lineHeight: 1.08,
-  },
-
-  description: {
-    color: "var(--text-muted)",
-    lineHeight: 1.8,
-    marginBottom: "28px",
-    fontFamily: "var(--font-sans)",
-    fontSize: "clamp(1rem, 2.2vw, 1.06rem)",
-  },
-
-  infoGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2,minmax(0,1fr))",
-    gap: "18px",
-    marginBottom: "30px",
-  },
-
-  infoCard: {
-    borderLeft: "1px solid rgba(212,175,55,0.6)",
-    paddingLeft: "15px",
-  },
-
-  priceCard: {
-    borderLeft: "1px solid var(--gold-accent)",
-    paddingLeft: "15px",
-    background: "linear-gradient(90deg, rgba(212,175,55,0.05), rgba(212,175,55,0))",
-    animation: "goldPulse 3s ease-in-out infinite",
-  },
-
-  labelStyle: {
-    color: "#777",
-    fontSize: "0.78rem",
-    textTransform: "uppercase",
-    letterSpacing: "0.08em",
-    marginBottom: "8px",
-  },
-
-  valueStyle: {
-    color: "#fff",
-    fontSize: "1.08rem",
-    lineHeight: 1.5,
-  },
-
-  buttonRow: {
-    display: "flex",
-    gap: "14px",
-    flexWrap: "wrap",
-  },
-
-  primaryBtn: {
-    background: "var(--gold-accent)",
-    color: "#000",
-    border: "none",
-    padding: "14px 24px",
-    cursor: "pointer",
-    fontWeight: "600",
-    minHeight: "50px",
-    flex: "1 1 220px",
-    transition: "transform 0.25s ease, box-shadow 0.25s ease",
-  },
-
-  secondaryBtn: {
-    background: "transparent",
-    color: "#fff",
-    border: "1px solid rgba(255,255,255,0.22)",
-    padding: "14px 24px",
-    cursor: "pointer",
-    fontWeight: "500",
-    minHeight: "50px",
-    flex: "1 1 220px",
-    transition: "transform 0.25s ease, border-color 0.25s ease, color 0.25s ease",
-  },
-
-  tourPromptStyle: {
-    position: "fixed",
-    inset: 0,
-    background: "rgba(0,0,0,0.74)",
-    backdropFilter: "blur(8px)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 99999,
-    padding: "20px",
-  },
-
-  tourCard: {
-    background: "linear-gradient(180deg, #111 0%, #0c0c0c 100%)",
-    padding: "34px 24px",
-    width: "460px",
-    maxWidth: "100%",
-    border: "1px solid rgba(255,255,255,0.08)",
-    boxShadow: "0 24px 70px rgba(0,0,0,0.5)",
-  },
-
-  tourEyebrow: {
-    color: "var(--gold-accent)",
-    textTransform: "uppercase",
-    letterSpacing: "0.18em",
-    fontSize: "0.76rem",
-    marginBottom: "12px",
-  },
-
-  tourTitle: {
-    color: "#fff",
-    fontFamily: "var(--font-serif)",
-    margin: "0 0 14px",
-    fontSize: "1.7rem",
-    lineHeight: 1.2,
-  },
-
-  tourText: {
-    color: "#bbb",
-    lineHeight: "1.75",
-    marginBottom: "24px",
-    fontFamily: "var(--font-sans)",
-  },
-
-  tourButtonRow: {
-    display: "flex",
-    gap: "12px",
-    flexWrap: "wrap",
-  },
-
-  tourPrimaryBtn: {
-    background: "var(--gold-accent)",
-    color: "#000",
-    border: "none",
-    padding: "14px 22px",
-    textDecoration: "none",
-    fontWeight: "600",
-    minHeight: "48px",
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: "1 1 180px",
-  },
-
-  tourSecondaryBtn: {
-    background: "transparent",
-    color: "#fff",
-    border: "1px solid rgba(255,255,255,0.2)",
-    padding: "14px 22px",
-    cursor: "pointer",
-    minHeight: "48px",
-    flex: "1 1 140px",
-  },
 };
 
 export default Units;

@@ -1,112 +1,417 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo/Riverside-azure-Gold-Logo.png";
-import { trackMetaEvent, createEventId } from "../lib/metaPixel.js";
 
 const Navbar = ({ onOpenModal }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
+  /* =========================================================
+     NAVIGATION
+     ========================================================= */
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Residences", path: "/units" },
+    { name: "Investment", path: "/investment" },
+    { name: "Journal", path: "/blog" },
+    { name: "Agents", path: "/agent-apply" },
+    { name: "Contact", path: "/contact" },
+  ];
+
+  /* =========================================================
+     SCROLL STATE
+     ========================================================= */
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 30);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  /* =========================================================
+     MOBILE MENU BODY LOCK
+     ========================================================= */
   useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? "hidden" : "auto";
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "";
     };
   }, [mobileMenuOpen]);
 
+  /* =========================================================
+     ROUTE CHANGE
+     ========================================================= */
   useEffect(() => {
     setMobileMenuOpen(false);
-    window.scrollTo(0, 0);
+    window.scrollTo({
+      top: 0,
+      behavior: "instant",
+    });
   }, [location.pathname]);
 
-const navLinks = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Units", path: "/units" },
-  { name: "Investment", path: "/investment" },
-  { name: "Blog", path: "/blog" },
-  { name: "Agents", path: "/agent-apply" },
-  { name: "Contact", path: "/contact" },
-];
+  /* =========================================================
+     CTA
+     ========================================================= */
+  const handleCta = () => {
+    setMobileMenuOpen(false);
+    if (typeof onOpenModal === "function") {
+      onOpenModal();
+    }
+  };
+
+  /* =========================================================
+     ACTIVE ROUTE
+     ========================================================= */
+  const isActiveRoute = (path) => {
+    if (path === "/") {
+      return location.pathname === "/";
+    }
+    return location.pathname === path;
+  };
 
   return (
     <>
-      <nav style={styles.nav(scrolled)}>
-        <div className="container" style={styles.container(scrolled)}>
-          <Link to="/" style={styles.logoLink}>
-            <img src={logo} alt="Riverside Azure Logo" style={styles.logo} />
+      <nav
+        className={`site-navbar ${scrolled ? "site-navbar-scrolled" : ""}`}
+        aria-label="Primary navigation"
+        style={styles.nav(scrolled)}
+      >
+        <div className="container navbar-container" style={styles.container(scrolled)}>
+          
+          {/* LOGO */}
+          <Link to="/" style={styles.logoLink} aria-label="Riverside Azure Home">
+            <img src={logo} alt="Riverside Azure" style={styles.logo(scrolled)} />
           </Link>
 
-          <ul className="desktop-only" style={styles.desktopNav}>
+          {/* DESKTOP NAVIGATION */}
+          <ul className="desktop-only navbar-links" style={styles.desktopNav}>
             {navLinks.map((link) => {
-              const isActive = location.pathname === link.path;
-
+              const active = isActiveRoute(link.path);
               return (
-                <li key={link.name}>
-                  <Link to={link.path} style={styles.navLink(isActive)}>
-                    {link.name}
+                <li key={link.name} style={styles.navItem}>
+                  <Link
+                    to={link.path}
+                    className={`navbar-link ${active ? "navbar-link-active" : ""}`}
+                    style={styles.navLink(active)}
+                  >
+                    <span>{link.name}</span>
+                    <span className="navbar-link-line" style={styles.activeLine(active)} />
                   </Link>
                 </li>
               );
             })}
           </ul>
 
-          <div style={styles.actions}>
+          {/* DESKTOP CTA */}
+          <div className="desktop-only navbar-actions" style={styles.actions}>
             <button
-              onClick={onOpenModal}
-              className="desktop-only"
+              type="button"
+              onClick={handleCta}
               style={styles.desktopButton}
+              className="navbar-cta"
             >
-              Secure Phase 1 Pricing
-            </button>
-
-            <button
-              className="mobile-only"
-              onClick={() => setMobileMenuOpen((prev) => !prev)}
-              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={mobileMenuOpen}
-              style={styles.mobileToggle}
-            >
-              <span style={styles.burgerLine1(mobileMenuOpen)} />
-              <span style={styles.burgerLine2(mobileMenuOpen)} />
-              <span style={styles.burgerLine3(mobileMenuOpen)} />
+              <span>Secure Phase 1 Pricing</span>
+              <span className="navbar-cta-arrow" aria-hidden="true">→</span>
             </button>
           </div>
+
+          {/* MOBILE MENU BUTTON (Strict 48x48px target) */}
+          <button
+            type="button"
+            className="mobile-only navbar-menu-button"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileMenuOpen}
+            style={styles.mobileToggle}
+          >
+            <span style={styles.burgerLine(mobileMenuOpen, 1)} />
+            <span style={styles.burgerLine(mobileMenuOpen, 2)} />
+          </button>
         </div>
       </nav>
 
-      <div style={styles.mobileMenu(mobileMenuOpen)}>
-        <ul style={styles.mobileNavList}>
-          {navLinks.map((link, index) => {
-            const isActive = location.pathname === link.path;
+      {/* =======================================================
+          MOBILE MENU (App-like Fullscreen Overlay)
+          ======================================================= */}
+      <div
+        className={`mobile-menu ${mobileMenuOpen ? "mobile-menu-open" : ""}`}
+        aria-hidden={!mobileMenuOpen}
+      >
+        <nav aria-label="Mobile navigation" className="mobile-navigation">
+          <ul className="mobile-nav-list">
+            {navLinks.map((link, index) => {
+              const active = isActiveRoute(link.path);
+              return (
+                <li
+                  key={link.name}
+                  className="mobile-nav-item"
+                  style={{
+                    transitionDelay: mobileMenuOpen ? `${0.06 * index}s` : "0s",
+                  }}
+                >
+                  <Link
+                    to={link.path}
+                    className={`mobile-nav-link ${active ? "mobile-nav-link-active" : ""}`}
+                    tabIndex={mobileMenuOpen ? 0 : -1}
+                  >
+                    <span className="mobile-nav-number">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span>{link.name}</span>
+                    {active && <span className="mobile-active-dot" aria-hidden="true" />}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
-            return (
-              <li key={link.name} style={styles.mobileNavItem(mobileMenuOpen, index)}>
-                <Link to={link.path} style={styles.mobileNavLink(isActive)}>
-                  {link.name}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-
-        <button onClick={onOpenModal} style={styles.mobileButton}>
-          Secure Phase 1 Pricing
-        </button>
+        {/* MOBILE CTA */}
+        <div className="mobile-bottom">
+          <p className="mobile-bottom-label">Riverside · Nairobi</p>
+          <button
+            type="button"
+            onClick={handleCta}
+            className="mobile-button"
+            tabIndex={mobileMenuOpen ? 0 : -1}
+          >
+            <span>Secure Phase 1 Pricing</span>
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
       </div>
+
+      {/* =======================================================
+          STYLES (Refined for true luxury)
+          ======================================================= */}
+      <style>{`
+        /* ANIMATION TIMING - The true luxury ease */
+        :root {
+          --nav-ease: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .site-navbar {
+          transition: background-color 0.6s var(--nav-ease),
+                      border-color 0.6s var(--nav-ease),
+                      box-shadow 0.6s var(--nav-ease);
+        }
+
+        .site-navbar-scrolled {
+          box-shadow: 0 4px 30px rgba(8, 12, 35, 0.15);
+        }
+
+        /* DESKTOP LINKS */
+        .navbar-link {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          height: 48px;
+          transition: color 0.4s var(--nav-ease);
+        }
+
+        .navbar-link:hover {
+          color: var(--gold-accent) !important;
+        }
+
+        .navbar-link-line {
+          position: absolute;
+          left: 0;
+          bottom: 12px; /* Lifted slightly closer to text */
+          width: 100%;
+          height: 1px;
+          background: var(--gold-accent);
+          opacity: 0;
+          transform: translateY(4px);
+          transition: opacity 0.4s var(--nav-ease), transform 0.4s var(--nav-ease);
+        }
+
+        .navbar-link:hover .navbar-link-line,
+        .navbar-link-active .navbar-link-line {
+          opacity: 1 !important;
+          transform: translateY(0);
+        }
+
+        /* DESKTOP CTA */
+        .navbar-cta {
+          position: relative;
+        }
+
+        .navbar-cta:hover {
+          background: var(--gold-accent) !important;
+          color: var(--azure-deep) !important;
+          border-color: var(--gold-accent) !important;
+        }
+
+        .navbar-cta-arrow {
+          transition: transform 0.4s var(--nav-ease);
+        }
+
+        .navbar-cta:hover .navbar-cta-arrow {
+          transform: translateX(4px);
+        }
+
+        /* MOBILE MENU OVERLAY */
+        .mobile-menu {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100dvh; /* Prevents mobile browser bar clipping */
+          z-index: 998;
+          display: flex;
+          flex-direction: column;
+          justify-content: center; /* Center vertically for an editorial feel */
+          padding: 80px 32px 40px;
+          background: var(--azure-deep);
+          color: var(--white);
+          opacity: 0;
+          pointer-events: none;
+          visibility: hidden;
+          transition: opacity 0.5s var(--nav-ease), visibility 0.5s;
+        }
+
+        .mobile-menu-open {
+          opacity: 1;
+          pointer-events: auto;
+          visibility: visible;
+        }
+
+        .mobile-navigation {
+          width: 100%;
+          max-width: 500px;
+          margin: 0 auto;
+        }
+
+        .mobile-nav-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 8px; /* Slight gap instead of rigid borders */
+        }
+
+        .mobile-nav-item {
+          opacity: 0;
+          transform: translateY(16px);
+          transition: opacity 0.5s var(--nav-ease), transform 0.5s var(--nav-ease);
+        }
+
+        .mobile-menu-open .mobile-nav-item {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .mobile-nav-link {
+          display: grid;
+          grid-template-columns: 40px 1fr auto;
+          align-items: center;
+          width: 100%;
+          padding: 12px 0; /* Massive touch target */
+          color: rgba(255,255,255,0.8);
+          text-decoration: none;
+          font-family: var(--font-display);
+          font-size: clamp(2rem, 8vw, 2.75rem); /* Larger, more dramatic typography */
+          line-height: 1;
+          transition: color 0.4s ease;
+        }
+
+        .mobile-nav-link:hover, .mobile-nav-link-active {
+          color: var(--gold-accent) !important;
+        }
+
+        .mobile-nav-number {
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          font-weight: 400; /* Lighter weight for editorial contrast */
+          letter-spacing: 0.1em;
+          color: rgba(255, 255, 255, 0.4); /* Softer number color */
+        }
+
+        .mobile-active-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: var(--gold-accent);
+        }
+
+        .mobile-bottom {
+          width: 100%;
+          max-width: 500px;
+          margin: 48px auto 0;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: opacity 0.6s var(--nav-ease) 0.3s, transform 0.6s var(--nav-ease) 0.3s;
+        }
+
+        .mobile-menu-open .mobile-bottom {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .mobile-button {
+          width: 100%;
+          min-height: 56px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 24px;
+          background: var(--gold-accent);
+          color: var(--azure-deep);
+          border: 1px solid var(--gold-accent);
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          transition: background-color 0.4s var(--nav-ease), color 0.4s var(--nav-ease);
+        }
+
+        .mobile-button:hover {
+          background: transparent;
+          color: var(--gold-accent);
+        }
+
+        .mobile-bottom-label {
+          margin: 0 0 16px;
+          color: rgba(255,255,255,0.4);
+          font-family: var(--font-body);
+          font-size: 0.7rem;
+          letter-spacing: 0.25em;
+          text-transform: uppercase;
+        }
+
+        /* RESPONSIVE TWEAKS */
+        @media (max-width: 1100px) {
+          .navbar-links { gap: 20px !important; }
+          .navbar-link { font-size: 0.65rem !important; }
+          .navbar-cta { padding: 0 20px !important; }
+        }
+        @media (max-width: 900px) {
+          .navbar-cta { display: none !important; }
+        }
+        @media (max-width: 768px) {
+          .navbar-container {
+            padding-top: 12px !important;
+            padding-bottom: 12px !important;
+          }
+        }
+      `}</style>
     </>
   );
 };
 
-export default Navbar;
-
+/* ============================================================
+   STYLES OBJECT
+   ============================================================ */
 const styles = {
   nav: (scrolled) => ({
     position: "fixed",
@@ -115,192 +420,115 @@ const styles = {
     width: "100%",
     zIndex: 1000,
     background: scrolled
-      ? "linear-gradient(180deg, rgba(2,17,31,0.96), rgba(3,27,47,0.94))"
-      : "linear-gradient(180deg, rgba(2,17,31,0.58), rgba(3,27,47,0.38))",
-    backdropFilter: "blur(14px)",
-    borderBottom: scrolled
-      ? "1px solid rgba(243,193,66,0.12)"
-      : "1px solid transparent",
-    boxShadow: scrolled ? "0 10px 30px rgba(0,0,0,0.22)" : "none",
-    transition: "all 0.35s ease",
+      ? "rgba(17, 26, 85, 0.95)" /* Slightly more transparent */
+      : "linear-gradient(180deg, rgba(8, 14, 48, 0.6) 0%, rgba(8, 14, 48, 0) 100%)",
+    borderBottom: scrolled ? "1px solid rgba(255, 255, 255, 0.05)" : "1px solid transparent",
+    backdropFilter: scrolled ? "blur(8px)" : "none",
+    WebkitBackdropFilter: scrolled ? "blur(8px)" : "none",
   }),
-
   container: (scrolled) => ({
-    maxWidth: "1200px",
-    margin: "0 auto",
-    padding: scrolled ? "12px 16px" : "20px 16px",
     display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
-    gap: "12px",
+    justifyContent: "space-between",
+    gap: "28px",
+    minHeight: scrolled ? "76px" : "100px", /* More dramatic size shift */
+    paddingTop: "8px",
+    paddingBottom: "8px",
+    transition: "min-height 0.6s cubic-bezier(0.19, 1, 0.22, 1)",
   }),
-
   logoLink: {
     display: "flex",
     alignItems: "center",
-    textDecoration: "none",
-    minWidth: 0,
+    flexShrink: 0,
+    position: "relative",
+    zIndex: 1001,
   },
-
-  logo: {
-    height: "clamp(34px, 6vw, 44px)",
+  logo: (scrolled) => ({
+    height: scrolled ? "36px" : "46px",
     width: "auto",
     objectFit: "contain",
     display: "block",
-  },
-
+    transition: "height 0.6s cubic-bezier(0.19, 1, 0.22, 1)",
+  }),
   desktopNav: {
     display: "flex",
     alignItems: "center",
-    gap: "28px",
+    justifyContent: "center",
+    gap: "32px",
     listStyle: "none",
     margin: 0,
     padding: 0,
+    flex: 1,
   },
-
-  navLink: (isActive) => ({
-    color: isActive ? "var(--gold-accent)" : "var(--text-muted)",
+  navItem: {
+    display: "flex",
+    alignItems: "center",
+  },
+  navLink: (active) => ({
+    color: active ? "var(--gold-accent)" : "rgba(255,255,255,0.9)",
     textDecoration: "none",
     textTransform: "uppercase",
-    fontSize: "0.78rem",
-    letterSpacing: "1.8px",
-    fontWeight: "700",
-    transition: "all 0.3s ease",
-    whiteSpace: "nowrap",
+    fontFamily: "var(--font-body)",
+    fontSize: "0.72rem",
+    letterSpacing: "0.15em",
+    fontWeight: 600, /* Softened from 700 */
   }),
-
+  activeLine: (active) => ({
+    opacity: active ? 1 : 0,
+    transform: active ? "translateY(0)" : "translateY(4px)",
+  }),
   actions: {
     display: "flex",
     alignItems: "center",
-    gap: "12px",
+    justifyContent: "flex-end",
     flexShrink: 0,
   },
-
   desktopButton: {
+    minHeight: "48px",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "12px",
+    padding: "0 24px",
     background: "transparent",
-    color: "var(--text-main)",
-    border: "1px solid rgba(243,193,66,0.38)",
-    padding: "11px 22px",
+    color: "var(--white)",
+    border: "1px solid rgba(255, 255, 255, 0.3)", /* Calmer border */
+    borderRadius: 0,
+    fontFamily: "var(--font-body)",
+    fontSize: "0.68rem",
+    fontWeight: 600,
+    letterSpacing: "0.15em",
     textTransform: "uppercase",
-    fontSize: "0.75rem",
-    letterSpacing: "1.5px",
-    fontWeight: "700",
     cursor: "pointer",
-    transition: "all 0.35s ease",
-    whiteSpace: "nowrap",
-    boxShadow: "0 10px 24px rgba(243,193,66,0.08)",
+    transition: "all 0.4s cubic-bezier(0.19, 1, 0.22, 1)",
   },
-
   mobileToggle: {
-    background: "transparent",
-    border: "none",
-    cursor: "pointer",
+    width: "48px", /* Perfect mobile touch target */
+    height: "48px",
     display: "flex",
     flexDirection: "column",
+    alignItems: "center",
     justifyContent: "center",
     gap: "6px",
-    padding: "8px",
-    minWidth: "44px",
-    minHeight: "44px",
+    padding: 0,
+    background: "transparent",
+    border: "1px solid rgba(255, 255, 255, 0.15)", /* Softer border than gold */
+    borderRadius: 0,
+    flexShrink: 0,
+    position: "relative",
     zIndex: 1001,
   },
-
-  burgerBase: {
-    width: "26px",
-    height: "2px",
-    background: "var(--gold-accent)",
-    transition: "all 0.3s ease",
-    transformOrigin: "center",
-  },
-
-  burgerLine1: (open) => ({
-    width: "26px",
-    height: "2px",
-    background: "var(--gold-accent)",
-    transition: "all 0.3s ease",
-    transform: open ? "rotate(45deg) translate(5px, 5px)" : "none",
-    transformOrigin: "center",
+  burgerLine: (open, index) => ({
+    width: index === 1 && !open ? "20px" : open ? "22px" : "14px",
+    height: "1px",
+    background: "var(--white)",
+    transition: "all 0.4s cubic-bezier(0.19, 1, 0.22, 1)",
+    transform: open && index === 1 ? "translateY(3px) rotate(45deg)" 
+             : open && index === 2 ? "translateY(-4px) rotate(-45deg)" 
+             : "none",
+    alignSelf: index === 1 ? "center" : "flex-end",
+    marginRight: index === 1 || open ? "0" : "6px", /* Asymmetrical touch to feel hand-crafted */
   }),
-
-  burgerLine2: (open) => ({
-    width: "26px",
-    height: "2px",
-    background: "var(--gold-accent)",
-    transition: "all 0.3s ease",
-    opacity: open ? 0 : 1,
-  }),
-
-  burgerLine3: (open) => ({
-    width: "26px",
-    height: "2px",
-    background: "var(--gold-accent)",
-    transition: "all 0.3s ease",
-    transform: open ? "rotate(-45deg) translate(5px, -5px)" : "none",
-    transformOrigin: "center",
-  }),
-
-  mobileMenu: (open) => ({
-    position: "fixed",
-    inset: 0,
-    background:
-      "linear-gradient(180deg, rgba(2,17,31,0.98), rgba(3,27,47,0.99))",
-    zIndex: 999,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "100px 24px 40px",
-    opacity: open ? 1 : 0,
-    visibility: open ? "visible" : "hidden",
-    pointerEvents: open ? "auto" : "none",
-    transition: "all 0.3s ease",
-  }),
-
-  mobileNavList: {
-    listStyle: "none",
-    padding: 0,
-    margin: 0,
-    width: "100%",
-    maxWidth: "320px",
-    textAlign: "center",
-    display: "flex",
-    flexDirection: "column",
-    gap: "22px",
-  },
-
-  mobileNavItem: (open, index) => ({
-    transform: open ? "translateY(0)" : "translateY(16px)",
-    opacity: open ? 1 : 0,
-    transition: `all 0.35s ease ${index * 0.05}s`,
-  }),
-
-  mobileNavLink: (isActive) => ({
-    display: "block",
-    color: isActive ? "var(--gold-accent)" : "var(--text-main)",
-    textDecoration: "none",
-    textTransform: "uppercase",
-    fontSize: "clamp(1.1rem, 5vw, 1.5rem)",
-    letterSpacing: "2px",
-    fontFamily: "var(--font-serif)",
-    padding: "10px 0",
-    textShadow: "0 4px 18px rgba(0,0,0,0.22)",
-  }),
-
-  mobileButton: {
-    marginTop: "32px",
-    background:
-      "linear-gradient(135deg, var(--gold-soft), var(--gold-accent), var(--gold-hover))",
-    color: "var(--azure-deep)",
-    border: "1px solid rgba(255,255,255,0.12)",
-    padding: "14px 22px",
-    textTransform: "uppercase",
-    fontSize: "0.78rem",
-    letterSpacing: "1.4px",
-    fontWeight: "800",
-    cursor: "pointer",
-    width: "100%",
-    maxWidth: "320px",
-    boxShadow:
-      "0 14px 36px rgba(243,193,66,0.22), inset 0 1px 0 rgba(255,255,255,0.24)",
-  },
 };
+
+export default Navbar;

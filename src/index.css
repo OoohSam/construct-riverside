@@ -1,40 +1,93 @@
+/* =========================================================
+   RIVERSIDE AZURE
+   GLOBAL DESIGN SYSTEM
+   Contemporary Quiet Luxury
+   ========================================================= */
+
 :root {
-  --bg-dark: #031b2f;
-  --bg-deep: #02111f;
-  --bg-card: #062b46;
-  --bg-card-soft: #08385c;
+  /* =======================================================
+     AZURE PALETTE
+     ======================================================= */
+  --azure-deep: #111a55;
+  --azure-dark: #192568;
+  --azure-main: #2b3990;
+  --azure-mid: #3949a3;
+  --azure-light: #5363bc;
 
-  --azure-main: #063b63;
-  --azure-deep: #021827;
-  --azure-glow: #0b5f93;
+  /* Compatibility */
+  --bg-dark: #111a55;
+  --bg-deep: #0c123d;
+  --bg-card: #1d286d;
+  --bg-card-soft: #2b3990;
+  --azure-glow: #5363bc;
 
-  --text-main: #f7f4ec;
-  --text-muted: #c7d3dc;
+  /* =======================================================
+     LIGHT PALETTE
+     ======================================================= */
+  --white: #ffffff;
+  --off-white: #f4f4f0; /* Slightly warmed up for a more paper-like feel */
+  --warm-white: #fbfaf7;
 
-  --gold-accent: #f3c142;
-  --gold-hover: #dba832;
-  --gold-soft: #ffe08a;
+  --text-dark: #1a1b20; /* Darkened slightly for sharper contrast */
+  --text-dark-soft: #5b6070;
 
-  --border-color: rgba(243, 193, 66, 0.28);
-  --border-soft: rgba(255, 255, 255, 0.1);
+  /* Compatibility */
+  --text-main: #ffffff;
+  --text-muted: #d7d9e2;
 
+  /* =======================================================
+     GOLD
+     ======================================================= */
+  --gold-accent: #c9a34e;
+  --gold-hover: #b28d3c; /* Deepened the hover state for richness */
+  --gold-soft: #e4cf91;
+  --gold-bright: #d8b761;
+
+  --border-color: rgba(201, 163, 78, 0.42);
+  --border-soft: rgba(255, 255, 255, 0.14);
+  --border-light: rgba(26, 27, 32, 0.12);
+  --border-dark: rgba(255, 255, 255, 0.14);
+
+  /* =======================================================
+     TYPOGRAPHY
+     ======================================================= */
   --font-serif: "Playfair Display", serif;
   --font-sans: "Manrope", sans-serif;
+
+  --font-display: var(--font-serif);
+  --font-body: var(--font-sans);
+
+  /* =======================================================
+     LAYOUT
+     ======================================================= */
+  --container-width: 1440px; /* Widened to allow for editorial offset layouts */
+  
+  /* Increased upper bound of spacing for a more dramatic, airy feel */
+  --section-space: clamp(100px, 12vw, 200px); 
+  
+  --content-width: 760px;
+
+  --radius-sm: 0px; /* Removed rounding entirely. True architectural design favors sharp lines */
+  --radius-md: 0px; 
+
+  /* =======================================================
+     MOTION
+     ======================================================= */
+  /* This is a true "cinematic" ease - slow start, fast middle, very long slow tail */
+  --ease-luxury: cubic-bezier(0.19, 1, 0.22, 1); 
+
+  --transition-fast: 0.3s var(--ease-luxury);
+  --transition-medium: 0.6s var(--ease-luxury);
+  --transition-slow: 1.2s var(--ease-luxury);
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* =========================================================
+   RESET
+   ========================================================= */
+html { scroll-behavior: smooth; }
+*, *::before, *::after { box-sizing: border-box; }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html,
-body,
-#root {
+html, body, #root {
   width: 100%;
   min-height: 100%;
   margin: 0;
@@ -42,153 +95,301 @@ body,
 }
 
 body {
-  background:
-    radial-gradient(circle at top right, rgba(11, 95, 147, 0.32), transparent 34%),
-    linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-deep) 100%);
-  color: var(--text-main);
-  font-family: var(--font-sans);
+  background: var(--white);
+  color: var(--text-dark);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  line-height: 1.5;
+  line-height: 1.65; /* Relaxed body line height for better legibility */
 }
 
-img,
-picture,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
-}
+/* =========================================================
+   MEDIA
+   ========================================================= */
+img, picture, video, canvas, svg { display: block; max-width: 100%; }
+img { height: auto; }
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+ul, ol { padding-left: 0; margin: 0; }
 
-input,
-button,
-textarea,
-select {
-  font: inherit;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-serif);
+/* =========================================================
+   TYPOGRAPHY - REFINED FOR EDITORIAL TENSION
+   ========================================================= */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
   font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  overflow-wrap: break-word;
-}
-
-p,
-li,
-a,
-span {
-  overflow-wrap: break-word;
-}
-
-button {
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-a {
+  margin-top: 0;
   color: inherit;
 }
 
-ul,
-ol {
-  padding-left: 0;
+/* The larger the text, the tighter the line-height and tracking */
+h1 {
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+h4 {
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  line-height: 1.3;
+}
+
+p {
+  max-width: 65ch; /* Prevents text lines from getting too wide to read comfortably */
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+/* Editorial utility: First paragraph offset */
+.text-indent {
+  text-indent: 4rem;
+}
+
+/* =========================================================
+   GLOBAL CONTAINER
+   ========================================================= */
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding-left: clamp(24px, 5vw, 64px); /* Fluid padding instead of static */
+  padding-right: clamp(24px, 5vw, 64px);
+}
+
+/* =========================================================
+   SECTION SYSTEM
+   ========================================================= */
+.section-white { background: var(--white); color: var(--text-dark); }
+.section-off-white { background: var(--off-white); color: var(--text-dark); }
+
+/* Softened the gradient slightly so it feels less like a tech background */
+.section-azure {
+  background: linear-gradient(145deg, var(--azure-deep) 0%, var(--azure-main) 70%);
+  color: var(--white);
+}
+
+/* =========================================================
+   COLOUR UTILITIES
+   ========================================================= */
+.text-gold { color: var(--gold-accent); }
+.text-dark { color: var(--text-dark); }
+.text-muted-dark { color: var(--text-dark-soft); }
+.text-white { color: var(--white); }
+.bg-white { background: var(--white); }
+.bg-off-white { background: var(--off-white); }
+.bg-azure { background: var(--azure-main); }
+.bg-azure-deep { background: var(--azure-deep); }
+.bg-gold { background: var(--gold-accent); color: var(--azure-deep); }
+.border-gold { border: 1px solid var(--border-color); }
+
+/* =========================================================
+   EDITORIAL EYEBROW
+   ========================================================= */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px; /* slightly more breathing room */
+  margin: 0 0 24px;
+  color: var(--gold-accent);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600; /* Dropped from 700. True luxury favors medium/semibold over heavy bold */
+  letter-spacing: 0.25em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 40px; /* Longer line looks more elegant */
+  height: 1px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   GOLD RULE
+   ========================================================= */
+.gold-rule {
+  width: 80px; /* Slightly longer */
+  height: 1px;
+  background: var(--gold-accent);
+  border: 0;
   margin: 0;
 }
 
-/* Utilities */
-.text-gold {
+/* =========================================================
+   BUTTON SYSTEM (REFINED)
+   ========================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px; /* Taller target feels more premium */
+  padding: 0 32px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  line-height: 1;
+  text-transform: uppercase;
+  transition: all var(--transition-medium);
+  /* REMOVED transform hover - luxury buttons fade/fill, they don't bounce */
+}
+
+/* =========================================================
+   GOLD BUTTON
+   ========================================================= */
+.btn-gold {
+  background: var(--gold-accent);
+  color: var(--azure-deep);
+  border: 1px solid var(--gold-accent);
+}
+.btn-gold:hover {
+  background: transparent;
   color: var(--gold-accent);
 }
 
-.bg-gold {
-  background: linear-gradient(135deg, var(--gold-soft), var(--gold-accent), var(--gold-hover));
-  color: #061625;
+/* =========================================================
+   LIGHT OUTLINE BUTTON
+   ========================================================= */
+.btn-outline-light {
+  background: transparent;
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.4); /* Softer border */
+}
+.btn-outline-light:hover {
+  background: var(--white);
+  color: var(--azure-deep);
+  border-color: var(--white);
 }
 
-.border-gold {
-  border: 1px solid var(--border-color);
+/* =========================================================
+   DARK OUTLINE BUTTON
+   ========================================================= */
+.btn-outline-dark {
+  background: transparent;
+  color: var(--azure-deep);
+  border-color: rgba(17, 26, 85, 0.25);
+}
+.btn-outline-dark:hover {
+  background: var(--azure-deep);
+  color: var(--white);
+  border-color: var(--azure-deep);
 }
 
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Reveal Animation Class */
+/* =========================================================
+   REVEAL ANIMATION (CINEMATIC)
+   ========================================================= */
 .reveal {
   opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+  transform: translateY(24px); /* Shorter travel distance looks less dramatic/gimmicky */
+  transition: opacity 1.2s var(--ease-luxury), transform 1.2s var(--ease-luxury);
+  will-change: opacity, transform;
 }
-
 .reveal.active {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+/* =========================================================
+   IMAGE REVEAL
+   ========================================================= */
+.reveal-image { overflow: hidden; }
+.reveal-image img {
+  transform: scale(1.06);
+  transition: transform 1.8s var(--ease-luxury); /* Much slower image settling */
+}
+.reveal-image.active img {
+  transform: scale(1);
 }
 
-::-webkit-scrollbar-track {
-  background: var(--bg-deep);
+/* =========================================================
+   LUXURY HOVER
+   ========================================================= */
+.luxury-hover {
+  transition: opacity var(--transition-medium);
+}
+.luxury-hover:hover {
+  opacity: 0.85; /* Replaced bounce with a subtle fade */
 }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--azure-glow), var(--bg-card));
-  border: 1px solid var(--border-color);
-}
+/* =========================================================
+   CUSTOM SCROLLBAR
+   ========================================================= */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--off-white); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border: none; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-accent); }
 
-/* Status badge */
+/* =========================================================
+   STATUS BADGE
+   ========================================================= */
 .status {
   position: absolute;
-  top: 15px;
-  left: 15px;
-  background: linear-gradient(135deg, var(--gold-soft), var(--gold-accent), var(--gold-hover));
-  color: #061625;
-  font-size: 0.8rem;
-  font-weight: 700;
-  padding: 6px 10px;
-  border-radius: 4px;
-  box-shadow: 0 10px 25px rgba(243, 193, 66, 0.22);
+  top: 24px;
+  left: 24px;
+  background: var(--white);
+  color: var(--azure-deep);
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 8px 14px;
+  border-radius: 0;
+  text-transform: uppercase;
 }
 
-/* Desktop / mobile visibility helpers */
-.desktop-only {
-  display: flex;
+/* =========================================================
+   FOCUS STATES
+   ========================================================= */
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 1px solid var(--gold-accent);
+  outline-offset: 4px;
 }
 
-.mobile-only {
-  display: none;
-}
+/* =========================================================
+   UTILITIES
+   ========================================================= */
+.desktop-only { display: flex; }
+.mobile-only { display: none; }
 
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 @media (max-width: 768px) {
-  .container {
-    padding: 0 16px;
-  }
-
-  .desktop-only {
-    display: none !important;
-  }
-
-  .mobile-only {
-    display: flex !important;
-  }
-
+  .desktop-only { display: none !important; }
+  .mobile-only { display: flex !important; }
+  
   .status {
-    top: 10px;
-    left: 10px;
-    font-size: 0.72rem;
-    padding: 5px 8px;
+    top: 16px;
+    left: 16px;
+    font-size: 0.65rem;
+    padding: 6px 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

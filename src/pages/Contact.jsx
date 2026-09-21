@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const faqs = [
   {
@@ -19,1077 +20,915 @@ const faqs = [
   },
 ];
 
+const initialForm = {
+  name: "",
+  phone: "",
+  email: "",
+  interest: "",
+  purpose: "",
+  budget: "",
+  paymentPlan: "",
+  timeframe: "",
+  location: "",
+  message: "",
+};
+
 const Contact = () => {
   const [openIndex, setOpenIndex] = useState(null);
-
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    interest: "",
-    purpose: "",
-    budget: "",
-    paymentPlan: "",
-    timeframe: "",
-    location: "",
-    message: "",
-  });
-
+  const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  /* =========================================================
+     GALLERY MOTION (Quiet & Restrained)
+     ========================================================= */
+  const quietEase = [0.25, 1, 0.5, 1];
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: quietEase } }
+  };
+
+  const fadeStagger = {
+    hidden: { opacity: 0, y: 10 },
+    visible: (customDelay) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, delay: customDelay, ease: quietEase }
+    })
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setSubmitting(true);
     setStatus("");
 
     try {
       const response = await fetch("/api/lead", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...form,
-          source: "Contact Page",
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, source: "Contact Page" }),
       });
 
       const data = await response.json();
+      if (!response.ok) throw new Error(data?.error || "Something went wrong.");
 
-      if (!response.ok) {
-        throw new Error(data?.error || "Something went wrong.");
-      }
-
-      setStatus(
-        "Thank you. Our sales team will contact you shortly."
-      );
-
-      setForm({
-        name: "",
-        phone: "",
-        email: "",
-        interest: "",
-        purpose: "",
-        budget: "",
-        paymentPlan: "",
-        timeframe: "",
-        location: "",
-        message: "",
-      });
+      setStatus("Thank you. Our sales team will contact you shortly.");
+      setForm(initialForm);
     } catch (error) {
       console.error("Lead submission error:", error);
-
-      setStatus(
-        "We couldn't submit your details. Please contact us directly on WhatsApp."
-      );
+      setStatus("We couldn't submit your details. Please contact us directly on WhatsApp.");
     } finally {
       setSubmitting(false);
     }
   };
 
+  const whatsappUrl = "https://wa.me/254796529997";
+
   return (
-    <section style={styles.section}>
-      <div className="container">
-
-        {/* =========================
-            HEADER
-        ========================== */}
-
-        <div style={styles.header}>
-          <p style={styles.eyebrow}>RIVERSIDE AZURE</p>
-
-          <h1 style={styles.heading}>
-            Let's Find Your
-            <br />
-            <span style={styles.goldText}>Perfect Home</span>
-          </h1>
-
-          <p style={styles.subheading}>
-            Tell us a little about what you're looking for and our
-            sales team will help you find the right opportunity at
-            Riverside Azure.
-          </p>
-        </div>
-
-
-        {/* =========================
-            QUALIFIED LEAD FORM
-        ========================== */}
-
-        <div style={styles.formSection}>
-
-          <div style={styles.formIntro}>
-            <h2 style={styles.formTitle}>
-              Speak With Our Sales Team
-            </h2>
-
-            <p style={styles.formDescription}>
-              Complete the form below and we'll get back to you with
-              availability, pricing and payment options.
-            </p>
-          </div>
-
-          <form onSubmit={handleSubmit}>
-
-            {/* BASIC INFORMATION */}
-
-            <div style={styles.formGroup}>
-
-              <p style={styles.sectionLabel}>
-                YOUR DETAILS
-              </p>
-
-              <div style={styles.twoColumn}>
-
-                <div style={styles.field}>
-                  <label style={styles.label}>
-                    Full Name *
-                  </label>
-
-                  <input
-                    type="text"
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    placeholder="Your full name"
-                    required
-                    style={styles.input}
-                  />
-                </div>
-
-                <div style={styles.field}>
-                  <label style={styles.label}>
-                    WhatsApp / Phone *
-                  </label>
-
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={form.phone}
-                    onChange={handleChange}
-                    placeholder="+254..."
-                    required
-                    style={styles.input}
-                  />
-                </div>
-
-              </div>
-
-              <div style={styles.field}>
-                <label style={styles.label}>
-                  Email Address
-                </label>
-
-                <input
-                  type="email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  placeholder="you@example.com"
-                  style={styles.input}
-                />
-              </div>
-
-            </div>
-
-
-            {/* PROPERTY INTEREST */}
-
-            <div style={styles.formGroup}>
-
-              <p style={styles.sectionLabel}>
-                YOUR PROPERTY INTEREST
-              </p>
-
-              <div style={styles.field}>
-                <label style={styles.label}>
-                  Which unit are you interested in? *
-                </label>
-
-                <select
-                  name="interest"
-                  value={form.interest}
-                  onChange={handleChange}
-                  required
-                  style={styles.select}
-                >
-                  <option value="">
-                    Select a unit type
-                  </option>
-
-                  <option value="1 Bedroom">
-                    1 Bedroom
-                  </option>
-
-                  <option value="2 Bedroom">
-                    2 Bedroom
-                  </option>
-
-                  <option value="3 Bedroom">
-                    3 Bedroom
-                  </option>
-
-                  <option value="Not Sure">
-                    I'm not sure yet
-                  </option>
-                </select>
-              </div>
-
-
-              <div style={styles.field}>
-                <label style={styles.label}>
-                  What are you buying for? *
-                </label>
-
-                <div style={styles.optionGrid}>
-
-                  {[
-                    ["Own Use", "Own use"],
-                    ["Investment", "Investment"],
-                    ["Both", "Both"],
-                  ].map(([value, label]) => (
-                    <label
-                      key={value}
-                      style={{
-                        ...styles.optionCard,
-                        ...(form.purpose === value
-                          ? styles.optionCardActive
-                          : {}),
-                      }}
-                    >
-                      <input
-                        type="radio"
-                        name="purpose"
-                        value={value}
-                        checked={form.purpose === value}
-                        onChange={handleChange}
-                        required
-                        style={styles.radio}
-                      />
-
-                      <span>{label}</span>
-                    </label>
-                  ))}
-
-                </div>
-              </div>
-
-            </div>
-
-
-            {/* INVESTMENT QUALIFICATION */}
-
-            <div style={styles.formGroup}>
-
-              <p style={styles.sectionLabel}>
-                YOUR REQUIREMENTS
-              </p>
-
-              <div style={styles.field}>
-                <label style={styles.label}>
-                  Approximate budget
-                </label>
-
-                <select
-                  name="budget"
-                  value={form.budget}
-                  onChange={handleChange}
-                  style={styles.select}
-                >
-                  <option value="">
-                    Select your budget
-                  </option>
-
-                  <option value="Below KES 8M">
-                    Below KES 8M
-                  </option>
-
-                  <option value="KES 8M - 10M">
-                    KES 8M – 10M
-                  </option>
-
-                  <option value="KES 10M - 13M">
-                    KES 10M – 13M
-                  </option>
-
-                  <option value="KES 13M - 16M">
-                    KES 13M – 16M
-                  </option>
-
-                  <option value="KES 16M+">
-                    KES 16M+
-                  </option>
-
-                  <option value="Prefer not to say">
-                    Prefer not to say
-                  </option>
-                </select>
-              </div>
-
-
-              <div style={styles.field}>
-                <label style={styles.label}>
-                  Preferred payment method
-                </label>
-
-                <select
-                  name="paymentPlan"
-                  value={form.paymentPlan}
-                  onChange={handleChange}
-                  style={styles.select}
-                >
-                  <option value="">
-                    Select payment method
-                  </option>
-
-                  <option value="Cash">
-                    Full Cash
-                  </option>
-
-                  <option value="Installment">
-                    Installment Plan
-                  </option>
-
-                  <option value="Mortgage">
-                    Mortgage / Financing
-                  </option>
-
-                  <option value="Not Sure">
-                    Not sure yet
-                  </option>
-                </select>
-              </div>
-
-
-              <div style={styles.field}>
-                <label style={styles.label}>
-                  When are you looking to purchase?
-                </label>
-
-                <select
-                  name="timeframe"
-                  value={form.timeframe}
-                  onChange={handleChange}
-                  style={styles.select}
-                >
-                  <option value="">
-                    Select timeframe
-                  </option>
-
-                  <option value="Immediately">
-                    Immediately
-                  </option>
-
-                  <option value="Within 1-3 months">
-                    Within 1–3 months
-                  </option>
-
-                  <option value="Within 3-6 months">
-                    Within 3–6 months
-                  </option>
-
-                  <option value="Within 6-12 months">
-                    Within 6–12 months
-                  </option>
-
-                  <option value="Just researching">
-                    Just researching
-                  </option>
-                </select>
-              </div>
-
-            </div>
-
-
-            {/* LOCATION */}
-
-            <div style={styles.formGroup}>
-
-              <p style={styles.sectionLabel}>
-                A LITTLE MORE ABOUT YOU
-              </p>
-
-              <div style={styles.field}>
-                <label style={styles.label}>
-                  Where are you currently based?
-                </label>
-
-                <select
-                  name="location"
-                  value={form.location}
-                  onChange={handleChange}
-                  style={styles.select}
-                >
-                  <option value="">
-                    Select location
-                  </option>
-
-                  <option value="Nairobi">
-                    Nairobi
-                  </option>
-
-                  <option value="Other Kenya">
-                    Other — Kenya
-                  </option>
-
-                  <option value="East Africa">
-                    East Africa
-                  </option>
-
-                  <option value="United Kingdom">
-                    United Kingdom
-                  </option>
-
-                  <option value="United States / Canada">
-                    United States / Canada
-                  </option>
-
-                  <option value="Middle East">
-                    Middle East
-                  </option>
-
-                  <option value="Other International">
-                    Other — International
-                  </option>
-                </select>
-              </div>
-
-
-              <div style={styles.field}>
-                <label style={styles.label}>
-                  Anything else you'd like us to know?
-                </label>
-
-                <textarea
-                  name="message"
-                  value={form.message}
-                  onChange={handleChange}
-                  placeholder="Tell us about your requirements..."
-                  rows="4"
-                  style={styles.textarea}
-                />
-              </div>
-
-            </div>
-
-
-            {/* SUBMIT */}
-
-            <button
-              type="submit"
-              disabled={submitting}
-              style={{
-                ...styles.button,
-                opacity: submitting ? 0.7 : 1,
-                cursor: submitting
-                  ? "not-allowed"
-                  : "pointer",
-              }}
+    <>
+      <main className="contact-page">
+        {/* =========================================================
+            HERO
+            ========================================================= */}
+        <section className="contact-hero">
+          <div className="container contact-hero-container">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={{ visible: { transition: { staggerChildren: 0.15 } } }}
+              className="contact-hero-content"
             >
-              {submitting
-                ? "Sending..."
-                : "Speak With Our Sales Team →"}
-            </button>
+              <motion.span className="section-meta gold-text" variants={fadeUp}>
+                Riverside · Nairobi
+              </motion.span>
+              <motion.h1 className="hero-title" variants={fadeUp}>
+                Begin a conversation.
+              </motion.h1>
+              <motion.p className="hero-desc" variants={fadeUp}>
+                Tell us what you are looking for and our sales team will help you explore 
+                the residences, pricing, and payment options available at Riverside Azure.
+              </motion.p>
+              <motion.div className="hero-actions" variants={fadeUp}>
+                <a href="#enquiry" className="btn-solid-hero">Make an Enquiry</a>
+                <a href={whatsappUrl} target="_blank" rel="noreferrer" className="btn-text-hero">
+                  WhatsApp Sales ↗
+                </a>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
 
-
-            {status && (
-              <div
-                style={{
-                  ...styles.status,
-                  color: status.startsWith("Thank")
-                    ? "#9fe3b2"
-                    : "#f4a6a6",
-                }}
+        {/* =========================================================
+            DIRECT CONTACT INFO
+            ========================================================= */}
+        <section className="contact-info">
+          <div className="container">
+            <div className="info-grid">
+              
+              {/* Left: Intro */}
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={fadeUp}
+                className="info-intro"
               >
-                {status}
+                <span className="section-meta">Get In Touch</span>
+                <h2 className="section-title">Your next address starts here.</h2>
+                <p className="body-text">
+                  Whether you are buying for yourself, your family, or as an investment, 
+                  our team can guide you through the development. Ask us about available residences, 
+                  current pricing, or arranging a private visit.
+                </p>
+              </motion.div>
+
+              {/* Right: Architectural Grid of Contact Details */}
+              <div className="info-details-grid">
+                {[
+                  { num: "01", label: "WhatsApp", title: "Chat with Sales", link: whatsappUrl, cta: "Start a conversation ↗" },
+                  { num: "02", label: "Phone", title: "0796 529 997", link: "tel:+254796529997", cta: "Call the sales team ↗", sub: "Mon–Fri · 8am–5pm" },
+                  { num: "03", label: "Email", title: "Email Sales", link: "mailto:info@riversideazure.com", cta: "info@riversideazure.com ↗" },
+                  { num: "04", label: "Location", title: "25 Riverside Drive", link: "https://maps.app.goo.gl/mpJWJq6jBALvGijU6", cta: "Open in Google Maps ↗", sub: "Riverside, Nairobi" }
+                ].map((item, index) => (
+                  <motion.a
+                    key={item.num}
+                    href={item.link}
+                    target={item.label === "Email" || item.label === "Phone" ? "_self" : "_blank"}
+                    rel={item.label === "Email" || item.label === "Phone" ? "" : "noreferrer"}
+                    className="detail-block"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                    custom={index * 0.1}
+                    variants={fadeStagger}
+                  >
+                    <span className="detail-meta">{item.num} · {item.label}</span>
+                    <h3 className="detail-title">{item.title}</h3>
+                    {item.sub && <p className="detail-sub">{item.sub}</p>}
+                    <span className="detail-cta">{item.cta}</span>
+                  </motion.a>
+                ))}
               </div>
-            )}
-
-            <p style={styles.privacy}>
-              Your information is kept confidential and will only
-              be used by the Riverside Azure sales team to respond
-              to your inquiry.
-            </p>
-
-          </form>
-        </div>
-
-
-        {/* =========================
-            DIRECT CONTACT
-        ========================== */}
-
-        <div style={styles.contactSection}>
-
-          <div style={styles.contactHeader}>
-            <p style={styles.eyebrow}>GET IN TOUCH</p>
-
-            <h2 style={styles.contactTitle}>
-              Prefer to speak directly?
-            </h2>
-
-            <p style={styles.contactDescription}>
-              Our sales team is available to answer questions,
-              arrange site visits and discuss available units.
-            </p>
+              
+            </div>
           </div>
+        </section>
 
-
-          <div style={styles.cardsGrid}>
-
-            <div style={styles.card}>
-              <h3 style={styles.cardTitle}>
-                WhatsApp
-              </h3>
-
-              <p style={styles.muted}>
-                Fastest way to reach us
-              </p>
-
-              <a
-                href="https://wa.me/254796529997"
-                target="_blank"
-                rel="noreferrer"
-                style={styles.link}
+        {/* =========================================================
+            ENQUIRY FORM (Gallery Minimalist Style)
+            ========================================================= */}
+        <section id="enquiry" className="contact-form-section">
+          <div className="container">
+            <div className="form-layout">
+              
+              {/* Form Sticky Header */}
+              <motion.div
+                className="form-aside"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={fadeUp}
               >
-                Chat With Sales →
-              </a>
-            </div>
+                <div className="sticky-content">
+                  <span className="section-meta">Private Enquiry</span>
+                  <h2 className="section-title">Tell us what you're looking for.</h2>
+                  <p className="body-text">
+                    A few details help our team prepare the right information before we contact you.
+                  </p>
+                  <div className="privacy-note">
+                    <span className="gold-rule" />
+                    <p>Your information remains confidential and is used only to respond to your Riverside Azure enquiry.</p>
+                  </div>
+                </div>
+              </motion.div>
 
-
-            <div style={styles.card}>
-              <h3 style={styles.cardTitle}>
-                Call Us
-              </h3>
-
-              <p style={styles.muted}>
-                Mon–Fri · 8am–5pm
-              </p>
-
-              <a
-                href="tel:+254796529997"
-                style={styles.link}
+              {/* The Minimalist Form */}
+              <motion.div
+                className="form-wrapper"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                variants={fadeUp}
               >
-                0796 529 997
-              </a>
+                <form onSubmit={handleSubmit}>
+                  
+                  {/* Step 1 */}
+                  <div className="form-step">
+                    <div className="step-header">
+                      <span className="step-num">01</span>
+                      <h3>Your Details</h3>
+                    </div>
+                    <div className="input-grid">
+                      <div className="input-group">
+                        <label htmlFor="name">Full Name *</label>
+                        <input id="name" type="text" name="name" value={form.name} onChange={handleChange} required className="min-input" />
+                      </div>
+                      <div className="input-group">
+                        <label htmlFor="phone">Phone / WhatsApp *</label>
+                        <input id="phone" type="tel" name="phone" value={form.phone} onChange={handleChange} required className="min-input" />
+                      </div>
+                      <div className="input-group full-width">
+                        <label htmlFor="email">Email Address</label>
+                        <input id="email" type="email" name="email" value={form.email} onChange={handleChange} className="min-input" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Step 2 */}
+                  <div className="form-step">
+                    <div className="step-header">
+                      <span className="step-num">02</span>
+                      <h3>Property Interest</h3>
+                    </div>
+                    <div className="input-grid">
+                      <div className="input-group">
+                        <label htmlFor="interest">Residence of Interest *</label>
+                        <div className="select-wrapper">
+                          <select id="interest" name="interest" value={form.interest} onChange={handleChange} required className="min-input">
+                            <option value="">Select a unit type</option>
+                            <option value="1 Bedroom">1 Bedroom</option>
+                            <option value="2 Bedroom">2 Bedroom</option>
+                            <option value="3 Bedroom">3 Bedroom</option>
+                            <option value="Not Sure">I'm not sure yet</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="input-group">
+                        <label htmlFor="purpose">Primary Purpose *</label>
+                        <div className="select-wrapper">
+                          <select id="purpose" name="purpose" value={form.purpose} onChange={handleChange} required className="min-input">
+                            <option value="">Select purpose</option>
+                            <option value="Own Use">Own Use</option>
+                            <option value="Investment">Investment</option>
+                            <option value="Both">Both</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div className="form-step">
+                    <div className="step-header">
+                      <span className="step-num">03</span>
+                      <h3>Requirements</h3>
+                    </div>
+                    <div className="input-grid">
+                      <div className="input-group">
+                        <label htmlFor="budget">Approximate Budget</label>
+                        <div className="select-wrapper">
+                          <select id="budget" name="budget" value={form.budget} onChange={handleChange} className="min-input">
+                            <option value="">Select budget</option>
+                            <option value="Below KES 8M">Below KES 8M</option>
+                            <option value="KES 8M - 10M">KES 8M – 10M</option>
+                            <option value="KES 10M - 13M">KES 10M – 13M</option>
+                            <option value="KES 13M - 16M">KES 13M – 16M</option>
+                            <option value="KES 16M+">KES 16M+</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="input-group">
+                        <label htmlFor="timeframe">Purchase Timeframe</label>
+                        <div className="select-wrapper">
+                          <select id="timeframe" name="timeframe" value={form.timeframe} onChange={handleChange} className="min-input">
+                            <option value="">Select timeframe</option>
+                            <option value="Immediately">Immediately</option>
+                            <option value="Within 1-3 months">Within 1–3 months</option>
+                            <option value="Within 3-6 months">Within 3–6 months</option>
+                            <option value="Just researching">Just researching</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="input-group full-width">
+                        <label htmlFor="message">Additional Information</label>
+                        <textarea id="message" name="message" value={form.message} onChange={handleChange} rows="4" className="min-input" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="form-submit-wrapper">
+                    <button type="submit" disabled={submitting} className="btn-solid-submit">
+                      {submitting ? "Sending..." : "Submit Enquiry"} <span>→</span>
+                    </button>
+                    
+                    <AnimatePresence mode="wait">
+                      {status && (
+                        <motion.div 
+                          className="status-message"
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                        >
+                          {status}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                </form>
+              </motion.div>
+
             </div>
-
-
-            <div style={styles.card}>
-              <h3 style={styles.cardTitle}>
-                Email Sales
-              </h3>
-
-              <p style={styles.muted}>
-                Investment inquiries
-              </p>
-
-              <a
-                href="mailto:info@riversideazure.com"
-                style={styles.link}
-              >
-                info@riversideazure.com
-              </a>
-            </div>
-
-
-            <div style={styles.card}>
-              <h3 style={styles.cardTitle}>
-                Visit Site
-              </h3>
-
-              <p style={styles.muted}>
-                Riverside Drive, Nairobi
-              </p>
-
-              <a
-                href="https://maps.app.goo.gl/mpJWJq6jBALvGijU6"
-                target="_blank"
-                rel="noreferrer"
-                style={styles.link}
-              >
-                Open in Google Maps →
-              </a>
-            </div>
-
           </div>
-        </div>
+        </section>
 
-
-        {/* =========================
-            MAP
-        ========================== */}
-
-        <div style={styles.mapWrap}>
+        {/* =========================================================
+            MAP (Edge to Edge, Architectural)
+            ========================================================= */}
+        <section className="map-section">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d498.60477500888726!2d36.7973963187308!3d-1.270017329739098!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f17002d64b365%3A0xf5848f6948e54151!2sJNC%20Brothers!5e0!3m2!1sen!2ske!4v1774085453694!5m2!1sen!2ske"
             width="100%"
             height="100%"
-            style={styles.iframe}
+            style={{ border: 0 }}
             allowFullScreen=""
             loading="lazy"
             title="Riverside Azure location"
           />
-        </div>
+          <div className="map-label">
+            <span className="label-top">RIVERSIDE · NAIROBI</span>
+            <span className="label-bottom">25 Riverside Drive</span>
+          </div>
+        </section>
 
-
-        {/* =========================
+        {/* =========================================================
             FAQ
-        ========================== */}
+            ========================================================= */}
+        <section className="faq-section">
+          <div className="container">
+            <div className="faq-layout">
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={fadeUp}
+              >
+                <span className="section-meta">Questions</span>
+                <h2 className="section-title">Before you visit us.</h2>
+              </motion.div>
 
-        <div style={styles.faqSection}>
-
-          <h2 style={styles.faqTitle}>
-            Frequently Asked Questions
-          </h2>
-
-          {faqs.map((faq, index) => (
-            <div
-              key={index}
-              style={styles.faqItem}
-              onClick={() =>
-                setOpenIndex(
-                  openIndex === index ? null : index
-                )
-              }
-            >
-              <div style={styles.faqRow}>
-
-                <h4 style={styles.faqQuestion}>
-                  {faq.q}
-                </h4>
-
-                <span style={styles.faqToggle}>
-                  {openIndex === index ? "−" : "+"}
-                </span>
-
+              <div className="faq-list">
+                {faqs.map((faq, index) => {
+                  const isOpen = openIndex === index;
+                  return (
+                    <motion.div
+                      key={faq.q}
+                      className="faq-item"
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, amount: 0.2 }}
+                      custom={index * 0.1}
+                      variants={fadeStagger}
+                    >
+                      <button
+                        type="button"
+                        className="faq-trigger"
+                        onClick={() => setOpenIndex(isOpen ? null : index)}
+                        aria-expanded={isOpen}
+                      >
+                        <span className="faq-q">{faq.q}</span>
+                        <span className="faq-icon">{isOpen ? "−" : "+"}</span>
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            className="faq-answer"
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.4, ease: quietEase }}
+                          >
+                            <p>{faq.a}</p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  );
+                })}
               </div>
-
-              {openIndex === index && (
-                <p style={styles.faqAnswer}>
-                  {faq.a}
-                </p>
-              )}
-
             </div>
-          ))}
+          </div>
+        </section>
 
-        </div>
+      </main>
 
-      </div>
+      {/* =========================================================
+          STYLES (Gallery Minimalist)
+          ========================================================= */}
+      <style>{`
+        .contact-page {
+          background: var(--white);
+          color: var(--text-dark);
+          overflow-x: hidden;
+        }
 
+        /* TYPOGRAPHY UTILITIES */
+        .section-meta {
+          display: block;
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: var(--text-dark-soft);
+          margin-bottom: 24px;
+        }
 
-      {/* =========================
-          FLOATING WHATSAPP
-      ========================== */}
+        .gold-text { color: var(--gold-accent); }
 
-      <a
-        href="https://wa.me/254796529997"
-        target="_blank"
-        rel="noreferrer"
-        style={styles.whatsappFloat}
-        aria-label="Chat with Riverside Azure on WhatsApp"
-      >
-        <span style={styles.whatsappIcon}>💬</span>
-      </a>
+        .section-title {
+          margin: 0;
+          font-family: var(--font-display);
+          font-size: clamp(2.5rem, 5vw, 4rem);
+          font-weight: 400;
+          line-height: 1.05;
+          letter-spacing: -0.02em;
+          color: var(--azure-deep);
+        }
 
-    </section>
+        .body-text {
+          margin: 24px 0 0 0;
+          font-family: var(--font-body);
+          font-size: 0.95rem;
+          line-height: 1.7;
+          color: var(--text-dark-soft);
+        }
+
+        /* HERO */
+        .contact-hero {
+          background: var(--azure-deep);
+          color: var(--white);
+          padding: clamp(140px, 15vw, 180px) 0 clamp(80px, 10vw, 120px) 0;
+        }
+
+        .contact-hero-content {
+          max-width: 800px;
+        }
+
+        .hero-title {
+          margin: 0 0 24px 0;
+          font-family: var(--font-display);
+          font-size: clamp(3rem, 6vw, 5.5rem);
+          font-weight: 400;
+          line-height: 1;
+          letter-spacing: -0.03em;
+        }
+
+        .hero-desc {
+          margin: 0 0 40px 0;
+          color: rgba(255, 255, 255, 0.7);
+          font-family: var(--font-body);
+          font-size: 1.05rem;
+          line-height: 1.7;
+          max-width: 500px;
+        }
+
+        .hero-actions {
+          display: flex;
+          align-items: center;
+          gap: 32px;
+        }
+
+        .btn-solid-hero {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 56px;
+          padding: 0 32px;
+          background: var(--gold-accent);
+          color: var(--azure-deep);
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+        }
+
+        .btn-solid-hero:hover {
+          background: var(--white);
+        }
+
+        .btn-text-hero {
+          color: var(--white);
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          text-decoration: none;
+          transition: color 0.3s ease;
+        }
+
+        .btn-text-hero:hover {
+          color: var(--gold-accent);
+        }
+
+        /* INFO SECTION */
+        .contact-info {
+          padding: clamp(100px, 12vw, 160px) 0;
+          background: var(--white);
+        }
+
+        .info-grid {
+          display: grid;
+          grid-template-columns: 0.8fr 1.2fr;
+          gap: clamp(60px, 8vw, 120px);
+          align-items: start;
+        }
+
+        .info-intro {
+          position: sticky;
+          top: 120px;
+        }
+
+        .info-details-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 40px;
+        }
+
+        .detail-block {
+          display: flex;
+          flex-direction: column;
+          padding: 32px;
+          background: var(--off-white);
+          border: 1px solid var(--border-light);
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+        }
+
+        .detail-block:hover {
+          background: var(--white);
+        }
+
+        .detail-meta {
+          color: var(--gold-accent);
+          font-family: var(--font-body);
+          font-size: 0.65rem;
+          font-weight: 700;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          margin-bottom: 24px;
+        }
+
+        .detail-title {
+          margin: 0 0 8px 0;
+          color: var(--azure-deep);
+          font-family: var(--font-display);
+          font-size: 1.5rem;
+          font-weight: 400;
+        }
+
+        .detail-sub {
+          margin: 0;
+          color: var(--text-dark-soft);
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          line-height: 1.6;
+        }
+
+        .detail-cta {
+          margin-top: 32px;
+          color: var(--azure-main);
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          transition: color 0.3s ease;
+        }
+
+        .detail-block:hover .detail-cta {
+          color: var(--gold-accent);
+        }
+
+        /* FORM SECTION (Gallery Minimalist) */
+        .contact-form-section {
+          padding: clamp(100px, 12vw, 160px) 0;
+          background: var(--off-white);
+        }
+
+        .form-layout {
+          display: grid;
+          grid-template-columns: 0.8fr 1.2fr;
+          gap: clamp(60px, 8vw, 120px);
+          align-items: start;
+        }
+
+        .form-aside {
+          position: sticky;
+          top: 120px;
+        }
+
+        .privacy-note {
+          margin-top: 48px;
+          padding-top: 24px;
+          border-top: 1px solid var(--border-light);
+        }
+
+        .privacy-note .gold-rule {
+          display: block;
+          width: 40px;
+          height: 1px;
+          background: var(--gold-accent);
+          margin-bottom: 16px;
+        }
+
+        .privacy-note p {
+          margin: 0;
+          color: var(--text-dark-soft);
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          line-height: 1.6;
+        }
+
+        .form-wrapper form {
+          display: flex;
+          flex-direction: column;
+          gap: 60px; /* Strong architectural separation between steps */
+        }
+
+        .form-step {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+        }
+
+        .step-header {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding-bottom: 16px;
+          border-bottom: 1px solid var(--border-light);
+        }
+
+        .step-num {
+          color: var(--gold-accent);
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          font-weight: 700;
+        }
+
+        .step-header h3 {
+          margin: 0;
+          color: var(--azure-deep);
+          font-family: var(--font-display);
+          font-size: 1.5rem;
+          font-weight: 400;
+        }
+
+        .input-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 32px 24px;
+        }
+
+        .input-group {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .full-width {
+          grid-column: 1 / -1;
+        }
+
+        .input-group label {
+          color: var(--text-dark-soft);
+          font-family: var(--font-body);
+          font-size: 0.7rem;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+        }
+
+        /* The true minimalist input */
+        .min-input {
+          width: 100%;
+          background: transparent;
+          border: none;
+          border-bottom: 1px solid rgba(21, 24, 42, 0.2);
+          color: var(--text-dark);
+          font-family: var(--font-body);
+          font-size: 16px; /* Prevents iOS zoom */
+          padding: 12px 0;
+          outline: none;
+          transition: border-color 0.3s ease;
+        }
+
+        .min-input:focus {
+          border-bottom-color: var(--gold-accent);
+        }
+
+        .select-wrapper {
+          position: relative;
+        }
+
+        .select-wrapper::after {
+          content: "↓";
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          color: var(--gold-accent);
+          pointer-events: none;
+        }
+
+        select.min-input {
+          appearance: none;
+          -webkit-appearance: none;
+          cursor: pointer;
+          padding-right: 24px;
+        }
+
+        .form-submit-wrapper {
+          margin-top: 24px;
+        }
+
+        .btn-solid-submit {
+          display: inline-flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          min-height: 60px;
+          padding: 0 24px;
+          background: var(--azure-deep);
+          color: var(--white);
+          border: none;
+          font-family: var(--font-body);
+          font-size: 0.8rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+
+        .btn-solid-submit:hover:not(:disabled) {
+          background: var(--gold-accent);
+          color: var(--azure-deep);
+        }
+
+        .btn-solid-submit:disabled {
+          opacity: 0.6;
+          cursor: wait;
+        }
+
+        .status-message {
+          margin-top: 16px;
+          padding: 16px;
+          text-align: center;
+          font-family: var(--font-body);
+          font-size: 0.85rem;
+          background: rgba(21, 24, 42, 0.05);
+          color: var(--azure-deep);
+        }
+
+        /* MAP */
+        .map-section {
+          position: relative;
+          width: 100%;
+          height: 60vh;
+          min-height: 400px;
+          background: var(--border-light);
+        }
+
+        .map-section iframe {
+          filter: grayscale(1) contrast(1.1); /* Editorial B&W map */
+        }
+
+        .map-label {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          background: var(--azure-deep);
+          color: var(--white);
+          padding: 32px 48px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .label-top {
+          color: var(--gold-accent);
+          font-family: var(--font-body);
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.15em;
+        }
+
+        .label-bottom {
+          font-family: var(--font-display);
+          font-size: 1.5rem;
+          font-weight: 400;
+        }
+
+        /* FAQ */
+        .faq-section {
+          padding: clamp(100px, 12vw, 160px) 0;
+          background: var(--white);
+        }
+
+        .faq-layout {
+          display: grid;
+          grid-template-columns: 0.8fr 1.2fr;
+          gap: clamp(60px, 8vw, 120px);
+          align-items: start;
+        }
+
+        .faq-list {
+          border-top: 1px solid var(--border-light);
+        }
+
+        .faq-item {
+          border-bottom: 1px solid var(--border-light);
+        }
+
+        .faq-trigger {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 24px 0;
+          background: none;
+          border: none;
+          color: var(--azure-deep);
+          cursor: pointer;
+          text-align: left;
+        }
+
+        .faq-q {
+          font-family: var(--font-body);
+          font-size: 1.05rem;
+          font-weight: 600;
+          padding-right: 24px;
+        }
+
+        .faq-icon {
+          color: var(--gold-accent);
+          font-size: 1.5rem;
+          flex-shrink: 0;
+        }
+
+        .faq-answer {
+          overflow: hidden;
+        }
+
+        .faq-answer p {
+          margin: 0 0 24px 0;
+          font-family: var(--font-body);
+          font-size: 0.95rem;
+          line-height: 1.7;
+          color: var(--text-dark-soft);
+          max-width: 600px;
+        }
+
+        /* =========================================================
+           MOBILE RESPONSIVENESS
+           ========================================================= */
+        @media (max-width: 1024px) {
+          .info-grid, .form-layout, .faq-layout {
+            grid-template-columns: 1fr;
+            gap: 60px;
+          }
+          .info-intro, .form-aside {
+            position: static;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .contact-hero {
+            padding-top: 120px;
+          }
+          .hero-actions {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 24px;
+          }
+          .info-details-grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
+          }
+          .input-grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
+          }
+          .map-label {
+            width: 100%;
+            padding: 24px;
+          }
+        }
+      `}</style>
+    </>
   );
-};
-
-
-const styles = {
-
-  section: {
-    padding: "clamp(88px, 10vw, 120px) 0 80px",
-    color: "var(--text-main)",
-    background: `
-      radial-gradient(
-        circle at top right,
-        rgba(11,95,147,0.22),
-        transparent 34%
-      ),
-      linear-gradient(
-        180deg,
-        #04395e 0%,
-        #031b2f 42%,
-        #021827 100%
-      )
-    `,
-  },
-
-  header: {
-    textAlign: "center",
-    marginBottom: "46px",
-    paddingTop: "20px",
-  },
-
-  eyebrow: {
-    margin: "0 0 12px",
-    color: "var(--gold-accent)",
-    fontSize: "0.75rem",
-    fontWeight: 800,
-    letterSpacing: "0.18em",
-    textTransform: "uppercase",
-  },
-
-  heading: {
-    fontSize: "clamp(2.4rem, 7vw, 4.2rem)",
-    marginBottom: "18px",
-    lineHeight: 1.04,
-    fontFamily: "var(--font-serif)",
-    letterSpacing: "-0.035em",
-    color: "var(--text-main)",
-  },
-
-  goldText: {
-    color: "var(--gold-accent)",
-  },
-
-  subheading: {
-    color: "var(--text-muted)",
-    fontSize: "clamp(0.98rem, 2.8vw, 1.08rem)",
-    lineHeight: 1.75,
-    maxWidth: "700px",
-    margin: "0 auto",
-  },
-
-  formSection: {
-    maxWidth: "820px",
-    margin: "0 auto 80px",
-    padding: "clamp(24px, 5vw, 46px)",
-    border: "1px solid rgba(243,193,66,0.20)",
-    background:
-      "linear-gradient(180deg, rgba(6,43,70,0.78), rgba(2,17,31,0.90))",
-    boxShadow: "0 28px 80px rgba(0,0,0,0.25)",
-  },
-
-  formIntro: {
-    marginBottom: "34px",
-  },
-
-  formTitle: {
-    margin: "0 0 10px",
-    fontSize: "clamp(1.9rem, 5vw, 2.5rem)",
-    lineHeight: 1.15,
-    color: "var(--text-main)",
-    fontFamily: "var(--font-serif)",
-  },
-
-  formDescription: {
-    margin: 0,
-    color: "var(--text-muted)",
-    lineHeight: 1.7,
-  },
-
-  formGroup: {
-    paddingBottom: "30px",
-    marginBottom: "30px",
-    borderBottom:
-      "1px solid rgba(243,193,66,0.10)",
-  },
-
-  sectionLabel: {
-    margin: "0 0 20px",
-    color: "var(--gold-accent)",
-    fontSize: "0.72rem",
-    fontWeight: 800,
-    letterSpacing: "0.16em",
-  },
-
-  twoColumn: {
-    display: "grid",
-    gridTemplateColumns:
-      "repeat(auto-fit, minmax(220px, 1fr))",
-    gap: "14px",
-  },
-
-  field: {
-    display: "grid",
-    gap: "8px",
-    marginBottom: "16px",
-  },
-
-  label: {
-    fontSize: "0.84rem",
-    color: "var(--text-muted)",
-    fontWeight: 600,
-  },
-
-  input: {
-    width: "100%",
-    padding: "15px 16px",
-    background: "rgba(1,18,32,0.76)",
-    border:
-      "1px solid rgba(243,193,66,0.16)",
-    color: "var(--text-main)",
-    outline: "none",
-    minHeight: "52px",
-    fontSize: "16px",
-    boxSizing: "border-box",
-  },
-
-  select: {
-    width: "100%",
-    padding: "15px 16px",
-    background: "#031b2f",
-    border:
-      "1px solid rgba(243,193,66,0.16)",
-    color: "var(--text-main)",
-    outline: "none",
-    minHeight: "52px",
-    fontSize: "16px",
-    boxSizing: "border-box",
-  },
-
-  textarea: {
-    width: "100%",
-    padding: "15px 16px",
-    background: "rgba(1,18,32,0.76)",
-    border:
-      "1px solid rgba(243,193,66,0.16)",
-    color: "var(--text-main)",
-    outline: "none",
-    resize: "vertical",
-    minHeight: "120px",
-    fontSize: "16px",
-    boxSizing: "border-box",
-    fontFamily: "inherit",
-  },
-
-  optionGrid: {
-    display: "grid",
-    gridTemplateColumns:
-      "repeat(auto-fit, minmax(150px, 1fr))",
-    gap: "10px",
-  },
-
-  optionCard: {
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
-    minHeight: "52px",
-    padding: "0 14px",
-    border:
-      "1px solid rgba(243,193,66,0.14)",
-    background: "rgba(1,18,32,0.55)",
-    color: "var(--text-muted)",
-    cursor: "pointer",
-    boxSizing: "border-box",
-  },
-
-  optionCardActive: {
-    border:
-      "1px solid var(--gold-accent)",
-    background:
-      "rgba(243,193,66,0.08)",
-    color: "var(--text-main)",
-  },
-
-  radio: {
-    accentColor: "var(--gold-accent)",
-  },
-
-  button: {
-    width: "100%",
-    padding: "16px 20px",
-    background:
-      "linear-gradient(135deg, var(--gold-soft), var(--gold-accent), var(--gold-hover))",
-    border:
-      "1px solid rgba(255,255,255,0.14)",
-    fontWeight: 800,
-    cursor: "pointer",
-    color: "var(--azure-deep)",
-    minHeight: "56px",
-    fontSize: "0.95rem",
-    boxShadow:
-      "0 14px 34px rgba(243,193,66,0.24), inset 0 1px 0 rgba(255,255,255,0.24)",
-  },
-
-  status: {
-    marginTop: "18px",
-    textAlign: "center",
-    fontSize: "0.92rem",
-    lineHeight: 1.6,
-  },
-
-  privacy: {
-    margin: "16px auto 0",
-    maxWidth: "600px",
-    textAlign: "center",
-    color: "rgba(255,255,255,0.45)",
-    fontSize: "0.75rem",
-    lineHeight: 1.6,
-  },
-
-  contactSection: {
-    marginBottom: "60px",
-  },
-
-  contactHeader: {
-    textAlign: "center",
-    maxWidth: "650px",
-    margin: "0 auto 34px",
-  },
-
-  contactTitle: {
-    margin: "0 0 12px",
-    fontSize: "clamp(1.9rem, 5vw, 2.5rem)",
-    lineHeight: 1.15,
-    fontFamily: "var(--font-serif)",
-    color: "var(--text-main)",
-  },
-
-  contactDescription: {
-    margin: 0,
-    color: "var(--text-muted)",
-    lineHeight: 1.7,
-  },
-
-  cardsGrid: {
-    display: "grid",
-    gridTemplateColumns:
-      "repeat(auto-fit, minmax(220px, 1fr))",
-    gap: "16px",
-  },
-
-  card: {
-    border:
-      "1px solid rgba(243,193,66,0.16)",
-    padding: "24px",
-    background:
-      "linear-gradient(180deg, rgba(6,43,70,0.72), rgba(2,17,31,0.82))",
-    minHeight: "150px",
-    boxShadow:
-      "0 18px 40px rgba(0,0,0,0.18)",
-  },
-
-  cardTitle: {
-    fontSize: "1.15rem",
-    margin: "0 0 6px",
-    lineHeight: 1.3,
-    color: "var(--text-main)",
-    fontFamily: "var(--font-serif)",
-  },
-
-  muted: {
-    color: "var(--text-muted)",
-    margin: "10px 0 14px",
-    lineHeight: 1.6,
-    fontSize: "0.95rem",
-  },
-
-  link: {
-    color: "var(--gold-accent)",
-    textDecoration: "none",
-    wordBreak: "break-word",
-    lineHeight: 1.5,
-    fontWeight: 700,
-  },
-
-  mapWrap: {
-    marginBottom: "72px",
-    width: "100%",
-    height: "clamp(300px, 52vw, 420px)",
-    overflow: "hidden",
-    border:
-      "1px solid rgba(243,193,66,0.14)",
-    borderRadius: "4px",
-    boxShadow:
-      "0 24px 60px rgba(0,0,0,0.24)",
-  },
-
-  iframe: {
-    border: 0,
-    display: "block",
-  },
-
-  faqSection: {
-    maxWidth: "860px",
-    margin: "0 auto",
-  },
-
-  faqTitle: {
-    textAlign: "center",
-    marginBottom: "34px",
-    fontSize: "clamp(1.8rem, 5vw, 2.4rem)",
-    lineHeight: 1.15,
-    fontFamily: "var(--font-serif)",
-    color: "var(--text-main)",
-  },
-
-  faqItem: {
-    borderBottom:
-      "1px solid rgba(243,193,66,0.12)",
-    padding: "20px 0",
-    cursor: "pointer",
-  },
-
-  faqRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    gap: "16px",
-  },
-
-  faqQuestion: {
-    margin: 0,
-    lineHeight: 1.6,
-    fontSize: "1rem",
-    flex: 1,
-    color: "var(--text-main)",
-  },
-
-  faqToggle: {
-    fontSize: "1.4rem",
-    lineHeight: 1,
-    color: "var(--gold-accent)",
-    flexShrink: 0,
-    marginTop: "2px",
-    fontWeight: 700,
-  },
-
-  faqAnswer: {
-    color: "var(--text-muted)",
-    marginTop: "10px",
-    lineHeight: 1.75,
-    paddingRight: "28px",
-  },
-
-  whatsappFloat: {
-    position: "fixed",
-    bottom: "18px",
-    right: "18px",
-    background:
-      "linear-gradient(135deg, #25D366, #1ebc59)",
-    color: "#fff",
-    width: "58px",
-    height: "58px",
-    borderRadius: "50%",
-    fontSize: "24px",
-    textDecoration: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    boxShadow:
-      "0 10px 28px rgba(0,0,0,0.28)",
-    zIndex: 999,
-  },
-
-  whatsappIcon: {
-    lineHeight: 1,
-  },
 };
 
 export default Contact;
