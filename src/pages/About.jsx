@@ -302,7 +302,7 @@ const About = () => {
               </div>
             </motion.div>
 
-            <div className="leadership-grid">
+            {/* <div className="leadership-grid">
               {directors.map((director, index) => (
                 <motion.div
                   key={director.name}
@@ -322,7 +322,7 @@ const About = () => {
                   </div>
                 </motion.div>
               ))}
-            </div>
+            </div> */}
 
           </div>
         </section>
