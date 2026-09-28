@@ -80,15 +80,15 @@ const Amenities = () => {
   /* =========================================================
      GALLERY MOTION (Quiet & Restrained)
      ========================================================= */
-  const quietEase = [0.25, 1, 0.5, 1];
+  const quietEase = [0.16, 1, 0.3, 1];
 
   const fadeUp = {
-    hidden: { opacity: 0, y: 15 },
+    hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 1, ease: quietEase } }
   };
 
   const fadeStagger = {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0, y: 15 },
     visible: (customDelay) => ({
       opacity: 1,
       y: 0,
@@ -139,7 +139,7 @@ const Amenities = () => {
               AMENITY GROUPS (Architectural List)
               ========================================================= */}
           <div className="amenity-groups">
-            {amenityGroups.map((group, groupIndex) => (
+            {amenityGroups.map((group) => (
               <motion.div
                 key={group.label}
                 initial="hidden"
@@ -171,7 +171,7 @@ const Amenities = () => {
                       >
                         <div className="item-meta">
                           <span className="item-number">{item.number}</span>
-                          <Icon className="item-icon" strokeWidth={1} />
+                          <Icon className="item-icon" strokeWidth={1.5} />
                         </div>
                         <div className="item-content">
                           <h4 className="item-title">{item.title}</h4>
@@ -189,14 +189,37 @@ const Amenities = () => {
       </section>
 
       {/* =========================================================
-          STYLES (Gallery Minimalist)
+          STYLES (High Contrast + New Typography)
           ========================================================= */}
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        :root {
+          --white: #FFFFFF;
+          --off-white: #F4F4F4; /* Deepened off-white slightly to pop inner elements */
+          --text-dark: #111111;
+          --text-dark-soft: #444444; /* Darkened for much higher contrast reading */
+          --azure-main: #1A2875;
+          --azure-deep: #111A55;
+          --gold-accent: #C5A059;
+          --border-light: #DDDDDD; /* Darkened borders for clear structure */
+          
+          --font-body: 'Josefin Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+          --font-display: 'Montserrat', sans-serif;
+        }
+
         .amenities-section {
-          background: var(--off-white); /* Switched to light mode for contrast pacing */
+          background: var(--off-white);
           color: var(--text-dark);
           padding: clamp(100px, 12vw, 160px) 0;
           overflow: hidden;
+          font-family: var(--font-body);
+        }
+
+        .container {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 5vw;
         }
 
         /* HEADER */
@@ -216,15 +239,15 @@ const Amenities = () => {
         .section-number {
           color: var(--text-dark-soft);
           font-family: var(--font-body);
-          font-size: 0.75rem;
-          font-weight: 600;
+          font-size: 0.8rem;
+          font-weight: 700;
           letter-spacing: 0.1em;
         }
 
         .section-eyebrow {
-          color: var(--azure-main);
+          color: var(--azure-deep); /* Use deepest azure for punchy header */
           font-family: var(--font-body);
-          font-size: 0.75rem;
+          font-size: 0.8rem;
           font-weight: 700;
           letter-spacing: 0.2em;
           text-transform: uppercase;
@@ -250,23 +273,25 @@ const Amenities = () => {
         .header-copy p {
           margin: 0;
           font-family: var(--font-body);
-          font-size: 1.05rem;
+          font-size: 1.1rem;
+          font-weight: 400;
           line-height: 1.7;
           color: var(--text-dark);
           max-width: 480px;
         }
 
         .header-rule {
-          width: 40px;
-          height: 1px;
-          background: var(--azure-main);
+          width: 50px; /* Made line slightly longer for balance */
+          height: 2px; /* Thicker rule for contrast */
+          background: var(--gold-accent); /* Make it pop in gold */
           margin: 32px 0;
         }
 
         .header-location {
-          font-size: 0.75rem !important;
-          font-weight: 700;
-          letter-spacing: 0.15em;
+          font-family: var(--font-body);
+          font-size: 0.8rem !important;
+          font-weight: 700 !important;
+          letter-spacing: 0.15em !important;
           text-transform: uppercase;
           color: var(--text-dark-soft) !important;
         }
@@ -287,14 +312,14 @@ const Amenities = () => {
 
         .group-info {
           position: sticky;
-          top: 120px; /* Sticks elegantly as the user scrolls the list */
+          top: 120px; 
         }
 
         .group-number {
           display: block;
           color: var(--gold-accent);
           font-family: var(--font-body);
-          font-size: 0.75rem;
+          font-size: 0.8rem;
           font-weight: 700;
           letter-spacing: 0.15em;
           margin-bottom: 16px;
@@ -312,7 +337,8 @@ const Amenities = () => {
         .group-intro {
           margin: 0;
           font-family: var(--font-body);
-          font-size: 0.95rem;
+          font-size: 1.05rem;
+          font-weight: 400;
           line-height: 1.6;
           color: var(--text-dark-soft);
           max-width: 380px;
@@ -334,8 +360,10 @@ const Amenities = () => {
         }
 
         .amenity-item:hover {
-          background-color: var(--white); /* Subtle highlight effect */
+          background-color: var(--white); 
           padding-left: 16px;
+          border-color: transparent; /* Seamless hover */
+          box-shadow: inset 0 -1px 0 var(--border-light); /* Maintain the line visually beneath the hover */
         }
 
         .item-meta {
@@ -346,18 +374,17 @@ const Amenities = () => {
         }
 
         .item-number {
-          color: var(--text-dark-soft);
+          color: var(--gold-accent); /* Boosted contrast from grey to gold */
           font-family: var(--font-body);
-          font-size: 0.7rem;
-          font-weight: 600;
+          font-size: 0.8rem;
+          font-weight: 700;
           letter-spacing: 0.1em;
-          opacity: 0.5;
         }
 
         .item-icon {
-          width: 32px;
-          height: 32px;
-          color: var(--azure-main); /* Removed the harsh border boxes */
+          width: 36px; /* Slightly larger icon */
+          height: 36px;
+          color: var(--azure-deep); /* Switched to deepest blue for high contrast punch */
         }
 
         .item-content {
@@ -367,7 +394,7 @@ const Amenities = () => {
         .item-title {
           margin: 0 0 12px 0;
           font-family: var(--font-display);
-          font-size: 1.35rem;
+          font-size: 1.4rem;
           font-weight: 400;
           letter-spacing: -0.01em;
           color: var(--text-dark);
@@ -376,9 +403,9 @@ const Amenities = () => {
         .item-desc {
           margin: 0;
           font-family: var(--font-body);
-          font-size: 0.9rem;
+          font-size: 0.95rem;
           line-height: 1.6;
-          color: var(--text-dark-soft);
+          color: var(--text-dark-soft); /* Darkened text-dark-soft applied here */
         }
 
         /* =========================================================
@@ -415,22 +442,23 @@ const Amenities = () => {
           }
 
           .amenity-item:hover {
-            padding-left: 0; /* Disable padding shift on mobile to prevent layout jumping */
+            padding-left: 0; 
             background-color: transparent;
+            box-shadow: none;
           }
 
           .item-icon {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
           }
 
           .item-title {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             margin-bottom: 8px;
           }
 
           .item-desc {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
           }
         }
       `}</style>

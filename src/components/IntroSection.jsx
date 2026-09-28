@@ -5,10 +5,10 @@ function IntroSection() {
   /* =========================================================
      GALLERY MOTION (Quiet & Restrained)
      ========================================================= */
-  const quietEase = [0.25, 1, 0.5, 1]; // Smoother, less dramatic curve
+  const quietEase = [0.16, 1, 0.3, 1]; // Smooth editorial ease
 
   const fadeUp = {
-    hidden: { opacity: 0, y: 15 }, // Very short travel distance
+    hidden: { opacity: 0, y: 20 }, 
     visible: { 
       opacity: 1, 
       y: 0, 
@@ -17,7 +17,7 @@ function IntroSection() {
   };
 
   const fadeStagger = {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0, y: 15 },
     visible: (customDelay) => ({
       opacity: 1,
       y: 0,
@@ -129,11 +129,32 @@ function IntroSection() {
           STYLES (Gallery Minimalist Structure)
           ========================================================= */}
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        :root {
+          --white: #FFFFFF;
+          --text-dark: #111111;
+          --text-dark-soft: #444444; /* Darkened for higher contrast */
+          --azure-main: #1A2875;
+          --azure-deep: #111A55;
+          --gold-accent: #C5A059;
+          --border-light: #DDDDDD; /* Darkened for crisper lines */
+          
+          --font-body: 'Josefin Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+          --font-display: 'Montserrat', sans-serif;
+        }
+
         .intro-section {
-          background: var(--white); /* Pure white for a gallery feel */
+          background: var(--white);
           color: var(--text-dark);
           padding: clamp(80px, 10vw, 160px) 0;
           overflow: hidden;
+        }
+
+        .container {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 5vw;
         }
 
         /* HEADER */
@@ -149,40 +170,40 @@ function IntroSection() {
         }
 
         .intro-eyebrow {
-          color: var(--azure-main); /* Switched from gold to azure for a cleaner look */
+          color: var(--azure-main);
           font-family: var(--font-body);
-          font-size: 0.75rem;
+          font-size: 0.8rem;
           font-weight: 700;
           letter-spacing: 0.2em;
           text-transform: uppercase;
         }
 
         .intro-number {
-          color: var(--text-dark-soft);
+          color: var(--gold-accent); /* Changed to Gold for better visibility */
           font-family: var(--font-body);
-          font-size: 0.75rem;
-          font-weight: 600;
+          font-size: 0.85rem;
+          font-weight: 700;
           letter-spacing: 0.1em;
         }
 
         .intro-divider {
           width: 100%;
           height: 1px;
-          background: rgba(21, 24, 42, 0.1); /* Very subtle structural line */
+          background: var(--border-light);
         }
 
         /* THE GRID */
         .intro-grid {
           display: grid;
-          grid-template-columns: 1fr 1fr; /* Perfect 50/50 split */
+          grid-template-columns: 1fr 1fr;
           gap: clamp(40px, 8vw, 120px);
-          align-items: flex-start; /* Top alignment creates strict order */
+          align-items: flex-start;
         }
 
         .intro-heading {
           margin: 0;
           font-family: var(--font-display);
-          font-size: clamp(2.5rem, 5vw, 4.5rem); /* Slightly scaled back for elegance */
+          font-size: clamp(2.5rem, 5vw, 4.5rem);
           font-weight: 400;
           line-height: 1.1;
           letter-spacing: -0.02em;
@@ -194,8 +215,8 @@ function IntroSection() {
         }
 
         .intro-lead {
-          margin: 0 0 32px 0; /* Clear spacing, no gold lines needed */
-          font-family: var(--font-body); /* Changed to body font for a cleaner, modern look */
+          margin: 0 0 32px 0;
+          font-family: var(--font-body);
           font-size: clamp(1.1rem, 1.5vw, 1.25rem);
           font-weight: 600;
           line-height: 1.6;
@@ -205,7 +226,7 @@ function IntroSection() {
         .intro-body {
           margin: 0 0 24px;
           font-family: var(--font-body);
-          font-size: 0.95rem;
+          font-size: 1.05rem;
           font-weight: 400;
           line-height: 1.7;
           color: var(--text-dark-soft);
@@ -218,7 +239,7 @@ function IntroSection() {
         /* SPECIFICATION GRID */
         .intro-specs {
           display: grid;
-          grid-template-columns: repeat(3, 1fr); /* Perfect 3-column grid */
+          grid-template-columns: repeat(3, 1fr);
           gap: 40px;
           margin-top: clamp(80px, 10vw, 140px);
         }
@@ -231,7 +252,7 @@ function IntroSection() {
         .intro-spec-divider {
           width: 100%;
           height: 1px;
-          background: rgba(21, 24, 42, 0.1);
+          background: var(--border-light);
           margin-bottom: 24px;
         }
 
@@ -244,15 +265,15 @@ function IntroSection() {
         .intro-spec-number {
           color: var(--gold-accent);
           font-family: var(--font-body);
-          font-size: 0.7rem;
-          font-weight: 600;
+          font-size: 0.8rem;
+          font-weight: 700;
           letter-spacing: 0.1em;
         }
 
         .intro-spec-text {
-          color: var(--text-dark);
+          color: var(--azure-deep); /* Higher contrast than regular text-dark */
           font-family: var(--font-body);
-          font-size: 0.75rem;
+          font-size: 0.85rem;
           font-weight: 700;
           letter-spacing: 0.1em;
           text-transform: uppercase;
@@ -266,7 +287,6 @@ function IntroSection() {
             grid-template-columns: 1fr;
             gap: 48px;
           }
-          
           .intro-heading {
             max-width: 600px;
           }
@@ -274,33 +294,27 @@ function IntroSection() {
 
         @media (max-width: 768px) {
           .intro-section {
-            padding: 60px 0;
+            padding: 80px 0;
           }
-
           .intro-header {
             margin-bottom: 40px;
           }
-
           .intro-specs {
-            grid-template-columns: 1fr; /* Stacks cleanly on mobile */
+            grid-template-columns: 1fr;
             gap: 0;
             margin-top: 64px;
           }
-
           .intro-spec-item {
             padding-bottom: 16px;
             margin-bottom: 16px;
           }
-          
           .intro-spec-divider {
-            display: none; /* Hide top divider on mobile... */
+            display: none;
           }
-          
           .intro-spec-content {
             padding-bottom: 20px;
-            border-bottom: 1px solid rgba(21, 24, 42, 0.1); /* ...and use bottom borders instead for list feel */
+            border-bottom: 1px solid var(--border-light);
           }
-
           .intro-spec-item:last-child .intro-spec-content {
             border-bottom: none;
           }

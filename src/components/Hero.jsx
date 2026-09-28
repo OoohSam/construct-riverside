@@ -156,15 +156,7 @@ export default function Hero({ onCtaClick }) {
         {/* ------------------------------------------------
             TOP EDITORIAL LABEL
         ------------------------------------------------ */}
-        <div
-          className="hero-location"
-          style={{
-            transform: contentTransform,
-          }}
-        >
-          <span className="hero-location-line" />
-          <span>Riverside · Nairobi</span>
-        </div>
+    
 
         {/* ------------------------------------------------
             MAIN CONTENT
@@ -175,9 +167,7 @@ export default function Hero({ onCtaClick }) {
             transform: contentTransform,
           }}
         >
-          <p className="hero-eyebrow">
-            A new address in Nairobi
-          </p>
+    
 
           <h1 className="hero-heading">
             Own a Piece
@@ -906,3 +896,8 @@ export default function Hero({ onCtaClick }) {
     </>
   );
 }
+
+
+
+
+

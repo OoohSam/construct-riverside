@@ -475,13 +475,33 @@ const InvestmentPage = ({ onCtaClick }) => {
       </main>
 
       {/* =========================================================
-          STYLES (Gallery Minimalist Structure)
+          STYLES (Updated with Josefin Sans & Montserrat)
           ========================================================= */}
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        :root {
+          --white: #FFFFFF;
+          --off-white: #F9F9F9;
+          --text-dark: #111111;
+          --text-dark-soft: #555555;
+          --border-light: #E5E5E5;
+          
+          /* Colors */
+          --azure-deep: #111A55;
+          --azure-main: #1A2875;
+          --gold-accent: #C5A059;
+          
+          /* New Typography */
+          --font-body: 'Josefin Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+          --font-display: 'Montserrat', sans-serif;
+        }
+
         .investment-page {
           background: var(--white);
           color: var(--text-dark);
           overflow-x: hidden;
+          font-family: var(--font-body);
         }
 
         /* SCROLL PROGRESS */

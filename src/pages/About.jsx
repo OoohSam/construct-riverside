@@ -2,16 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 import fallbackImage from "../assets/hero/Front-View.webp";
-import cityVideo from "../assets/Video/riverside-city-video.mp4";
-
-import martinImg from "../assets/Directors/Martin.webp";
-import linnImg from "../assets/Directors/Linn.webp";
-import liuImg from "../assets/Directors/Liu.webp";
-
-const directors = [
-  { name: "Lin", role: "Head of Operations", image: linnImg },
-  { name: "Liu", role: "Site Manager", image: liuImg },
-];
+import cityVideo from "../assets/Video/riverside-azure-construction-progress-nairobi-kenya.mp4";
 
 const completedProjects = [
   {
@@ -19,7 +10,8 @@ const completedProjects = [
     type: "Hospitality",
     year: "Completed Development",
     website: "https://argylehotelkenya.ke/",
-    image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/553059860.jpg?k=4a36f6c381244fa98507c9bc2c504838b4d6a1bc5344c30e3258b6de613adcde&o=",
+    image:
+      "https://cf.bstatic.com/xdata/images/hotel/max1024x768/553059860.jpg?k=4a36f6c381244fa98507c9bc2c504838b4d6a1bc5344c30e3258b6de613adcde&o=",
     isVideo: false,
   },
   {
@@ -70,22 +62,26 @@ const About = () => {
   const [videoError, setVideoError] = useState(false);
 
   /* =========================================================
-     GALLERY MOTION (Quiet & Restrained)
+     GALLERY MOTION (Ultra Smooth & Slow)
      ========================================================= */
-  const quietEase = [0.25, 1, 0.5, 1];
+  const elegantEase = [0.16, 1, 0.3, 1];
 
   const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: quietEase } }
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1.2, ease: elegantEase },
+    },
   };
 
   const fadeStagger = {
-    hidden: { opacity: 0, y: 15 },
+    hidden: { opacity: 0, y: 30 },
     visible: (customDelay) => ({
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, delay: customDelay, ease: quietEase }
-    })
+      transition: { duration: 1, delay: customDelay, ease: elegantEase },
+    }),
   };
 
   const downloadBrochure = () => {
@@ -100,75 +96,80 @@ const About = () => {
   return (
     <>
       <main className="about-page">
-        
         {/* =====================================================
-            HERO (Cinematic & Grounded)
+            HERO (Cinematic Video Background - Centered)
         ====================================================== */}
-        <section className="about-hero">
-          {!videoError ? (
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              poster={fallbackImage}
-              onError={() => setVideoError(true)}
-              className="about-hero-media"
-            >
-              <source src={cityVideo} type="video/mp4" />
-            </video>
-          ) : (
-            <img
-              src={fallbackImage}
-              alt="Riverside Azure exterior"
-              className="about-hero-media"
-            />
-          )}
+        <section className="hero-cinematic">
+          {/* Background Video */}
+          <div className="hero-bg">
+            {!videoError ? (
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster={fallbackImage}
+                onError={() => setVideoError(true)}
+                className="hero-media"
+              >
+                <source src={cityVideo} type="video/mp4" />
+              </video>
+            ) : (
+              <img
+                src={fallbackImage}
+                alt="Riverside Azure exterior"
+                className="hero-media"
+              />
+            )}
+            <div className="hero-overlay"></div>
+          </div>
 
-          <div className="about-hero-shade" />
-
-          <div className="container about-hero-container">
+          <div className="container hero-content-container">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: quietEase }}
-              className="about-hero-content"
+              className="hero-text-wrapper"
+              initial="hidden"
+              animate="visible"
+              variants={{ visible: { transition: { staggerChildren: 0.15 } } }}
             >
-              <div className="about-eyebrow">
-                <span className="eyebrow-line" />
-                <span>About Riverside Azure</span>
-              </div>
-              <h1 className="about-hero-title">
-                Built on experience.<br />
-                Designed for what comes next.
-              </h1>
-              <p className="about-hero-text">
-                Riverside Azure is the latest residential development from JNC Brothers &amp; Company Limited — 
-                bringing together local experience, contemporary design, and a considered approach to urban living.
-              </p>
+              <motion.h1 className="heading-xl text-white" variants={fadeUp}>
+                {/* 
+                  These spans force the text to stay on one line each 
+                  without breaking awkwardly, perfectly centered.
+                */}
+                <span className="title-line">Built on experience.</span>
+                <span className="title-line text-gold">Designed for tomorrow.</span>
+              </motion.h1>
+              
+              <motion.p
+                className="hero-subtitle text-white-muted"
+                variants={fadeUp}
+              >
+                Riverside Azure is the latest residential development from JNC
+                Brothers &amp; Company Limited — bringing together local
+                experience, contemporary design, and a considered approach to
+                urban living.
+              </motion.p>
             </motion.div>
           </div>
         </section>
 
         {/* =====================================================
-            DEVELOPER STORY (Architectural Grid)
+            DEVELOPER STORY (Azure Deep Background - High Contrast)
         ====================================================== */}
-        <section className="about-developer">
+        <section className="section-padding bg-azure">
           <div className="container">
-            
-            <div className="developer-grid">
+            <div className="editorial-grid">
               <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeUp}
-                className="developer-header"
+                className="col-left"
               >
-                <span className="section-meta">01 — The Developer</span>
-                <h2 className="section-title">
-                  JNC Brothers &amp;<br />
-                  Company Limited.
+                <span className="eyebrow text-gold">The Developer</span>
+                <h2 className="heading-large text-white">
+                  JNC Brothers &amp; Co.
                 </h2>
               </motion.div>
 
@@ -178,68 +179,66 @@ const About = () => {
                 viewport={{ once: true, amount: 0.2 }}
                 custom={0.1}
                 variants={fadeStagger}
-                className="developer-copy"
+                className="col-right"
               >
-                <p className="lead-text">
-                  Riverside Azure is developed by JNC Brothers &amp; Company Limited, a Chinese-backed developer 
-                  with established experience across hospitality and residential projects in Kenya.
+                <p className="body-large text-white">
+                  A Chinese-backed developer with established experience across
+                  hospitality and residential projects in Kenya.
                 </p>
-                <p className="body-text">
-                  The company brings together international development experience and a practical understanding of the 
-                  Kenyan market. Its projects are approached with an emphasis on disciplined execution, functional design, 
-                  and long-term value.
-                </p>
-                <p className="body-text">
-                  Riverside Azure represents the next expression of that approach — a contemporary residential address 
-                  in Nairobi's Riverside neighbourhood, conceived for both modern living and long-term ownership.
+                <p className="body-standard text-white-muted">
+                  The company brings together international development
+                  experience and a practical understanding of the Kenyan market.
+                  Its projects are approached with an emphasis on disciplined
+                  execution, functional design, and long-term value. Riverside
+                  Azure represents the next expression of that approach.
                 </p>
               </motion.div>
             </div>
 
-            {/* Developer Pillars */}
-            <div className="developer-pillars">
+            {/* Developer Pillars - Horizontal Grid for Wide Screens */}
+            <div className="pillars-grid">
               {developerPoints.map((point, index) => (
                 <motion.div
                   key={point.number}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
-                  custom={0.2 + (index * 0.1)}
+                  custom={0.1 * index}
                   variants={fadeStagger}
                   className="pillar-card"
                 >
-                  <span className="pillar-number">{point.number}</span>
-                  <h3 className="pillar-title">{point.title}</h3>
-                  <p className="pillar-text">{point.text}</p>
+                  <span className="pillar-num text-gold">{point.number}</span>
+                  <h3 className="pillar-title text-white">{point.title}</h3>
+                  <p className="pillar-text text-white-muted">{point.text}</p>
                 </motion.div>
               ))}
             </div>
-
           </div>
         </section>
 
         {/* =====================================================
-            TRACK RECORD (Solid Dark Mode)
+            TRACK RECORD (Off-White Background - Gallery Flow)
         ====================================================== */}
-        <section className="about-projects">
+        <section className="section-padding bg-off-white">
           <div className="container">
-            
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               variants={fadeUp}
-              className="projects-header"
+              className="section-header split-header"
             >
-              <div className="projects-header-left">
-                <span className="section-meta gold-text">02 — Track Record</span>
-                <h2 className="section-title light-text">Experience you can see.</h2>
+              <div>
+                <span className="eyebrow">Track Record</span>
+                <h2 className="heading-large text-azure">
+                  Experience you can see.
+                </h2>
               </div>
-              <div className="projects-header-right">
-                <p className="body-text light-text-soft">
-                  Our previous developments span hospitality and residential living across Kenya. 
-                  Riverside Azure builds on that experience with a new generation of contemporary urban residences.
-                </p>
+              <div className="header-stats">
+                <span className="stat-number">
+                  {String(completedProjects.length).padStart(2, "0")}
+                </span>
+                <span className="eyebrow">Completed</span>
               </div>
             </motion.div>
 
@@ -253,249 +252,253 @@ const About = () => {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.1 }}
-                  custom={0.1 + (index * 0.1)}
+                  custom={0.1 * index}
                   variants={fadeStagger}
                   className="project-card"
                 >
-                  <div className="project-image-wrap">
-                    <img src={project.image} alt={project.name} loading="lazy" />
-                    {project.isVideo && <div className="project-play">▶</div>}
+                  <div className="project-visual">
+                    <img
+                      src={project.image}
+                      alt={project.name}
+                      loading="lazy"
+                    />
+                    {project.isVideo && (
+                      <div className="play-indicator">Watch Video</div>
+                    )}
                   </div>
-                  <div className="project-info">
+                  <div className="project-details">
                     <div className="project-meta">
-                      <span className="project-type">{project.type}</span>
-                      <h3 className="project-title">{project.name}</h3>
+                      <span className="project-category">{project.type}</span>
+                      <span className="project-year">{project.year}</span>
                     </div>
-                    <span className="project-link">
-                      {project.isVideo ? "Watch Project" : "Visit Website"} ↗
+                    <h3 className="project-name text-azure">{project.name}</h3>
+                    <span className="btn-minimal">
+                      {project.isVideo ? "Watch Now" : "View Project"}{" "}
+                      <span className="arrow-icon">⟶</span>
                     </span>
                   </div>
                 </motion.a>
               ))}
             </div>
-
           </div>
         </section>
 
         {/* =====================================================
-            LEADERSHIP (Off-White)
+            BROCHURE CTA (Azure Background - Bold Closing)
         ====================================================== */}
-        <section className="about-leadership">
-          <div className="container">
-            
+        <section className="cta-section bg-azure">
+          <div className="container text-center">
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={{ once: true, amount: 0.4 }}
               variants={fadeUp}
-              className="leadership-header"
+              className="cta-wrapper"
             >
-              <div className="leadership-header-left">
-                <span className="section-meta">03 — Leadership</span>
-                <h2 className="section-title">Leadership with purpose.</h2>
-              </div>
-              <div className="leadership-header-right">
-                <p className="body-text">
-                  Riverside Azure is supported by an experienced team responsible for operations, 
-                  construction, and the day-to-day delivery of the development.
-                </p>
-              </div>
+              <span className="eyebrow text-gold">Riverside Azure</span>
+              <h2 className="heading-xl text-white">Explore the residences.</h2>
+              <p className="hero-subtitle text-white-muted mb-large">
+                Discover the floor plans, amenities, pricing, and investment
+                opportunity in the complete Riverside Azure brochure.
+              </p>
+              <button onClick={downloadBrochure} className="btn-solid-gold">
+                Download Brochure
+                <span className="arrow-icon">⟶</span>
+              </button>
             </motion.div>
-
-            {/* <div className="leadership-grid">
-              {directors.map((director, index) => (
-                <motion.div
-                  key={director.name}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.2 }}
-                  custom={0.1 + (index * 0.1)}
-                  variants={fadeStagger}
-                  className="director-card"
-                >
-                  <div className="director-image-wrap">
-                    <img src={director.image} alt={director.name} loading="lazy" />
-                  </div>
-                  <div className="director-info">
-                    <h3 className="director-name">{director.name}</h3>
-                    <p className="director-role">{director.role}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div> */}
-
           </div>
         </section>
-
-        {/* =====================================================
-            BROCHURE CTA (Solid Structure)
-        ====================================================== */}
-        <section className="about-cta">
-          <div className="container">
-            <div className="cta-grid">
-              <div className="cta-left">
-                <span className="section-meta gold-text">Riverside Azure</span>
-                <h2 className="section-title light-text">Explore the full development.</h2>
-              </div>
-              <div className="cta-right">
-                <p className="body-text light-text-soft">
-                  Discover the residences, floor plans, amenities, pricing, and investment 
-                  opportunity in the complete Riverside Azure brochure.
-                </p>
-                <button onClick={downloadBrochure} className="btn-solid-cta">
-                  Download Pricelist &amp; Brochure <span>→</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
       </main>
 
       {/* =========================================================
-          STYLES (Gallery Minimalist)
+          STYLES
           ========================================================= */}
       <style>{`
-        .about-page {
-          width: 100%;
-          background: var(--white);
-          color: var(--text-dark);
-          overflow-x: hidden;
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        :root {
+          --color-bg-white: #FCFCFC;
+          --color-bg-off-white: #F4F4F4;
+          --color-azure: #111A55;
+          --color-gold: #C5A059;
+          
+          --color-text-main: #111111;
+          --color-text-muted: #444444;
+          --color-text-white: #FFFFFF;
+          --color-text-white-muted: rgba(255, 255, 255, 0.75);
+          
+          --color-border-light: #DDDDDD;
+          --color-border-dark: rgba(255, 255, 255, 0.15);
+          
+          --font-sans: 'Josefin Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+          --font-display: 'Montserrat', sans-serif; 
         }
 
-        /* TYPOGRAPHY UTILITIES */
-        .section-meta {
+        /* UTILITY CLASSES */
+        .bg-white { background: var(--color-bg-white); }
+        .bg-off-white { background: var(--color-bg-off-white); }
+        .bg-azure { background: var(--color-azure); }
+        
+        .text-azure { color: var(--color-azure) !important; }
+        .text-gold { color: var(--color-gold) !important; }
+        .text-white { color: var(--color-text-white) !important; }
+        .text-muted { color: var(--color-text-muted); }
+        .text-white-muted { color: var(--color-text-white-muted) !important; }
+        
+        .mb-large { margin-bottom: 3rem !important; }
+
+        .about-page {
+          width: 100%;
+          font-family: var(--font-sans);
+          overflow-x: hidden;
+          -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 5vw;
+        }
+
+        /* TYPOGRAPHY */
+        .eyebrow {
           display: block;
-          font-family: var(--font-body);
           font-size: 0.75rem;
           font-weight: 600;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          color: var(--text-dark-soft);
-          margin-bottom: 24px;
+          color: var(--color-azure); 
+          margin-bottom: 1rem;
         }
 
-        .gold-text { color: var(--gold-accent); }
-        .light-text { color: var(--white) !important; }
-        .light-text-soft { color: rgba(255, 255, 255, 0.7) !important; }
+        .bg-azure .eyebrow {
+          color: var(--color-gold);
+        }
 
-        .section-title {
-          margin: 0;
+        .heading-xl {
           font-family: var(--font-display);
-          font-size: clamp(2.5rem, 5vw, 4rem);
+          /* Adjusted font scaling so the non-breaking lines fit on small screens */
+          font-size: clamp(2rem, 6vw, 5.5rem); 
           font-weight: 400;
-          line-height: 1.05;
+          line-height: 1.1;
+          margin: 0 0 1rem 0;
           letter-spacing: -0.02em;
-          color: var(--azure-deep);
+          text-align: center;
         }
 
-        .lead-text {
-          margin: 0 0 24px 0;
-          font-family: var(--font-body);
-          font-size: clamp(1.1rem, 1.5vw, 1.25rem);
-          font-weight: 600;
-          line-height: 1.6;
-          color: var(--text-dark);
+        /* Forces each sentence onto its own line and prevents awkward wrapping */
+        .title-line {
+          display: block;
+          white-space: nowrap;
         }
 
-        .body-text {
-          margin: 0 0 24px 0;
-          font-family: var(--font-body);
-          font-size: 0.95rem;
+        .heading-large {
+          font-family: var(--font-display);
+          font-size: clamp(2rem, 5vw, 4rem);
+          font-weight: 400;
+          line-height: 1.1;
+          margin: 0 0 1.5rem 0;
+          letter-spacing: -0.01em;
+        }
+
+        .heading-medium {
+          font-family: var(--font-display);
+          font-size: clamp(1.5rem, 3vw, 2.5rem);
+          font-weight: 400;
+          margin: 0 0 1rem 0;
+        }
+
+        .body-large {
+          font-size: clamp(1.25rem, 2vw, 1.75rem);
+          line-height: 1.4;
+          margin-bottom: 2rem;
+          font-weight: 400;
+        }
+
+        .body-standard {
+          font-size: 1.05rem;
           line-height: 1.7;
-          color: var(--text-dark-soft);
         }
 
-        .body-text:last-child { margin-bottom: 0; }
+        .section-padding {
+          padding: clamp(80px, 15vw, 180px) 0;
+        }
 
-        /* HERO */
-        .about-hero {
+        /* HERO CINEMATIC (Video + Overlay) */
+        .hero-cinematic {
           position: relative;
-          height: 85svh;
-          min-height: 600px;
+          min-height: 85svh;
           display: flex;
-          align-items: flex-end;
-          background: var(--azure-deep);
+          align-items: flex-end; 
+          justify-content: center; 
+          padding-top: 80px; 
         }
 
-        .about-hero-media {
+        .hero-bg {
           position: absolute;
           inset: 0;
+          z-index: 1;
+          overflow: hidden;
+          background: var(--color-azure);
+        }
+
+        .hero-media {
           width: 100%;
           height: 100%;
           object-fit: cover;
         }
 
-        .about-hero-shade {
+        .hero-overlay {
           position: absolute;
           inset: 0;
-          background: linear-gradient(to top, rgba(17, 26, 85, 0.9) 0%, rgba(17, 26, 85, 0.2) 60%, transparent 100%);
-        }
-
-        .about-hero-container {
-          position: relative;
           z-index: 2;
+          background: linear-gradient(
+            to top, 
+            var(--color-azure) 0%, 
+            rgba(17, 26, 85, 0.4) 30%, 
+            rgba(17, 26, 85, 0) 60%
+          );
+        }
+
+        .hero-content-container {
+          position: relative;
+          z-index: 3;
           width: 100%;
-          padding-bottom: clamp(60px, 8vw, 100px);
-        }
-
-        .about-eyebrow {
           display: flex;
+          flex-direction: column;
           align-items: center;
-          gap: 16px;
-          color: var(--gold-accent);
-          font-family: var(--font-body);
-          font-size: 0.75rem;
-          font-weight: 700;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          margin-bottom: 24px;
+          padding-bottom: 30px; 
         }
 
-        .eyebrow-line {
-          width: 40px;
-          height: 1px;
-          background: var(--gold-accent);
+        .hero-text-wrapper {
+          max-width: 900px;
+          text-align: center;
+          margin: 0 auto;
         }
 
-        .about-hero-title {
-          margin: 0 0 24px 0;
-          color: var(--white);
-          font-family: var(--font-display);
-          font-size: clamp(3rem, 6vw, 5rem);
-          font-weight: 400;
-          letter-spacing: -0.02em;
-          line-height: 1;
+        .hero-subtitle {
+          font-size: clamp(1rem, 1.5vw, 1.25rem);
+          line-height: 1.6;
+          max-width: 650px;
+          margin: 0 auto;
         }
 
-        .about-hero-text {
-          margin: 0;
-          color: rgba(255, 255, 255, 0.8);
-          font-family: var(--font-body);
-          font-size: 1.05rem;
-          line-height: 1.7;
-          max-width: 600px;
-        }
-
-        /* DEVELOPER STORY */
-        .about-developer {
-          padding: clamp(100px, 12vw, 160px) 0;
-        }
-
-        .developer-grid {
+        /* DEVELOPER GRID */
+        .editorial-grid {
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: clamp(60px, 8vw, 120px);
+          grid-template-columns: 0.8fr 1.2fr;
+          gap: clamp(40px, 8vw, 100px);
+          margin-bottom: clamp(60px, 10vw, 120px);
           align-items: start;
         }
 
-        .developer-pillars {
+        /* PILLARS (3-Column Grid) */
+        .pillars-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 40px;
-          margin-top: clamp(80px, 10vw, 120px);
-          border-top: 1px solid var(--border-light);
-          padding-top: 40px;
+          border-top: 1px solid var(--color-border-dark);
+          padding-top: 4rem;
         }
 
         .pillar-card {
@@ -503,271 +506,243 @@ const About = () => {
           flex-direction: column;
         }
 
-        .pillar-number {
-          color: var(--gold-accent);
-          font-family: var(--font-body);
-          font-size: 0.75rem;
-          font-weight: 700;
-          margin-bottom: 24px;
+        .pillar-num {
+          font-family: var(--font-display);
+          font-size: 1.5rem;
+          margin-bottom: 1.5rem;
         }
 
         .pillar-title {
-          margin: 0 0 16px 0;
-          font-family: var(--font-display);
-          font-size: 1.5rem;
-          font-weight: 400;
-          color: var(--azure-deep);
+          font-size: 1.25rem;
+          font-weight: 500;
+          margin: 0 0 1rem 0;
         }
 
         .pillar-text {
-          margin: 0;
-          font-family: var(--font-body);
-          font-size: 0.9rem;
+          font-size: 1.05rem;
           line-height: 1.6;
-          color: var(--text-dark-soft);
+          margin: 0;
         }
 
-        /* TRACK RECORD */
-        .about-projects {
-          background: var(--azure-deep); /* Solid architectural flat color */
-          color: var(--white);
-          padding: clamp(100px, 12vw, 160px) 0;
+        /* TRACK RECORD SECTION */
+        .split-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          border-bottom: 1px solid var(--color-border-light);
+          padding-bottom: 2rem;
+          margin-bottom: clamp(60px, 8vw, 80px);
         }
 
-        .projects-header {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: clamp(40px, 8vw, 100px);
-          align-items: end;
-          margin-bottom: clamp(60px, 8vw, 100px);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-          padding-bottom: 40px;
+        .header-stats {
+          text-align: right;
+        }
+
+        .stat-number {
+          display: block;
+          font-family: var(--font-display);
+          font-size: 3rem;
+          font-weight: 300;
+          line-height: 1;
+          color: var(--color-azure);
+          margin-bottom: 0.5rem;
         }
 
         .projects-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 60px 40px;
+          gap: clamp(40px, 6vw, 80px) 40px;
         }
 
         .project-card {
-          display: flex;
-          flex-direction: column;
+          display: block;
           text-decoration: none;
           color: inherit;
         }
 
-        .project-image-wrap {
+        .project-visual {
           position: relative;
           width: 100%;
-          aspect-ratio: 16 / 10;
-          background: rgba(255,255,255,0.05);
+          aspect-ratio: 16 / 9;
           overflow: hidden;
-          margin-bottom: 24px;
+          margin-bottom: 1.5rem;
+          background: #EAEAEA;
         }
 
-        .project-image-wrap img {
+        .project-visual img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.8s ease;
+          transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .project-card:hover .project-image-wrap img {
-          transform: scale(1.03);
+        .project-card:hover .project-visual img {
+          transform: scale(1.05);
         }
 
-        .project-play {
+        .play-indicator {
           position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--white);
-          font-size: 2rem;
-          background: rgba(17, 26, 85, 0.3);
-          transition: background 0.3s ease;
-        }
-
-        .project-card:hover .project-play {
-          background: rgba(17, 26, 85, 0.1);
-        }
-
-        .project-info {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          padding-top: 16px;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .project-type {
-          display: block;
-          color: var(--gold-accent);
-          font-family: var(--font-body);
-          font-size: 0.65rem;
-          font-weight: 700;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          margin-bottom: 8px;
-        }
-
-        .project-title {
-          margin: 0;
-          font-family: var(--font-display);
-          font-size: 1.5rem;
-          font-weight: 400;
-        }
-
-        .project-link {
-          font-family: var(--font-body);
+          bottom: 20px;
+          right: 20px;
+          background: var(--color-azure);
+          color: var(--color-bg-white);
+          padding: 8px 16px;
+          border-radius: 40px;
           font-size: 0.75rem;
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.1em;
-          color: rgba(255,255,255,0.5);
-          transition: color 0.3s ease;
         }
 
-        .project-card:hover .project-link {
-          color: var(--gold-accent);
-        }
-
-        /* LEADERSHIP */
-        .about-leadership {
-          background: var(--off-white);
-          padding: clamp(100px, 12vw, 160px) 0;
-        }
-
-        .leadership-header {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: clamp(40px, 8vw, 100px);
-          align-items: end;
-          margin-bottom: clamp(60px, 8vw, 100px);
-          border-bottom: 1px solid var(--border-light);
-          padding-bottom: 40px;
-        }
-
-        .leadership-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 40px;
-        }
-
-        .director-card {
+        .project-details {
           display: flex;
           flex-direction: column;
+          gap: 12px;
         }
 
-        .director-image-wrap {
-          aspect-ratio: 3 / 4; /* Classic portrait ratio */
-          background: var(--border-light);
-          margin-bottom: 24px;
-          overflow: hidden;
+        .project-meta {
+          display: flex;
+          align-items: center;
+          gap: 12px;
         }
 
-        .director-image-wrap img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          filter: grayscale(100%) contrast(1.1); /* Editorial B&W */
-          transition: filter 0.8s ease, transform 0.8s ease;
-        }
-
-        .director-card:hover .director-image-wrap img {
-          filter: grayscale(0%) contrast(1); /* Color reveals on hover */
-          transform: scale(1.02);
-        }
-
-        .director-info {
-          padding-top: 16px;
-          border-top: 1px solid var(--border-light);
-        }
-
-        .director-name {
-          margin: 0 0 8px 0;
-          font-family: var(--font-display);
-          font-size: 1.5rem;
-          font-weight: 400;
-          color: var(--azure-deep);
-        }
-
-        .director-role {
-          margin: 0;
-          font-family: var(--font-body);
+        .project-category, .project-year {
           font-size: 0.75rem;
           font-weight: 600;
-          letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: var(--text-dark-soft);
+          letter-spacing: 0.1em;
+        }
+        
+        .project-category { color: var(--color-gold); }
+        .project-year { color: var(--color-text-muted); }
+
+        .project-name {
+          font-size: clamp(1.5rem, 2.5vw, 2rem);
+          font-weight: 400;
+          margin: 0 0 0.5rem 0;
+        }
+
+        /* BUTTONS & LINKS */
+        .btn-minimal {
+          display: inline-flex;
+          align-items: center;
+          gap: 1rem;
+          background: transparent;
+          border: none;
+          color: var(--color-azure);
+          font-size: 0.9rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          cursor: pointer;
+          padding: 10px 0;
+          border-bottom: 1px solid transparent;
+          transition: all 0.3s ease;
+        }
+
+        .arrow-icon {
+          font-size: 1.5em;
+          font-weight: 300;
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-minimal:hover, .project-card:hover .btn-minimal {
+          color: var(--color-gold);
+          border-bottom-color: var(--color-gold);
+        }
+
+        .btn-minimal:hover .arrow-icon, .project-card:hover .arrow-icon {
+          transform: translateX(10px);
+        }
+
+        .btn-solid-gold {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          min-height: 60px;
+          padding: 0 40px;
+          background: var(--color-gold);
+          color: var(--color-azure);
+          border: none;
+          font-family: var(--font-sans);
+          font-size: 0.9rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-decoration: none;
+        }
+
+        .btn-solid-gold:hover {
+          background: var(--color-bg-white);
+          transform: translateY(-2px);
+        }
+        
+        .btn-solid-gold .arrow-icon {
+          font-size: 1.2em;
+        }
+        
+        .btn-solid-gold:hover .arrow-icon {
+          transform: translateX(5px);
         }
 
         /* CTA SECTION */
-        .about-cta {
-          background: var(--azure-deep);
-          padding: clamp(80px, 10vw, 120px) 0;
-          border-top: 1px solid rgba(255, 255, 255, 0.1); /* Separates it if placed below another dark section */
+        .cta-section {
+          padding: clamp(120px, 20vw, 250px) 0;
         }
 
-        .cta-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: clamp(40px, 8vw, 100px);
-          align-items: center;
+        .cta-wrapper {
+          max-width: 900px;
+          margin: 0 auto;
         }
 
-        .btn-solid-cta {
-          display: inline-flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-          min-height: 56px;
-          margin-top: 32px;
-          padding: 0 24px;
-          background: var(--white);
-          color: var(--azure-deep);
-          border: none;
-          font-family: var(--font-body);
-          font-size: 0.8rem;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: background-color 0.3s ease, color 0.3s ease;
+        .text-center {
+          text-align: center;
         }
 
-        .btn-solid-cta:hover {
-          background: var(--gold-accent);
-          color: var(--white);
+        .text-center .hero-subtitle {
+          margin-left: auto;
+          margin-right: auto;
         }
 
         /* =========================================================
            MOBILE RESPONSIVENESS
            ========================================================= */
         @media (max-width: 992px) {
-          .developer-grid, .projects-header, .leadership-header, .cta-grid {
+          .editorial-grid {
             grid-template-columns: 1fr;
-            gap: 40px;
+            gap: 2rem;
           }
-          .developer-pillars {
-            grid-template-columns: 1fr;
+          .pillars-grid {
+            grid-template-columns: 1fr 1fr;
           }
         }
 
         @media (max-width: 768px) {
-          .about-hero {
-            min-height: 80svh;
-          }
-          .about-developer, .about-projects, .about-leadership, .about-cta {
-            padding: 80px 0;
+          .heading-xl {
+            /* Drops down even further for small screens */
+            font-size: clamp(1.75rem, 7vw, 3rem); 
           }
           .projects-grid {
             grid-template-columns: 1fr;
           }
-          .btn-solid-cta {
-            padding: 0 16px;
-            font-size: 0.75rem;
+          .pillars-grid {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            padding-top: 3rem;
+          }
+          .split-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.5rem;
+          }
+          .header-stats {
+            text-align: left;
+          }
+          .project-details {
+            gap: 8px;
           }
         }
       `}</style>

@@ -4,7 +4,6 @@ import { trackMetaEvent, createEventId } from "../lib/metaPixel.js";
 
 const fallbackImage = "/JNCBROTHERS.png";
 
-// (Data object remains unchanged)
 const units = [
   {
     id: 1,
@@ -19,7 +18,6 @@ const units = [
     images: [
       new URL("../assets/Apartments/type-b/1 bedroom.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-b/b1.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-b/c1.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-b/b2.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-b/b3.webp", import.meta.url).href,
       new URL("../assets/Apartments/type-b/b4.webp", import.meta.url).href,
@@ -328,34 +326,72 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
       {/* =================================================
           VIRTUAL TOUR MODAL (Minimalist)
       ================================================= */}
-      {tourPrompt && (
-        <div className="tour-modal-backdrop" onClick={() => setTourPrompt(false)}>
-          <div className="tour-modal" onClick={(e) => e.stopPropagation()}>
-            <button type="button" className="tour-modal-close" onClick={() => setTourPrompt(false)}>✕</button>
-            <h3 className="tour-modal-title">Virtual Experience</h3>
-            <p className="tour-modal-text">
-              Step inside {activeUnit.name}. The tour will open in a new tab.
-            </p>
-            <div className="tour-modal-actions">
-              <a href={activeUnit.tour} target="_blank" rel="noopener noreferrer" className="btn-solid">
-                Enter Tour
-              </a>
-              <button type="button" onClick={() => setTourPrompt(false)} className="btn-text">
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {tourPrompt && (
+          <motion.div 
+            className="tour-modal-backdrop" 
+            onClick={() => setTourPrompt(false)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div 
+              className="tour-modal" 
+              onClick={(e) => e.stopPropagation()}
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+            >
+              <button type="button" className="tour-modal-close" onClick={() => setTourPrompt(false)}>✕</button>
+              <h3 className="tour-modal-title">Virtual Experience</h3>
+              <p className="tour-modal-text">
+                Step inside {activeUnit.name}. The interactive tour will open in a secure window.
+              </p>
+              <div className="tour-modal-actions">
+                <a href={activeUnit.tour} target="_blank" rel="noopener noreferrer" className="btn-solid-modal">
+                  Enter Tour
+                </a>
+                <button type="button" onClick={() => setTourPrompt(false)} className="btn-text">
+                  Go Back
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* =================================================
-          STYLES (Gallery Minimalist Dark)
+          STYLES (High Contrast + New Typography)
       ================================================= */}
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        :root {
+          --white: #FFFFFF;
+          --off-white: #F9F9F9;
+          --text-dark: #111111;
+          --text-dark-soft: #444444; 
+          --azure-main: #1A2875;
+          --azure-deep: #111A55;
+          --gold-accent: #C5A059;
+          --gold-soft: #D4B67A;
+          --border-light: #DDDDDD;
+          
+          --font-body: 'Josefin Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+          --font-display: 'Montserrat', sans-serif;
+        }
+
+        .container {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 5vw;
+        }
+
         .residences-section {
-          background: var(--azure-deep); /* Pure dark architectural blue, removed the gradient */
+          background: var(--azure-deep);
           color: var(--white);
           padding: clamp(100px, 12vw, 160px) 0;
+          font-family: var(--font-body);
         }
 
         /* HEADER */
@@ -366,7 +402,7 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
           align-items: flex-end;
           margin-bottom: clamp(60px, 8vw, 100px);
           padding-bottom: 30px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Increased opacity for contrast */
         }
 
         .residences-header-left {
@@ -376,9 +412,10 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
         }
 
         .residences-number {
-          color: rgba(255, 255, 255, 0.4);
+          color: var(--gold-accent); /* Changed to gold for higher legibility */
           font-family: var(--font-body);
           font-size: 0.85rem;
+          font-weight: 700;
           letter-spacing: 0.1em;
         }
 
@@ -388,19 +425,19 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
           font-size: clamp(2.5rem, 5vw, 4rem);
           font-weight: 400;
           letter-spacing: -0.02em;
-          line-height: 1;
+          line-height: 1.1;
         }
 
         .residences-header-right p {
           margin: 0;
-          color: rgba(255, 255, 255, 0.7);
+          color: rgba(255, 255, 255, 0.85); /* Increased contrast */
           font-family: var(--font-body);
-          font-size: 1rem;
+          font-size: 1.05rem;
           line-height: 1.6;
           max-width: 400px;
         }
 
-        /* TABS (Clean Typography) */
+        /* TABS */
         .residence-tabs {
           display: flex;
           gap: 48px;
@@ -412,31 +449,27 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
           display: flex;
           align-items: center;
           gap: 12px;
-          padding: 0 0 16px 0; /* Only bottom padding */
+          padding: 0 0 16px 0;
           background: transparent;
           border: none;
-          color: rgba(255, 255, 255, 0.5);
+          color: rgba(255, 255, 255, 0.7); /* Boosted contrast from 0.5 */
           cursor: pointer;
           transition: color 0.3s ease;
         }
 
-        .residence-tab:hover {
-          color: var(--white);
-        }
-
-        .residence-tab-active {
+        .residence-tab:hover, .residence-tab-active {
           color: var(--white);
         }
 
         .residence-tab-number {
           font-family: var(--font-body);
-          font-size: 0.7rem;
+          font-size: 0.8rem;
           font-weight: 600;
         }
 
         .residence-tab-name {
           font-family: var(--font-body);
-          font-size: 1rem;
+          font-size: 1.1rem;
           font-weight: 600;
           letter-spacing: 0.05em;
           text-transform: uppercase;
@@ -447,14 +480,14 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
           bottom: 0;
           left: 0;
           right: 0;
-          height: 1px;
+          height: 2px; /* Made thicker for visual hierarchy */
           background: var(--gold-accent);
         }
 
         /* DISPLAY GRID */
         .residence-display {
           display: grid;
-          grid-template-columns: 1fr 400px; /* Stronger structural split */
+          grid-template-columns: 1fr 450px; 
           gap: clamp(60px, 8vw, 120px);
           align-items: start;
         }
@@ -463,8 +496,8 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
         .residence-main-image {
           position: relative;
           width: 100%;
-          aspect-ratio: 16 / 10; /* Cinematic crop */
-          background: rgba(255, 255, 255, 0.03);
+          aspect-ratio: 16 / 10;
+          background: rgba(255, 255, 255, 0.05);
           overflow: hidden;
         }
 
@@ -478,7 +511,7 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
         .residence-image-loading {
           position: absolute;
           inset: 0;
-          background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.02) 100%);
+          background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 100%);
           background-size: 200% 100%;
           animation: pulse 1.5s infinite linear;
         }
@@ -492,38 +525,39 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
           position: absolute;
           bottom: 24px;
           right: 24px;
-          color: var(--white);
+          color: var(--azure-deep);
           font-family: var(--font-body);
-          font-size: 0.75rem;
+          font-size: 0.8rem;
+          font-weight: 700;
           letter-spacing: 0.1em;
-          background: rgba(0,0,0,0.4);
-          padding: 6px 12px;
-          backdrop-filter: blur(4px);
+          background: rgba(255,255,255,0.9);
+          padding: 8px 16px;
         }
 
         .residence-thumbnails {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-          gap: 16px; /* Opened up the gap for a gallery feel */
+          grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+          gap: 16px;
           margin-top: 16px;
         }
 
         .residence-thumbnail {
           aspect-ratio: 16 / 10;
           padding: 0;
-          border: none;
+          border: 2px solid transparent; /* Better active state indicator */
           background: transparent;
           cursor: pointer;
-          opacity: 0.4;
-          transition: opacity 0.3s ease;
+          opacity: 0.5;
+          transition: all 0.3s ease;
         }
 
         .residence-thumbnail:hover {
-          opacity: 0.8;
+          opacity: 0.9;
         }
 
         .residence-thumbnail-active {
           opacity: 1;
+          border-color: var(--gold-accent);
         }
 
         .residence-thumbnail img {
@@ -541,8 +575,8 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
           display: block;
           color: var(--gold-accent);
           font-family: var(--font-body);
-          font-size: 0.75rem;
-          font-weight: 600;
+          font-size: 0.8rem;
+          font-weight: 700;
           letter-spacing: 0.15em;
           text-transform: uppercase;
           margin-bottom: 12px;
@@ -554,23 +588,23 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
           font-family: var(--font-display);
           font-size: clamp(2rem, 3vw, 2.5rem);
           font-weight: 400;
-          line-height: 1.1;
+          line-height: 1.2;
         }
 
         .residence-description {
-          color: rgba(255, 255, 255, 0.7);
+          color: rgba(255, 255, 255, 0.85); /* Boosted contrast */
           font-family: var(--font-body);
-          font-size: 1rem;
+          font-size: 1.05rem;
           line-height: 1.7;
           margin-bottom: 40px;
         }
 
-        /* STRUCTURAL LIST */
+        /* SPECIFICATION LIST */
         .residence-specs {
           list-style: none;
           padding: 0;
           margin: 0 0 48px 0;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          border-top: 1px solid rgba(255, 255, 255, 0.2); /* Boosted contrast */
         }
 
         .residence-spec {
@@ -578,25 +612,26 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
           justify-content: space-between;
           align-items: center;
           padding: 20px 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .spec-label {
-          color: rgba(255, 255, 255, 0.5);
+          color: rgba(255, 255, 255, 0.75); /* Boosted contrast */
           font-family: var(--font-body);
-          font-size: 0.8rem;
+          font-size: 0.85rem;
+          font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.1em;
         }
 
         .spec-value {
-          color: var(--white);
+          color: var(--gold-accent); /* Make data pop */
           font-family: var(--font-body);
-          font-size: 0.9rem;
-          font-weight: 600;
+          font-size: 1rem;
+          font-weight: 700;
         }
 
-        /* BUTTONS (Solid Minimalist) */
+        /* BUTTONS */
         .residence-actions {
           display: flex;
           flex-direction: column;
@@ -605,12 +640,12 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
 
         .btn-solid {
           width: 100%;
-          min-height: 56px;
+          min-height: 60px;
           background: var(--white);
           color: var(--azure-deep);
           border: none;
           font-family: var(--font-body);
-          font-size: 0.8rem;
+          font-size: 0.85rem;
           font-weight: 700;
           letter-spacing: 0.1em;
           text-transform: uppercase;
@@ -619,26 +654,28 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
         }
 
         .btn-solid:hover {
-          background: var(--gold-soft);
+          background: var(--gold-accent);
+          color: var(--white);
         }
 
         .btn-outline {
           width: 100%;
-          min-height: 56px;
+          min-height: 60px;
           background: transparent;
           color: var(--white);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.4); /* Thicker border */
           font-family: var(--font-body);
-          font-size: 0.8rem;
-          font-weight: 600;
+          font-size: 0.85rem;
+          font-weight: 700;
           letter-spacing: 0.1em;
           text-transform: uppercase;
           cursor: pointer;
-          transition: border-color 0.3s ease;
+          transition: border-color 0.3s ease, color 0.3s ease;
         }
 
         .btn-outline:hover {
-          border-color: var(--white);
+          border-color: var(--gold-accent);
+          color: var(--gold-accent);
         }
 
         /* MODAL */
@@ -646,8 +683,8 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
           position: fixed;
           inset: 0;
           z-index: 9999;
-          background: rgba(17, 26, 85, 0.9);
-          backdrop-filter: blur(8px);
+          background: rgba(17, 26, 85, 0.95);
+          backdrop-filter: blur(10px);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -655,11 +692,13 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
         }
 
         .tour-modal {
-          background: var(--azure-main);
+          background: var(--white); /* White modal for massive contrast against blue background */
+          color: var(--azure-deep);
           padding: 48px;
           width: 100%;
-          max-width: 480px;
+          max-width: 500px;
           position: relative;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
 
         .tour-modal-close {
@@ -668,34 +707,77 @@ const UnitSection = ({ onInquire, onOpenModal }) => {
           right: 24px;
           background: none;
           border: none;
-          color: var(--white);
+          color: var(--text-dark);
           font-size: 1.5rem;
           cursor: pointer;
           opacity: 0.5;
+          transition: opacity 0.3s ease;
+        }
+        
+        .tour-modal-close:hover {
+          opacity: 1;
         }
 
         .tour-modal-title {
           font-family: var(--font-display);
           font-size: 2rem;
+          font-weight: 400;
           margin: 0 0 16px 0;
         }
 
         .tour-modal-text {
-          color: rgba(255,255,255,0.7);
+          color: var(--text-dark-soft);
+          font-family: var(--font-body);
+          font-size: 1rem;
           margin-bottom: 32px;
           line-height: 1.6;
+        }
+
+        .tour-modal-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .btn-solid-modal {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          min-height: 60px;
+          background: var(--azure-deep);
+          color: var(--white);
+          border: none;
+          font-family: var(--font-body);
+          font-size: 0.85rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          cursor: pointer;
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+        }
+        
+        .btn-solid-modal:hover {
+          background: var(--gold-accent);
         }
 
         .btn-text {
           background: none;
           border: none;
-          color: rgba(255,255,255,0.5);
+          color: var(--text-dark-soft);
           font-family: var(--font-body);
           font-size: 0.8rem;
+          font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.1em;
           cursor: pointer;
           padding: 16px 0;
+          transition: color 0.3s ease;
+        }
+        
+        .btn-text:hover {
+          color: var(--azure-deep);
         }
 
         /* =================================================

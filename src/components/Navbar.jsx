@@ -208,12 +208,19 @@ const Navbar = ({ onOpenModal }) => {
           box-shadow: 0 4px 30px rgba(8, 12, 35, 0.15);
         }
 
-        /* DESKTOP LINKS */
+  /* DESKTOP LINKS (Josefin Sans) */
         .navbar-link {
           position: relative;
           display: inline-flex;
           align-items: center;
           height: 48px;
+          color: rgba(255,255,255,0.9);
+          text-decoration: none;
+          text-transform: uppercase;
+          font-family: var(--font-body); /* Changed to Josefin Sans */
+          font-size: 0.8rem; /* Bumped up slightly from 0.7rem */
+          letter-spacing: 0.15em;
+          font-weight: 600; /* Increased weight for legibility */
           transition: color 0.4s var(--nav-ease);
         }
 
@@ -310,16 +317,19 @@ const Navbar = ({ onOpenModal }) => {
           transform: translateY(0);
         }
 
+        /* MOBILE MENU LINKS (Josefin Sans) */
         .mobile-nav-link {
           display: grid;
           grid-template-columns: 40px 1fr auto;
           align-items: center;
           width: 100%;
-          padding: 12px 0; /* Massive touch target */
+          padding: 12px 0;
           color: rgba(255,255,255,0.8);
           text-decoration: none;
-          font-family: var(--font-display);
-          font-size: clamp(2rem, 8vw, 2.75rem); /* Larger, more dramatic typography */
+          font-family: var(--font-body); /* Changed to Josefin Sans */
+          font-size: clamp(2.2rem, 8vw, 3rem); /* Increased size for impact */
+          font-weight: 400; /* Kept light for an elegant, editorial feel */
+          letter-spacing: -0.02em;
           line-height: 1;
           transition: color 0.4s ease;
         }

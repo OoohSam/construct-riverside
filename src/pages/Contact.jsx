@@ -40,22 +40,22 @@ const Contact = () => {
   const [submitting, setSubmitting] = useState(false);
 
   /* =========================================================
-     GALLERY MOTION (Quiet & Restrained)
+     GALLERY MOTION (Ultra Smooth & Slow)
      ========================================================= */
-  const quietEase = [0.25, 1, 0.5, 1];
+  const elegantEase = [0.16, 1, 0.3, 1];
 
   const fadeUp = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: quietEase } }
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: elegantEase } },
   };
 
   const fadeStagger = {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0, y: 30 },
     visible: (customDelay) => ({
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, delay: customDelay, ease: quietEase }
-    })
+      transition: { duration: 1, delay: customDelay, ease: elegantEase },
+    }),
   };
 
   const handleChange = (e) => {
@@ -94,30 +94,32 @@ const Contact = () => {
     <>
       <main className="contact-page">
         {/* =========================================================
-            HERO
+            HERO (Editorial Typography)
             ========================================================= */}
-        <section className="contact-hero">
-          <div className="container contact-hero-container">
+        <section className="hero-editorial">
+          <div className="container hero-text-wrapper">
             <motion.div
               initial="hidden"
               animate="visible"
               variants={{ visible: { transition: { staggerChildren: 0.15 } } }}
-              className="contact-hero-content"
             >
-              <motion.span className="section-meta gold-text" variants={fadeUp}>
+              <motion.span className="eyebrow" variants={fadeUp}>
                 Riverside · Nairobi
               </motion.span>
-              <motion.h1 className="hero-title" variants={fadeUp}>
-                Begin a conversation.
+              <motion.h1 className="heading-xl" variants={fadeUp}>
+                Begin a <br />
+                <span className="text-muted">conversation.</span>
               </motion.h1>
-              <motion.p className="hero-desc" variants={fadeUp}>
+              <motion.p className="hero-subtitle" variants={fadeUp}>
                 Tell us what you are looking for and our sales team will help you explore 
                 the residences, pricing, and payment options available at Riverside Azure.
               </motion.p>
               <motion.div className="hero-actions" variants={fadeUp}>
-                <a href="#enquiry" className="btn-solid-hero">Make an Enquiry</a>
-                <a href={whatsappUrl} target="_blank" rel="noreferrer" className="btn-text-hero">
-                  WhatsApp Sales ↗
+                <a href="#enquiry" className="btn-solid">
+                  Make an Enquiry
+                </a>
+                <a href={whatsappUrl} target="_blank" rel="noreferrer" className="btn-minimal">
+                  WhatsApp Sales <span className="arrow-icon">⟶</span>
                 </a>
               </motion.div>
             </motion.div>
@@ -127,9 +129,9 @@ const Contact = () => {
         {/* =========================================================
             DIRECT CONTACT INFO
             ========================================================= */}
-        <section className="contact-info">
+        <section className="section-padding bg-light">
           <div className="container">
-            <div className="info-grid">
+            <div className="editorial-grid">
               
               {/* Left: Intro */}
               <motion.div
@@ -137,11 +139,11 @@ const Contact = () => {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeUp}
-                className="info-intro"
+                className="col-left sticky-col"
               >
-                <span className="section-meta">Get In Touch</span>
-                <h2 className="section-title">Your next address starts here.</h2>
-                <p className="body-text">
+                <span className="eyebrow">Get In Touch</span>
+                <h2 className="heading-large">Your next address starts here.</h2>
+                <p className="body-standard text-muted">
                   Whether you are buying for yourself, your family, or as an investment, 
                   our team can guide you through the development. Ask us about available residences, 
                   current pricing, or arranging a private visit.
@@ -149,29 +151,29 @@ const Contact = () => {
               </motion.div>
 
               {/* Right: Architectural Grid of Contact Details */}
-              <div className="info-details-grid">
+              <div className="col-right info-details-grid">
                 {[
-                  { num: "01", label: "WhatsApp", title: "Chat with Sales", link: whatsappUrl, cta: "Start a conversation ↗" },
-                  { num: "02", label: "Phone", title: "0796 529 997", link: "tel:+254796529997", cta: "Call the sales team ↗", sub: "Mon–Fri · 8am–5pm" },
-                  { num: "03", label: "Email", title: "Email Sales", link: "mailto:info@riversideazure.com", cta: "info@riversideazure.com ↗" },
-                  { num: "04", label: "Location", title: "25 Riverside Drive", link: "https://maps.app.goo.gl/mpJWJq6jBALvGijU6", cta: "Open in Google Maps ↗", sub: "Riverside, Nairobi" }
+                  { num: "01", label: "WhatsApp", title: "Chat with Sales", link: whatsappUrl, cta: "Start a conversation ⟶" },
+                  { num: "02", label: "Phone", title: "0796 529 997", link: "tel:+254796529997", cta: "Call the sales team ⟶", sub: "Mon–Fri · 8am–5pm" },
+                  { num: "03", label: "Email", title: "Email Sales", link: "mailto:info@riversideazure.com", cta: "info@riversideazure.com ⟶" },
+                  { num: "04", label: "Location", title: "25 Riverside Drive", link: "https://maps.app.goo.gl/mpJWJq6jBALvGijU6", cta: "Open in Google Maps ⟶", sub: "Riverside, Nairobi" }
                 ].map((item, index) => (
                   <motion.a
                     key={item.num}
                     href={item.link}
                     target={item.label === "Email" || item.label === "Phone" ? "_self" : "_blank"}
                     rel={item.label === "Email" || item.label === "Phone" ? "" : "noreferrer"}
-                    className="detail-block"
+                    className="contact-card"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.2 }}
-                    custom={index * 0.1}
+                    custom={index * 0.15}
                     variants={fadeStagger}
                   >
-                    <span className="detail-meta">{item.num} · {item.label}</span>
-                    <h3 className="detail-title">{item.title}</h3>
-                    {item.sub && <p className="detail-sub">{item.sub}</p>}
-                    <span className="detail-cta">{item.cta}</span>
+                    <span className="card-meta"><span className="text-gold">{item.num}</span> / {item.label}</span>
+                    <h3 className="heading-medium">{item.title}</h3>
+                    {item.sub && <p className="body-small text-muted">{item.sub}</p>}
+                    <span className="card-cta">{item.cta}</span>
                   </motion.a>
                 ))}
               </div>
@@ -181,48 +183,48 @@ const Contact = () => {
         </section>
 
         {/* =========================================================
-            ENQUIRY FORM (Gallery Minimalist Style)
+            ENQUIRY FORM (Concierge Style)
             ========================================================= */}
-        <section id="enquiry" className="contact-form-section">
+        <section id="enquiry" className="section-padding">
           <div className="container">
-            <div className="form-layout">
+            <div className="editorial-grid">
               
               {/* Form Sticky Header */}
               <motion.div
-                className="form-aside"
+                className="col-left sticky-col"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeUp}
               >
                 <div className="sticky-content">
-                  <span className="section-meta">Private Enquiry</span>
-                  <h2 className="section-title">Tell us what you're looking for.</h2>
-                  <p className="body-text">
+                  <span className="eyebrow">Private Enquiry</span>
+                  <h2 className="heading-large">Tell us what you're looking for.</h2>
+                  <p className="body-standard text-muted">
                     A few details help our team prepare the right information before we contact you.
                   </p>
                   <div className="privacy-note">
                     <span className="gold-rule" />
-                    <p>Your information remains confidential and is used only to respond to your Riverside Azure enquiry.</p>
+                    <p className="body-standard text-muted">Your information remains confidential and is used only to respond to your Riverside Azure enquiry.</p>
                   </div>
                 </div>
               </motion.div>
 
               {/* The Minimalist Form */}
               <motion.div
-                className="form-wrapper"
+                className="col-right form-wrapper"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.1 }}
                 variants={fadeUp}
               >
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="concierge-form">
                   
                   {/* Step 1 */}
                   <div className="form-step">
                     <div className="step-header">
                       <span className="step-num">01</span>
-                      <h3>Your Details</h3>
+                      <h3 className="heading-small">Your Details</h3>
                     </div>
                     <div className="input-grid">
                       <div className="input-group">
@@ -244,14 +246,14 @@ const Contact = () => {
                   <div className="form-step">
                     <div className="step-header">
                       <span className="step-num">02</span>
-                      <h3>Property Interest</h3>
+                      <h3 className="heading-small">Property Interest</h3>
                     </div>
                     <div className="input-grid">
                       <div className="input-group">
                         <label htmlFor="interest">Residence of Interest *</label>
                         <div className="select-wrapper">
-                          <select id="interest" name="interest" value={form.interest} onChange={handleChange} required className="min-input">
-                            <option value="">Select a unit type</option>
+                          <select id="interest" name="interest" value={form.interest} onChange={handleChange} required className="min-input select-input">
+                            <option value="" disabled>Select a unit type</option>
                             <option value="1 Bedroom">1 Bedroom</option>
                             <option value="2 Bedroom">2 Bedroom</option>
                             <option value="3 Bedroom">3 Bedroom</option>
@@ -262,8 +264,8 @@ const Contact = () => {
                       <div className="input-group">
                         <label htmlFor="purpose">Primary Purpose *</label>
                         <div className="select-wrapper">
-                          <select id="purpose" name="purpose" value={form.purpose} onChange={handleChange} required className="min-input">
-                            <option value="">Select purpose</option>
+                          <select id="purpose" name="purpose" value={form.purpose} onChange={handleChange} required className="min-input select-input">
+                            <option value="" disabled>Select purpose</option>
                             <option value="Own Use">Own Use</option>
                             <option value="Investment">Investment</option>
                             <option value="Both">Both</option>
@@ -277,14 +279,14 @@ const Contact = () => {
                   <div className="form-step">
                     <div className="step-header">
                       <span className="step-num">03</span>
-                      <h3>Requirements</h3>
+                      <h3 className="heading-small">Requirements</h3>
                     </div>
                     <div className="input-grid">
                       <div className="input-group">
                         <label htmlFor="budget">Approximate Budget</label>
                         <div className="select-wrapper">
-                          <select id="budget" name="budget" value={form.budget} onChange={handleChange} className="min-input">
-                            <option value="">Select budget</option>
+                          <select id="budget" name="budget" value={form.budget} onChange={handleChange} className="min-input select-input">
+                            <option value="" disabled>Select budget</option>
                             <option value="Below KES 8M">Below KES 8M</option>
                             <option value="KES 8M - 10M">KES 8M – 10M</option>
                             <option value="KES 10M - 13M">KES 10M – 13M</option>
@@ -296,8 +298,8 @@ const Contact = () => {
                       <div className="input-group">
                         <label htmlFor="timeframe">Purchase Timeframe</label>
                         <div className="select-wrapper">
-                          <select id="timeframe" name="timeframe" value={form.timeframe} onChange={handleChange} className="min-input">
-                            <option value="">Select timeframe</option>
+                          <select id="timeframe" name="timeframe" value={form.timeframe} onChange={handleChange} className="min-input select-input">
+                            <option value="" disabled>Select timeframe</option>
                             <option value="Immediately">Immediately</option>
                             <option value="Within 1-3 months">Within 1–3 months</option>
                             <option value="Within 3-6 months">Within 3–6 months</option>
@@ -313,8 +315,8 @@ const Contact = () => {
                   </div>
 
                   <div className="form-submit-wrapper">
-                    <button type="submit" disabled={submitting} className="btn-solid-submit">
-                      {submitting ? "Sending..." : "Submit Enquiry"} <span>→</span>
+                    <button type="submit" disabled={submitting} className="btn-solid submit-btn">
+                      {submitting ? "Sending..." : "Submit Enquiry"} <span className="arrow-icon">⟶</span>
                     </button>
                     
                     <AnimatePresence mode="wait">
@@ -352,28 +354,29 @@ const Contact = () => {
             title="Riverside Azure location"
           />
           <div className="map-label">
-            <span className="label-top">RIVERSIDE · NAIROBI</span>
-            <span className="label-bottom">25 Riverside Drive</span>
+            <span className="eyebrow text-gold">RIVERSIDE · NAIROBI</span>
+            <span className="heading-medium text-white mb-0">25 Riverside Drive</span>
           </div>
         </section>
 
         {/* =========================================================
             FAQ
             ========================================================= */}
-        <section className="faq-section">
+        <section className="section-padding bg-light">
           <div className="container">
-            <div className="faq-layout">
+            <div className="editorial-grid">
               <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeUp}
+                className="col-left"
               >
-                <span className="section-meta">Questions</span>
-                <h2 className="section-title">Before you visit us.</h2>
+                <span className="eyebrow">Questions</span>
+                <h2 className="heading-large">Before you visit us.</h2>
               </motion.div>
 
-              <div className="faq-list">
+              <div className="col-right faq-list">
                 {faqs.map((faq, index) => {
                   const isOpen = openIndex === index;
                   return (
@@ -388,7 +391,7 @@ const Contact = () => {
                     >
                       <button
                         type="button"
-                        className="faq-trigger"
+                        className={`faq-trigger ${isOpen ? "active" : ""}`}
                         onClick={() => setOpenIndex(isOpen ? null : index)}
                         aria-expanded={isOpen}
                       >
@@ -402,9 +405,9 @@ const Contact = () => {
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.4, ease: quietEase }}
+                            transition={{ duration: 0.4, ease: elegantEase }}
                           >
-                            <p>{faq.a}</p>
+                            <p className="body-standard text-muted">{faq.a}</p>
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -419,282 +422,306 @@ const Contact = () => {
       </main>
 
       {/* =========================================================
-          STYLES (Gallery Minimalist)
+          STYLES (Simplistic, Stylish, Azure & Gold)
           ========================================================= */}
       <style>{`
-        .contact-page {
-          background: var(--white);
-          color: var(--text-dark);
-          overflow-x: hidden;
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        :root {
+          --color-bg: #FCFCFC;
+          --color-bg-alt: #F3F3F3;
+          --color-azure: #111A55;   /* Deep Azure Blue */
+          --color-gold: #C5A059;    /* Elegant Gold */
+          --color-text-main: #111111;
+          --color-text-muted: #767676;
+          --color-border: #E5E5E5;
+          --font-sans: 'Josefin Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+          --font-display: 'Montserrat', sans-serif;
         }
 
-        /* TYPOGRAPHY UTILITIES */
-        .section-meta {
+        .contact-page {
+          width: 100%;
+          background: var(--color-bg);
+          color: var(--color-azure); 
+          font-family: var(--font-sans);
+          overflow-x: hidden;
+          -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 5vw;
+        }
+
+        /* TYPOGRAPHY */
+        .text-muted { color: var(--color-text-muted); }
+        .text-gold { color: var(--color-gold) !important; }
+        .text-white { color: #FFFFFF !important; }
+        .bg-light { background: var(--color-bg-alt); }
+        .mb-0 { margin-bottom: 0 !important; }
+
+        .eyebrow {
           display: block;
-          font-family: var(--font-body);
           font-size: 0.75rem;
           font-weight: 600;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          color: var(--text-dark-soft);
-          margin-bottom: 24px;
+          color: var(--color-gold); 
+          margin-bottom: 1rem;
         }
 
-        .gold-text { color: var(--gold-accent); }
-
-        .section-title {
-          margin: 0;
+        .heading-xl, .heading-large, .heading-medium, .heading-small {
           font-family: var(--font-display);
-          font-size: clamp(2.5rem, 5vw, 4rem);
+          color: var(--color-azure);
+        }
+
+        .heading-xl {
+          font-size: clamp(3rem, 7vw, 6rem);
           font-weight: 400;
           line-height: 1.05;
+          margin: 0 0 2rem 0;
           letter-spacing: -0.02em;
-          color: var(--azure-deep);
         }
 
-        .body-text {
-          margin: 24px 0 0 0;
-          font-family: var(--font-body);
-          font-size: 0.95rem;
-          line-height: 1.7;
-          color: var(--text-dark-soft);
-        }
-
-        /* HERO */
-        .contact-hero {
-          background: var(--azure-deep);
-          color: var(--white);
-          padding: clamp(140px, 15vw, 180px) 0 clamp(80px, 10vw, 120px) 0;
-        }
-
-        .contact-hero-content {
-          max-width: 800px;
-        }
-
-        .hero-title {
-          margin: 0 0 24px 0;
-          font-family: var(--font-display);
-          font-size: clamp(3rem, 6vw, 5.5rem);
+        .heading-large {
+          font-size: clamp(2rem, 5vw, 4rem);
           font-weight: 400;
-          line-height: 1;
-          letter-spacing: -0.03em;
+          line-height: 1.1;
+          margin: 0 0 1.5rem 0;
+          letter-spacing: -0.02em;
         }
 
-        .hero-desc {
-          margin: 0 0 40px 0;
-          color: rgba(255, 255, 255, 0.7);
-          font-family: var(--font-body);
+        .heading-medium {
+          font-size: clamp(1.5rem, 3vw, 2.2rem);
+          font-weight: 400;
+          line-height: 1.2;
+          margin: 0 0 1rem 0;
+        }
+
+        .heading-small {
+          font-size: 1.5rem;
+          font-weight: 400;
+          line-height: 1.3;
+          margin: 0;
+        }
+
+        .body-standard {
           font-size: 1.05rem;
           line-height: 1.7;
-          max-width: 500px;
+          margin-bottom: 1.5rem;
+        }
+        
+        .body-small {
+          font-size: 0.9rem;
+          line-height: 1.6;
+          margin: 0;
+        }
+
+        .section-padding {
+          padding: clamp(80px, 15vw, 160px) 0;
+        }
+
+        /* HERO EDITORIAL */
+        .hero-editorial {
+          padding-top: clamp(150px, 20vh, 220px);
+          padding-bottom: clamp(60px, 10vh, 100px);
+          border-bottom: 1px solid var(--color-border);
+        }
+
+        .hero-text-wrapper {
+          max-width: 900px;
+        }
+
+        .hero-subtitle {
+          font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+          line-height: 1.6;
+          color: var(--color-text-muted);
+          max-width: 600px;
+          margin: 0 0 3rem 0;
         }
 
         .hero-actions {
           display: flex;
           align-items: center;
-          gap: 32px;
+          gap: 2rem;
+          flex-wrap: wrap;
         }
 
-        .btn-solid-hero {
+        /* BUTTONS */
+        .btn-solid {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          min-height: 56px;
-          padding: 0 32px;
-          background: var(--gold-accent);
-          color: var(--azure-deep);
-          font-family: var(--font-body);
-          font-size: 0.8rem;
-          font-weight: 700;
-          letter-spacing: 0.1em;
+          min-height: 60px;
+          padding: 0 40px;
+          background: var(--color-azure);
+          color: #FFF;
+          border: none;
+          font-family: var(--font-sans);
+          font-size: 0.9rem;
+          font-weight: 600;
           text-transform: uppercase;
-          text-decoration: none;
-          transition: background-color 0.3s ease;
-        }
-
-        .btn-solid-hero:hover {
-          background: var(--white);
-        }
-
-        .btn-text-hero {
-          color: var(--white);
-          font-family: var(--font-body);
-          font-size: 0.8rem;
-          font-weight: 700;
           letter-spacing: 0.1em;
-          text-transform: uppercase;
+          cursor: pointer;
+          transition: all 0.3s ease;
           text-decoration: none;
-          transition: color 0.3s ease;
         }
 
-        .btn-text-hero:hover {
-          color: var(--gold-accent);
+        .btn-solid:hover:not(:disabled) {
+          background: var(--color-gold);
+          color: var(--color-azure);
+          transform: translateY(-2px);
+        }
+        
+        .btn-solid:disabled {
+          opacity: 0.6;
+          cursor: wait;
         }
 
-        /* INFO SECTION */
-        .contact-info {
-          padding: clamp(100px, 12vw, 160px) 0;
-          background: var(--white);
+        .btn-minimal {
+          display: inline-flex;
+          align-items: center;
+          gap: 1rem;
+          background: transparent;
+          border: none;
+          color: var(--color-azure); 
+          font-size: 0.9rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          cursor: pointer;
+          padding: 10px 0;
+          border-bottom: 1px solid transparent;
+          transition: all 0.3s ease;
+          text-decoration: none;
         }
 
-        .info-grid {
+        .arrow-icon {
+          font-size: 1.5em;
+          font-weight: 300;
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-minimal:hover {
+          color: var(--color-gold);
+          border-bottom-color: var(--color-gold);
+        }
+
+        .btn-minimal:hover .arrow-icon {
+          transform: translateX(10px);
+        }
+
+        /* EDITORIAL GRID */
+        .editorial-grid {
           display: grid;
           grid-template-columns: 0.8fr 1.2fr;
           gap: clamp(60px, 8vw, 120px);
           align-items: start;
         }
-
-        .info-intro {
+        
+        .sticky-col {
           position: sticky;
           top: 120px;
         }
 
+        /* DIRECT CONTACT CARDS */
         .info-details-grid {
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 40px;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 2rem;
         }
 
-        .detail-block {
+        .contact-card {
           display: flex;
           flex-direction: column;
-          padding: 32px;
-          background: var(--off-white);
-          border: 1px solid var(--border-light);
+          padding: 2.5rem;
+          background: var(--color-bg);
+          border: 1px solid var(--color-border);
           text-decoration: none;
-          transition: background-color 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .detail-block:hover {
-          background: var(--white);
+        .contact-card:hover {
+          background: var(--color-bg-alt);
+          transform: translateY(-5px);
+          border-color: var(--color-gold);
+          box-shadow: 0 10px 30px rgba(17, 26, 85, 0.05);
         }
 
-        .detail-meta {
-          color: var(--gold-accent);
-          font-family: var(--font-body);
-          font-size: 0.65rem;
-          font-weight: 700;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          margin-bottom: 24px;
-        }
-
-        .detail-title {
-          margin: 0 0 8px 0;
-          color: var(--azure-deep);
-          font-family: var(--font-display);
-          font-size: 1.5rem;
-          font-weight: 400;
-        }
-
-        .detail-sub {
-          margin: 0;
-          color: var(--text-dark-soft);
-          font-family: var(--font-body);
-          font-size: 0.8rem;
-          line-height: 1.6;
-        }
-
-        .detail-cta {
-          margin-top: 32px;
-          color: var(--azure-main);
-          font-family: var(--font-body);
+        .card-meta {
           font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--color-text-muted);
+          margin-bottom: 2rem;
+        }
+
+        .card-cta {
+          margin-top: 2rem;
+          font-size: 0.8rem;
           font-weight: 600;
           letter-spacing: 0.05em;
           text-transform: uppercase;
+          color: var(--color-azure);
           transition: color 0.3s ease;
         }
 
-        .detail-block:hover .detail-cta {
-          color: var(--gold-accent);
+        .contact-card:hover .card-cta {
+          color: var(--color-gold);
         }
 
-        /* FORM SECTION (Gallery Minimalist) */
-        .contact-form-section {
-          padding: clamp(100px, 12vw, 160px) 0;
-          background: var(--off-white);
-        }
-
-        .form-layout {
-          display: grid;
-          grid-template-columns: 0.8fr 1.2fr;
-          gap: clamp(60px, 8vw, 120px);
-          align-items: start;
-        }
-
-        .form-aside {
-          position: sticky;
-          top: 120px;
-        }
-
+        /* ENQUIRY FORM */
         .privacy-note {
-          margin-top: 48px;
-          padding-top: 24px;
-          border-top: 1px solid var(--border-light);
+          margin-top: 3rem;
+          padding-top: 2rem;
+          border-top: 1px solid var(--color-border);
         }
 
-        .privacy-note .gold-rule {
+        .gold-rule {
           display: block;
           width: 40px;
-          height: 1px;
-          background: var(--gold-accent);
-          margin-bottom: 16px;
+          height: 2px;
+          background: var(--color-gold);
+          margin-bottom: 1.5rem;
         }
 
-        .privacy-note p {
-          margin: 0;
-          color: var(--text-dark-soft);
-          font-family: var(--font-body);
-          font-size: 0.8rem;
-          line-height: 1.6;
-        }
-
-        .form-wrapper form {
+        .concierge-form {
           display: flex;
           flex-direction: column;
-          gap: 60px; /* Strong architectural separation between steps */
+          gap: 4rem; 
         }
 
         .form-step {
           display: flex;
           flex-direction: column;
-          gap: 24px;
+          gap: 2rem;
         }
 
         .step-header {
           display: flex;
           align-items: center;
-          gap: 16px;
-          padding-bottom: 16px;
-          border-bottom: 1px solid var(--border-light);
+          gap: 1rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid var(--color-border);
         }
 
         .step-num {
-          color: var(--gold-accent);
-          font-family: var(--font-body);
-          font-size: 0.75rem;
-          font-weight: 700;
-        }
-
-        .step-header h3 {
-          margin: 0;
-          color: var(--azure-deep);
-          font-family: var(--font-display);
-          font-size: 1.5rem;
-          font-weight: 400;
+          color: var(--color-gold);
+          font-weight: 600;
         }
 
         .input-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 32px 24px;
+          gap: 2rem 1.5rem;
         }
 
         .input-group {
           display: flex;
           flex-direction: column;
-          gap: 8px;
+          gap: 0.5rem;
         }
 
         .full-width {
@@ -702,30 +729,33 @@ const Contact = () => {
         }
 
         .input-group label {
-          color: var(--text-dark-soft);
-          font-family: var(--font-body);
-          font-size: 0.7rem;
+          color: var(--color-text-muted);
+          font-size: 0.75rem;
           font-weight: 600;
           letter-spacing: 0.1em;
           text-transform: uppercase;
         }
 
-        /* The true minimalist input */
         .min-input {
           width: 100%;
           background: transparent;
           border: none;
-          border-bottom: 1px solid rgba(21, 24, 42, 0.2);
-          color: var(--text-dark);
-          font-family: var(--font-body);
-          font-size: 16px; /* Prevents iOS zoom */
-          padding: 12px 0;
+          border-bottom: 1px solid var(--color-border);
+          color: var(--color-azure);
+          font-family: var(--font-sans);
+          font-size: 1.1rem;
+          padding: 10px 0;
           outline: none;
           transition: border-color 0.3s ease;
         }
 
+        .min-input::placeholder {
+          color: #CCC;
+          font-weight: 300;
+        }
+
         .min-input:focus {
-          border-bottom-color: var(--gold-accent);
+          border-bottom-color: var(--color-gold);
         }
 
         .select-wrapper {
@@ -736,120 +766,65 @@ const Contact = () => {
           content: "↓";
           position: absolute;
           right: 0;
-          top: 50%;
-          transform: translateY(-50%);
-          color: var(--gold-accent);
+          bottom: 12px;
+          color: var(--color-gold);
           pointer-events: none;
+          font-weight: 600;
         }
 
-        select.min-input {
+        .select-input {
           appearance: none;
           -webkit-appearance: none;
           cursor: pointer;
           padding-right: 24px;
         }
 
-        .form-submit-wrapper {
-          margin-top: 24px;
-        }
-
-        .btn-solid-submit {
-          display: inline-flex;
-          align-items: center;
-          justify-content: space-between;
+        .submit-btn {
           width: 100%;
-          min-height: 60px;
-          padding: 0 24px;
-          background: var(--azure-deep);
-          color: var(--white);
-          border: none;
-          font-family: var(--font-body);
-          font-size: 0.8rem;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-        }
-
-        .btn-solid-submit:hover:not(:disabled) {
-          background: var(--gold-accent);
-          color: var(--azure-deep);
-        }
-
-        .btn-solid-submit:disabled {
-          opacity: 0.6;
-          cursor: wait;
+          margin-top: 1rem;
         }
 
         .status-message {
-          margin-top: 16px;
-          padding: 16px;
+          margin-top: 1rem;
+          padding: 1rem;
           text-align: center;
-          font-family: var(--font-body);
-          font-size: 0.85rem;
-          background: rgba(21, 24, 42, 0.05);
-          color: var(--azure-deep);
+          font-weight: 500;
+          background: rgba(197, 160, 89, 0.1); /* Light gold background */
+          color: var(--color-azure);
+          border: 1px solid var(--color-gold);
         }
 
-        /* MAP */
+        /* MAP SECTION */
         .map-section {
           position: relative;
           width: 100%;
           height: 60vh;
           min-height: 400px;
-          background: var(--border-light);
+          background: var(--color-border);
         }
 
         .map-section iframe {
-          filter: grayscale(1) contrast(1.1); /* Editorial B&W map */
+          /* Premium moody grayscale look */
+          filter: grayscale(1) contrast(1.1) brightness(0.9); 
         }
 
         .map-label {
           position: absolute;
           left: 0;
           bottom: 0;
-          background: var(--azure-deep);
-          color: var(--white);
-          padding: 32px 48px;
+          background: var(--color-azure);
+          padding: 2.5rem 3rem;
           display: flex;
           flex-direction: column;
-          gap: 8px;
         }
 
-        .label-top {
-          color: var(--gold-accent);
-          font-family: var(--font-body);
-          font-size: 0.7rem;
-          font-weight: 700;
-          letter-spacing: 0.15em;
-        }
-
-        .label-bottom {
-          font-family: var(--font-display);
-          font-size: 1.5rem;
-          font-weight: 400;
-        }
-
-        /* FAQ */
-        .faq-section {
-          padding: clamp(100px, 12vw, 160px) 0;
-          background: var(--white);
-        }
-
-        .faq-layout {
-          display: grid;
-          grid-template-columns: 0.8fr 1.2fr;
-          gap: clamp(60px, 8vw, 120px);
-          align-items: start;
-        }
-
+        /* FAQ SECTION */
         .faq-list {
-          border-top: 1px solid var(--border-light);
+          border-top: 1px solid var(--color-border);
         }
 
         .faq-item {
-          border-bottom: 1px solid var(--border-light);
+          border-bottom: 1px solid var(--color-border);
         }
 
         .faq-trigger {
@@ -857,23 +832,28 @@ const Contact = () => {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 24px 0;
+          padding: 2rem 0;
           background: none;
           border: none;
-          color: var(--azure-deep);
+          color: var(--color-azure);
           cursor: pointer;
           text-align: left;
+          transition: color 0.3s ease;
+        }
+        
+        .faq-trigger:hover, .faq-trigger.active {
+          color: var(--color-gold);
         }
 
         .faq-q {
-          font-family: var(--font-body);
-          font-size: 1.05rem;
-          font-weight: 600;
-          padding-right: 24px;
+          font-family: var(--font-display);
+          font-size: 1.25rem;
+          font-weight: 400;
+          padding-right: 2rem;
         }
 
         .faq-icon {
-          color: var(--gold-accent);
+          color: var(--color-gold);
           font-size: 1.5rem;
           flex-shrink: 0;
         }
@@ -883,11 +863,8 @@ const Contact = () => {
         }
 
         .faq-answer p {
-          margin: 0 0 24px 0;
-          font-family: var(--font-body);
-          font-size: 0.95rem;
-          line-height: 1.7;
-          color: var(--text-dark-soft);
+          padding-bottom: 2rem;
+          margin: 0;
           max-width: 600px;
         }
 
@@ -895,35 +872,38 @@ const Contact = () => {
            MOBILE RESPONSIVENESS
            ========================================================= */
         @media (max-width: 1024px) {
-          .info-grid, .form-layout, .faq-layout {
+          .editorial-grid {
             grid-template-columns: 1fr;
             gap: 60px;
           }
-          .info-intro, .form-aside {
+          .sticky-col {
             position: static;
           }
         }
 
         @media (max-width: 768px) {
-          .contact-hero {
+          .hero-editorial {
             padding-top: 120px;
           }
           .hero-actions {
             flex-direction: column;
             align-items: flex-start;
-            gap: 24px;
           }
           .info-details-grid {
             grid-template-columns: 1fr;
-            gap: 24px;
           }
           .input-grid {
             grid-template-columns: 1fr;
-            gap: 24px;
           }
           .map-label {
             width: 100%;
-            padding: 24px;
+            padding: 2rem;
+          }
+          .faq-trigger {
+            padding: 1.5rem 0;
+          }
+          .faq-q {
+            font-size: 1.1rem;
           }
         }
       `}</style>

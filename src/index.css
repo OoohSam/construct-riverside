@@ -1,7 +1,7 @@
 /* =========================================================
    RIVERSIDE AZURE
    GLOBAL DESIGN SYSTEM
-   Contemporary Quiet Luxury
+   Modernist Architectural (Montserrat + Josefin Sans)
    ========================================================= */
 
 :root {
@@ -25,10 +25,10 @@
      LIGHT PALETTE
      ======================================================= */
   --white: #ffffff;
-  --off-white: #f4f4f0; /* Slightly warmed up for a more paper-like feel */
-  --warm-white: #fbfaf7;
+  --off-white: #f8f8f8; /* Cooled down slightly to match geometric fonts */
+  --warm-white: #fcfcfc;
 
-  --text-dark: #1a1b20; /* Darkened slightly for sharper contrast */
+  --text-dark: #121318; /* Darkened for maximum contrast */
   --text-dark-soft: #5b6070;
 
   /* Compatibility */
@@ -39,7 +39,7 @@
      GOLD
      ======================================================= */
   --gold-accent: #c9a34e;
-  --gold-hover: #b28d3c; /* Deepened the hover state for richness */
+  --gold-hover: #b28d3c; 
   --gold-soft: #e4cf91;
   --gold-bright: #d8b761;
 
@@ -49,36 +49,31 @@
   --border-dark: rgba(255, 255, 255, 0.14);
 
   /* =======================================================
-     TYPOGRAPHY
+     TYPOGRAPHY (THE NEW DIRECTION)
      ======================================================= */
-  --font-serif: "Playfair Display", serif;
-  --font-sans: "Manrope", sans-serif;
-
-  --font-display: var(--font-serif);
-  --font-body: var(--font-sans);
+  --font-display: "Montserrat", sans-serif;
+  --font-body: "Josefin Sans", sans-serif;
 
   /* =======================================================
      LAYOUT
      ======================================================= */
-  --container-width: 1440px; /* Widened to allow for editorial offset layouts */
-  
-  /* Increased upper bound of spacing for a more dramatic, airy feel */
+  --container-width: 1440px; 
   --section-space: clamp(100px, 12vw, 200px); 
-  
   --content-width: 760px;
 
-  --radius-sm: 0px; /* Removed rounding entirely. True architectural design favors sharp lines */
+  /* Structural lines, no rounded corners */
+  --radius-sm: 0px; 
   --radius-md: 0px; 
 
   /* =======================================================
-     MOTION
+     MOTION (Modernist Ease)
      ======================================================= */
-  /* This is a true "cinematic" ease - slow start, fast middle, very long slow tail */
-  --ease-luxury: cubic-bezier(0.19, 1, 0.22, 1); 
+  /* Snappier, more precise easing curve for modern architecture */
+  --ease-modern: cubic-bezier(0.16, 1, 0.3, 1); 
 
-  --transition-fast: 0.3s var(--ease-luxury);
-  --transition-medium: 0.6s var(--ease-luxury);
-  --transition-slow: 1.2s var(--ease-luxury);
+  --transition-fast: 0.3s var(--ease-modern);
+  --transition-medium: 0.6s var(--ease-modern);
+  --transition-slow: 1.2s var(--ease-modern);
 }
 
 /* =========================================================
@@ -98,10 +93,11 @@ body {
   background: var(--white);
   color: var(--text-dark);
   font-family: var(--font-body);
+  font-weight: 300; /* Josefin Sans looks incredibly elegant at light weights */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  line-height: 1.65; /* Relaxed body line height for better legibility */
+  line-height: 1.6;
 }
 
 /* =========================================================
@@ -115,48 +111,43 @@ a { color: inherit; text-decoration: none; }
 ul, ol { padding-left: 0; margin: 0; }
 
 /* =========================================================
-   TYPOGRAPHY - REFINED FOR EDITORIAL TENSION
+   TYPOGRAPHY - RECALIBRATED FOR MONTSERRAT
    ========================================================= */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 400; /* Keep it medium/light so it doesn't look like a tech startup */
   margin-top: 0;
   color: inherit;
 }
 
-/* The larger the text, the tighter the line-height and tracking */
 h1 {
-  font-size: clamp(3rem, 6vw, 5.5rem);
-  line-height: 1;
+  font-size: clamp(2.5rem, 5vw, 4.5rem); /* Scaled down slightly due to font width */
+  line-height: 1.1;
   letter-spacing: -0.03em;
 }
 
 h2 {
-  font-size: clamp(2.25rem, 4vw, 3.5rem);
-  line-height: 1.1;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.15;
   letter-spacing: -0.02em;
 }
 
 h3 {
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
-  line-height: 1.2;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  line-height: 1.25;
   letter-spacing: -0.01em;
 }
 
 h4 {
-  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
   line-height: 1.3;
 }
 
 p {
-  max-width: 65ch; /* Prevents text lines from getting too wide to read comfortably */
+  max-width: 65ch;
   margin-top: 0;
   margin-bottom: 1.5rem;
-}
-
-/* Editorial utility: First paragraph offset */
-.text-indent {
-  text-indent: 4rem;
+  font-size: 1.1rem; /* Josefin reads smaller, so we boost the base size slightly */
 }
 
 /* =========================================================
@@ -166,7 +157,7 @@ p {
   width: 100%;
   max-width: var(--container-width);
   margin: 0 auto;
-  padding-left: clamp(24px, 5vw, 64px); /* Fluid padding instead of static */
+  padding-left: clamp(24px, 5vw, 64px);
   padding-right: clamp(24px, 5vw, 64px);
 }
 
@@ -176,9 +167,9 @@ p {
 .section-white { background: var(--white); color: var(--text-dark); }
 .section-off-white { background: var(--off-white); color: var(--text-dark); }
 
-/* Softened the gradient slightly so it feels less like a tech background */
+/* Removed the tech gradient. Pure architectural solid color. */
 .section-azure {
-  background: linear-gradient(145deg, var(--azure-deep) 0%, var(--azure-main) 70%);
+  background: var(--azure-deep);
   color: var(--white);
 }
 
@@ -197,17 +188,17 @@ p {
 .border-gold { border: 1px solid var(--border-color); }
 
 /* =========================================================
-   EDITORIAL EYEBROW
+   UI ELEMENTS (EYEBROWS, RULES, LABELS)
    ========================================================= */
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 16px; /* slightly more breathing room */
+  gap: 16px;
   margin: 0 0 24px;
   color: var(--gold-accent);
   font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 600; /* Dropped from 700. True luxury favors medium/semibold over heavy bold */
+  font-size: 0.8rem;
+  font-weight: 600;
   letter-spacing: 0.25em;
   line-height: 1;
   text-transform: uppercase;
@@ -215,17 +206,14 @@ p {
 
 .eyebrow::before {
   content: "";
-  width: 40px; /* Longer line looks more elegant */
+  width: 40px; 
   height: 1px;
   background: currentColor;
   flex-shrink: 0;
 }
 
-/* =========================================================
-   GOLD RULE
-   ========================================================= */
 .gold-rule {
-  width: 80px; /* Slightly longer */
+  width: 80px; 
   height: 1px;
   background: var(--gold-accent);
   border: 0;
@@ -233,29 +221,25 @@ p {
 }
 
 /* =========================================================
-   BUTTON SYSTEM (REFINED)
+   BUTTON SYSTEM (Gallery Minimalist)
    ========================================================= */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 54px; /* Taller target feels more premium */
+  min-height: 54px; 
   padding: 0 32px;
   border: 1px solid transparent;
   border-radius: 0;
-  font-family: var(--font-body);
+  font-family: var(--font-display); /* Montserrat for buttons is very commanding */
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.15em;
   line-height: 1;
   text-transform: uppercase;
   transition: all var(--transition-medium);
-  /* REMOVED transform hover - luxury buttons fade/fill, they don't bounce */
 }
 
-/* =========================================================
-   GOLD BUTTON
-   ========================================================= */
 .btn-gold {
   background: var(--gold-accent);
   color: var(--azure-deep);
@@ -266,13 +250,10 @@ p {
   color: var(--gold-accent);
 }
 
-/* =========================================================
-   LIGHT OUTLINE BUTTON
-   ========================================================= */
 .btn-outline-light {
   background: transparent;
   color: var(--white);
-  border-color: rgba(255, 255, 255, 0.4); /* Softer border */
+  border-color: rgba(255, 255, 255, 0.4); 
 }
 .btn-outline-light:hover {
   background: var(--white);
@@ -280,9 +261,6 @@ p {
   border-color: var(--white);
 }
 
-/* =========================================================
-   DARK OUTLINE BUTTON
-   ========================================================= */
 .btn-outline-dark {
   background: transparent;
   color: var(--azure-deep);
@@ -295,12 +273,12 @@ p {
 }
 
 /* =========================================================
-   REVEAL ANIMATION (CINEMATIC)
+   REVEAL ANIMATION (MODERNIST)
    ========================================================= */
 .reveal {
   opacity: 0;
-  transform: translateY(24px); /* Shorter travel distance looks less dramatic/gimmicky */
-  transition: opacity 1.2s var(--ease-luxury), transform 1.2s var(--ease-luxury);
+  transform: translateY(20px); /* Tighter movement */
+  transition: opacity 1s var(--ease-modern), transform 1s var(--ease-modern);
   will-change: opacity, transform;
 }
 .reveal.active {
@@ -308,26 +286,20 @@ p {
   transform: translateY(0);
 }
 
-/* =========================================================
-   IMAGE REVEAL
-   ========================================================= */
 .reveal-image { overflow: hidden; }
 .reveal-image img {
-  transform: scale(1.06);
-  transition: transform 1.8s var(--ease-luxury); /* Much slower image settling */
+  transform: scale(1.04);
+  transition: transform 1.5s var(--ease-modern); 
 }
 .reveal-image.active img {
   transform: scale(1);
 }
 
-/* =========================================================
-   LUXURY HOVER
-   ========================================================= */
 .luxury-hover {
-  transition: opacity var(--transition-medium);
+  transition: opacity var(--transition-fast);
 }
 .luxury-hover:hover {
-  opacity: 0.85; /* Replaced bounce with a subtle fade */
+  opacity: 0.85; 
 }
 
 /* =========================================================
@@ -348,7 +320,7 @@ p {
   background: var(--white);
   color: var(--azure-deep);
   font-family: var(--font-body);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   padding: 8px 14px;

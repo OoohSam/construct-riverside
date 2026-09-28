@@ -1,5 +1,8 @@
+import AgentPicture from "../assets/hero/riverside-azure-real-estate-agents-nairobi-kenya.webp";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+
+
 
 const AgentApply = () => {
   const [form, setForm] = useState({
@@ -10,22 +13,22 @@ const AgentApply = () => {
   });
 
   /* =========================================================
-     GALLERY MOTION (Quiet & Restrained)
+     GALLERY MOTION (Ultra Smooth & Slow)
      ========================================================= */
-  const quietEase = [0.25, 1, 0.5, 1];
+  const elegantEase = [0.16, 1, 0.3, 1];
 
   const fadeUp = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: quietEase } }
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: elegantEase } },
   };
 
   const fadeStagger = {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0, y: 30 },
     visible: (customDelay) => ({
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, delay: customDelay, ease: quietEase }
-    })
+      transition: { duration: 1, delay: customDelay, ease: elegantEase },
+    }),
   };
 
   const handleChange = (e) => {
@@ -42,7 +45,7 @@ const AgentApply = () => {
       });
     }
 
-    const message = `Agent Application:\nName: ${form.name}\nPhone: ${form.phone}\nAgency: ${form.agency}\nExperience: ${form.experience}`;
+    const message = `Agent Application:\nName: ${form.name}\nPhone: ${form.phone}\nAgency: ${form.agency || 'Not specified'}\nExperience: ${form.experience || 'Not specified'}`;
     window.location.href = `https://wa.me/254796529997?text=${encodeURIComponent(message)}`;
   };
 
@@ -67,84 +70,82 @@ const AgentApply = () => {
   return (
     <>
       <main className="agent-page">
+        
         {/* =====================================================
-            HERO
+            HERO (Refined Gradient & Image Positioning)
         ====================================================== */}
-        <section className="agent-hero">
-          <div className="container agent-hero-container">
+        <section className="hero-editorial">
+          {/* Background Image */}
+          <img 
+            src={AgentPicture} 
+            alt="Riverside Azure Real Estate Agents" 
+            className="hero-bg-image"
+          />
+          {/* Dissipating Gradient Overlay */}
+          <div className="hero-gradient-overlay"></div>
+
+          <div className="container hero-content-container">
             <motion.div
-              className="agent-hero-copy"
+              className="hero-text-wrapper"
               initial="hidden"
               animate="visible"
               variants={{ visible: { transition: { staggerChildren: 0.15 } } }}
             >
-              <motion.p className="section-meta gold-text" variants={fadeUp}>
+              <motion.span className="eyebrow" variants={fadeUp}>
                 Riverside Azure · Partners
-              </motion.p>
-              <motion.h1 className="hero-title" variants={fadeUp}>
+              </motion.span>
+              <motion.h1 className="heading-xl text-white" variants={fadeUp}>
                 Grow with<br />
-                Riverside.
+                <span className="text-gold">Riverside.</span>
               </motion.h1>
-              <motion.p className="hero-desc" variants={fadeUp}>
-                Join our network of property professionals and represent
-                Riverside Azure to buyers looking for a considered
-                residential address in Nairobi.
+              <motion.p className="hero-subtitle text-white-muted" variants={fadeUp}>
+                Join our network of property professionals and represent Riverside Azure to buyers looking for a considered residential address in Nairobi.
               </motion.p>
-              <motion.div variants={fadeUp}>
-                <a href="#apply" className="btn-solid-hero">
+              <motion.div variants={fadeUp} className="hero-actions">
+                <a href="#apply" className="btn-solid-gold">
                   Become a Partner
                 </a>
               </motion.div>
             </motion.div>
-
-            <div className="agent-hero-bottom">
-              <span>01 — PARTNERSHIP</span>
-              <span>NAIROBI · KENYA</span>
-            </div>
           </div>
         </section>
 
         {/* =====================================================
-            INTRO
+            INTRO (Asymmetrical Split)
         ====================================================== */}
-        <section className="agent-intro">
+        <section className="section-padding bg-light">
           <div className="container">
-            <div className="agent-intro-grid">
+            <div className="editorial-grid">
               <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.25 }}
                 variants={fadeUp}
+                className="col-left"
               >
-                <p className="section-meta">The Opportunity</p>
-                <h2 className="section-title">
+                <span className="eyebrow">The Opportunity</span>
+                <h2 className="heading-large">
                   More than a listing.<br />
                   A partnership.
                 </h2>
               </motion.div>
 
               <motion.div
-                className="agent-intro-copy"
+                className="col-right"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.25 }}
                 custom={0.15}
                 variants={fadeStagger}
               >
-                <p className="lead-text">
-                  Riverside Azure is a new residential development on
-                  Riverside Drive, offering one, two and three-bedroom
-                  residences designed for contemporary Nairobi living.
+                <p className="body-large">
+                  Riverside Azure is a new residential development on Riverside Drive, offering one, two and three-bedroom residences designed for contemporary Nairobi living.
                 </p>
-                <p className="body-text">
-                  We work with property agents and agencies who understand
-                  their clients and value professional, transparent
-                  relationships.
+                <p className="body-standard text-muted">
+                  We work with property agents and agencies who understand their clients and value professional, transparent relationships.
                 </p>
-                <p className="body-text">
-                  Whether you are an established agency or an independent
-                  property professional, our team is ready to support you
-                  throughout the sales process.
+                <p className="body-standard text-muted">
+                  Whether you are an established agency or an independent property professional, our team is ready to support you throughout the sales process.
                 </p>
               </motion.div>
             </div>
@@ -152,41 +153,47 @@ const AgentApply = () => {
         </section>
 
         {/* =====================================================
-            BENEFITS (Architectural Grid)
+            BENEFITS (Azure Deep Background)
         ====================================================== */}
-        <section className="agent-benefits">
+        <section className="benefits-section">
           <div className="container">
-            <div className="agent-benefits-header">
+            <div className="benefits-header">
               <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.25 }}
                 variants={fadeUp}
               >
-                <p className="section-meta gold-text">02 — Why Riverside Azure</p>
-                <h2 className="section-title light-text">A product worth representing.</h2>
+                <span className="eyebrow text-gold">Why Riverside Azure</span>
+                <h2 className="heading-large text-white">A product worth representing.</h2>
               </motion.div>
-              <p className="body-text light-text-soft">
-                Give your clients access to a development backed by a
-                practical approach to location, design and execution.
-              </p>
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.25 }}
+                variants={fadeUp}
+              >
+                <p className="body-standard text-white-muted">
+                  Give your clients access to a development backed by a practical approach to location, design and execution.
+                </p>
+              </motion.div>
             </div>
 
-            <div className="agent-benefits-grid">
+            <div className="benefits-grid">
               {benefits.map((benefit, index) => (
                 <motion.div
                   key={benefit.number}
-                  className="agent-benefit"
+                  className="benefit-card"
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
                   custom={index * 0.15}
                   variants={fadeStagger}
                 >
-                  <span className="agent-benefit-number">{benefit.number}</span>
+                  <span className="benefit-number">{benefit.number}</span>
                   <div className="benefit-content">
-                    <h3>{benefit.title}</h3>
-                    <p>{benefit.text}</p>
+                    <h3 className="heading-medium text-white">{benefit.title}</h3>
+                    <p className="body-standard text-white-muted">{benefit.text}</p>
                   </div>
                 </motion.div>
               ))}
@@ -197,31 +204,31 @@ const AgentApply = () => {
         {/* =====================================================
             APPLICATION FORM (Concierge Style)
         ====================================================== */}
-        <section id="apply" className="agent-application">
+        <section id="apply" className="application-section">
           <div className="container">
-            <div className="agent-application-grid">
+            <div className="application-grid">
               
               {/* LEFT: STICKY INFO */}
               <motion.div
-                className="agent-application-aside"
+                className="application-aside"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeUp}
               >
                 <div className="sticky-content">
-                  <p className="section-meta">03 — Partner Application</p>
-                  <h2 className="section-title">Let's work together.</h2>
-                  <p className="body-text">
-                    Tell us a little about yourself and your property
-                    experience. Our team will contact you with the next
-                    steps for becoming a Riverside Azure sales partner.
+                  <span className="eyebrow">Partner Application</span>
+                  <h2 className="heading-large">Let's work together.</h2>
+                  <p className="body-standard text-muted">
+                    Tell us a little about yourself and your property experience. Our team will contact you with the next steps for becoming a Riverside Azure sales partner.
                   </p>
 
-                  <div className="agent-application-note">
+                  <div className="application-note">
                     <span className="gold-rule" />
-                    <p className="body-text">
-                      <strong>25 Riverside Drive</strong><br />
+                    <p className="body-standard text-muted">
+                      <strong style={{ color: "var(--color-azure)", fontFamily: "var(--font-display)" }}>
+                        25 Riverside Drive
+                      </strong><br />
                       Nairobi, Kenya
                     </p>
                   </div>
@@ -230,19 +237,19 @@ const AgentApply = () => {
 
               {/* RIGHT: FORM */}
               <motion.div
-                className="agent-form-wrapper"
+                className="form-wrapper"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.15 }}
                 variants={fadeUp}
               >
                 <form onSubmit={handleSubmit} className="agent-form">
-                  <div className="agent-form-header">
-                    <h3>Your Details</h3>
+                  <div className="form-header">
+                    <h3 className="heading-medium">Your Details</h3>
                   </div>
 
-                  <div className="agent-form-grid">
-                    <div className="agent-field">
+                  <div className="form-grid">
+                    <div className="input-group">
                       <label htmlFor="agent-name">Full Name *</label>
                       <input
                         id="agent-name"
@@ -252,10 +259,11 @@ const AgentApply = () => {
                         onChange={handleChange}
                         required
                         className="min-input"
+                        placeholder="John Doe"
                       />
                     </div>
 
-                    <div className="agent-field">
+                    <div className="input-group">
                       <label htmlFor="agent-phone">Phone / WhatsApp *</label>
                       <input
                         id="agent-phone"
@@ -265,11 +273,12 @@ const AgentApply = () => {
                         onChange={handleChange}
                         required
                         className="min-input"
+                        placeholder="+254 700 000 000"
                       />
                     </div>
 
-                    <div className="agent-field">
-                      <label htmlFor="agent-agency">Agency / Company</label>
+                    <div className="input-group">
+                      <label htmlFor="agent-agency">Agency / Company (Optional)</label>
                       <input
                         id="agent-agency"
                         type="text"
@@ -277,21 +286,22 @@ const AgentApply = () => {
                         value={form.agency}
                         onChange={handleChange}
                         className="min-input"
+                        placeholder="Independent or Agency Name"
                       />
                     </div>
 
-                    <div className="agent-field">
-                      <label htmlFor="agent-experience">Experience Level *</label>
+                    <div className="input-group">
+                      {/* Experience is no longer required */}
+                      <label htmlFor="agent-experience">Experience Level (Optional)</label>
                       <div className="select-wrapper">
                         <select
                           id="agent-experience"
                           name="experience"
                           value={form.experience}
                           onChange={handleChange}
-                          required
-                          className="min-input"
+                          className="min-input select-input"
                         >
-                          <option value="">Select experience level</option>
+                          <option value="" disabled>Select experience level</option>
                           <option value="New Agent">New Agent</option>
                           <option value="1–2 Years">1–2 Years</option>
                           <option value="3–5 Years">3–5 Years</option>
@@ -301,13 +311,12 @@ const AgentApply = () => {
                     </div>
                   </div>
 
-                  <button type="submit" className="btn-solid-submit">
-                    Submit Application <span>→</span>
+                  <button type="submit" className="btn-solid submit-btn">
+                    Submit Application <span className="arrow-icon">⟶</span>
                   </button>
 
-                  <p className="agent-form-note">
-                    By submitting this application, you will be
-                    connected with the Riverside Azure sales team via WhatsApp.
+                  <p className="form-note">
+                    By submitting this application, you will be connected with the Riverside Azure sales team via WhatsApp.
                   </p>
                 </form>
               </motion.div>
@@ -319,17 +328,17 @@ const AgentApply = () => {
         {/* =====================================================
             FINAL CTA
         ====================================================== */}
-        <section className="agent-final">
+        <section className="final-statement">
           <div className="container">
             <motion.div
-              className="agent-final-inner"
+              className="statement-inner"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.25 }}
               variants={fadeUp}
             >
-              <p className="section-meta">Riverside Azure</p>
-              <h2 className="section-title">
+              <span className="eyebrow">Riverside Azure</span>
+              <h2 className="heading-large">
                 A considered address.<br />
                 A worthwhile partnership.
               </h2>
@@ -339,309 +348,308 @@ const AgentApply = () => {
       </main>
 
       {/* =========================================================
-          STYLES (Gallery Minimalist)
+          STYLES
           ========================================================= */}
       <style>{`
-        .agent-page {
-          background: var(--white);
-          color: var(--text-dark);
-          overflow-x: hidden;
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        :root {
+          --color-bg: #FCFCFC;
+          --color-bg-alt: #F3F3F3;
+          --color-azure: #111A55;   /* Deep Azure Blue */
+          --color-gold: #C5A059;    /* Elegant Gold */
+          --color-text-muted: #767676;
+          --color-border: #E5E5E5;
+          --font-sans: 'Josefin Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+          --font-display: 'Montserrat', sans-serif;
         }
 
-        /* TYPOGRAPHY UTILITIES */
-        .section-meta {
+        .agent-page {
+          width: 100%;
+          background: var(--color-bg);
+          color: var(--color-azure);
+          font-family: var(--font-sans);
+          overflow-x: hidden;
+          -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 5vw;
+        }
+
+        /* TYPOGRAPHY */
+        .text-muted { color: var(--color-text-muted); }
+        .text-gold { color: var(--color-gold) !important; }
+        .text-white { color: #FFFFFF !important; }
+        .text-white-muted { color: rgba(255, 255, 255, 0.8) !important; }
+        .bg-light { background: var(--color-bg-alt); }
+
+        .eyebrow {
           display: block;
-          font-family: var(--font-body);
           font-size: 0.75rem;
           font-weight: 600;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          color: var(--text-dark-soft);
-          margin-bottom: 24px;
+          color: var(--color-gold);
+          margin-bottom: 1rem;
         }
 
-        .gold-text { color: var(--gold-accent) !important; }
-        .light-text { color: var(--white) !important; }
-        .light-text-soft { color: rgba(255, 255, 255, 0.7) !important; }
-
-        .section-title {
-          margin: 0;
+        .heading-xl, .heading-large, .heading-medium {
           font-family: var(--font-display);
-          font-size: clamp(2.5rem, 5vw, 4rem);
+          color: var(--color-azure);
+        }
+
+        .heading-xl {
+          font-size: clamp(3rem, 7vw, 6rem);
           font-weight: 400;
           line-height: 1.05;
+          margin: 0 0 2rem 0;
           letter-spacing: -0.02em;
-          color: var(--azure-deep);
         }
 
-        .lead-text {
-          margin: 0 0 24px 0;
-          font-family: var(--font-body);
-          font-size: clamp(1.1rem, 1.5vw, 1.25rem);
-          font-weight: 600;
-          line-height: 1.6;
-          color: var(--text-dark);
-        }
-
-        .body-text {
-          margin: 0 0 24px 0;
-          font-family: var(--font-body);
-          font-size: 0.95rem;
-          line-height: 1.7;
-          color: var(--text-dark-soft);
-        }
-
-        /* HERO */
-        .agent-hero {
-          min-height: 80svh;
-          background: var(--azure-deep); /* Pure architectural blue */
-          color: var(--white);
-          display: flex;
-          align-items: flex-end;
-        }
-
-        .agent-hero-container {
-          min-height: 80svh;
-          padding-top: clamp(140px, 15vw, 180px);
-          padding-bottom: 40px;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;
-        }
-
-        .agent-hero-copy {
-          max-width: 800px;
-          padding-bottom: clamp(60px, 8vw, 100px);
-        }
-
-        .hero-title {
-          margin: 0 0 24px 0;
-          font-family: var(--font-display);
-          font-size: clamp(3.5rem, 7vw, 6.5rem);
+        .heading-large {
+          font-size: clamp(2rem, 5vw, 4rem);
           font-weight: 400;
-          line-height: 1;
-          letter-spacing: -0.03em;
+          line-height: 1.1;
+          margin: 0 0 1.5rem 0;
+          letter-spacing: -0.02em;
         }
 
-        .hero-desc {
-          margin: 0 0 40px 0;
-          color: rgba(255, 255, 255, 0.7);
-          font-family: var(--font-body);
+        .heading-medium {
+          font-size: clamp(1.75rem, 3vw, 2.5rem);
+          font-weight: 400;
+          line-height: 1.2;
+          margin: 0 0 1rem 0;
+        }
+
+        .body-large {
+          font-size: clamp(1.25rem, 2vw, 1.75rem);
+          line-height: 1.4;
+          font-weight: 400;
+          margin: 0 0 2rem 0;
+        }
+
+        .body-standard {
           font-size: 1.05rem;
           line-height: 1.7;
-          max-width: 500px;
+          margin-bottom: 1.5rem;
         }
 
-        .btn-solid-hero {
+        .section-padding {
+          padding: clamp(80px, 15vw, 160px) 0;
+        }
+
+        /* HERO EDITORIAL (Fixed Gradient & Image) */
+        .hero-editorial {
+          position: relative;
+          min-height: 85svh;
+          display: flex;
+          align-items: center;
+          padding: 120px 0; 
+        }
+
+        .hero-bg-image {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          /* Shifts the focus of the image to the right side where the people are */
+          object-position: 75% center; 
+          z-index: 1;
+        }
+
+        .hero-gradient-overlay {
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          /* Sharp gradient: Solid on the left, fades out cleanly by the middle */
+          background: linear-gradient(to right, var(--color-azure) 0%, rgba(17, 26, 85, 0.95) 30%, rgba(17, 26, 85, 0) 55%);
+        }
+
+        .hero-content-container {
+          position: relative;
+          z-index: 3;
+          width: 100%;
+        }
+
+        .hero-text-wrapper {
+          /* Restrict width so it doesn't cross over the center figures */
+          max-width: 520px; 
+        }
+
+        .hero-subtitle {
+          margin: 0 0 3rem 0;
+        }
+
+        .hero-actions {
+          display: flex;
+          gap: 1.5rem;
+        }
+
+        .btn-solid-gold {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          min-height: 56px;
-          padding: 0 32px;
-          background: var(--gold-accent);
-          color: var(--azure-deep);
-          font-family: var(--font-body);
-          font-size: 0.8rem;
+          min-height: 60px;
+          padding: 0 40px;
+          background: var(--color-gold);
+          color: var(--color-azure);
+          border: none;
+          font-family: var(--font-sans);
+          font-size: 0.9rem;
           font-weight: 700;
-          letter-spacing: 0.1em;
           text-transform: uppercase;
+          letter-spacing: 0.1em;
+          cursor: pointer;
+          transition: all 0.3s ease;
           text-decoration: none;
-          transition: background-color 0.3s ease;
         }
 
-        .btn-solid-hero:hover {
-          background: var(--white);
+        .btn-solid-gold:hover {
+          background: #FFF;
+          transform: translateY(-2px);
         }
 
-        .agent-hero-bottom {
-          display: flex;
-          justify-content: space-between;
-          padding-top: 24px;
-          border-top: 1px solid rgba(255, 255, 255, 0.15);
-          color: rgba(255, 255, 255, 0.5);
-          font-family: var(--font-body);
-          font-size: 0.65rem;
-          font-weight: 700;
-          letter-spacing: 0.15em;
-        }
-
-        /* INTRO */
-        .agent-intro {
-          padding: clamp(100px, 12vw, 160px) 0;
-          background: var(--white);
-        }
-
-        .agent-intro-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: clamp(60px, 8vw, 120px);
-          align-items: start;
-        }
-
-        /* BENEFITS (Dark Mode Architectural Grid) */
-        .agent-benefits {
-          padding: clamp(100px, 12vw, 160px) 0;
-          background: var(--azure-deep);
-          color: var(--white);
-        }
-
-        .agent-benefits-header {
+        /* EDITORIAL GRID (Intro) */
+        .editorial-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: clamp(40px, 8vw, 100px);
+        }
+
+        /* BENEFITS SECTION (Azure Background) */
+        .benefits-section {
+          background: var(--color-azure);
+          padding: clamp(100px, 12vw, 160px) 0;
+        }
+
+        .benefits-header {
+          display: grid;
+          grid-template-columns: 1.2fr 0.8fr;
+          gap: clamp(40px, 8vw, 100px);
           align-items: end;
           margin-bottom: clamp(60px, 8vw, 100px);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-          padding-bottom: 40px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+          padding-bottom: 3rem;
         }
 
-        .agent-benefits-header .body-text {
-          margin: 0;
-          max-width: 400px;
-        }
-
-        .agent-benefits-grid {
+        .benefits-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          gap: 0;
+          border-top: 1px solid rgba(255, 255, 255, 0.15);
         }
 
-        .agent-benefit {
-          display: flex;
-          flex-direction: column;
-          padding: 40px 40px 40px 0;
-          border-right: 1px solid rgba(255, 255, 255, 0.1);
+        .benefit-card {
+          padding: 3rem 3rem 3rem 0;
+          border-right: 1px solid rgba(255, 255, 255, 0.15);
         }
 
-        .agent-benefit:not(:first-child) {
-          padding-left: 40px;
+        .benefit-card:not(:first-child) {
+          padding-left: 3rem;
         }
 
-        .agent-benefit:last-child {
+        .benefit-card:last-child {
           border-right: none;
           padding-right: 0;
         }
 
-        .agent-benefit-number {
-          color: var(--gold-accent);
-          font-family: var(--font-body);
-          font-size: 0.75rem;
-          font-weight: 700;
-          letter-spacing: 0.15em;
-          margin-bottom: 40px;
+        .benefit-number {
+          display: block;
+          font-family: var(--font-sans);
+          font-size: 1rem;
+          font-weight: 600;
+          color: var(--color-gold);
+          margin-bottom: 2rem;
         }
 
-        .benefit-content h3 {
-          margin: 0 0 16px 0;
-          color: var(--white);
-          font-family: var(--font-display);
-          font-size: 1.75rem;
-          font-weight: 400;
-        }
-
-        .benefit-content p {
-          margin: 0;
-          color: rgba(255, 255, 255, 0.6);
-          font-family: var(--font-body);
-          font-size: 0.95rem;
-          line-height: 1.7;
-        }
-
-        /* APPLICATION FORM */
-        .agent-application {
+        /* APPLICATION SECTION */
+        .application-section {
           padding: clamp(100px, 12vw, 160px) 0;
-          background: var(--off-white);
         }
 
-        .agent-application-grid {
+        .application-grid {
           display: grid;
           grid-template-columns: 0.8fr 1.2fr;
           gap: clamp(60px, 8vw, 120px);
           align-items: start;
         }
 
-        .agent-application-aside {
+        .application-aside {
           position: sticky;
           top: 120px;
         }
 
-        .agent-application-note {
-          margin-top: 48px;
-          padding-top: 24px;
-          border-top: 1px solid var(--border-light);
+        .application-note {
+          margin-top: 3rem;
+          padding-top: 2rem;
+          border-top: 1px solid var(--color-border);
         }
 
-        .agent-application-note .gold-rule {
+        .gold-rule {
           display: block;
-          width: 40px;
-          height: 1px;
-          background: var(--gold-accent);
-          margin-bottom: 16px;
+          width: 50px;
+          height: 2px;
+          background: var(--color-gold);
+          margin-bottom: 1.5rem;
         }
 
-        .agent-form-wrapper {
-          background: var(--white);
-          border-top: 1px solid var(--text-dark);
-          padding: 48px;
+        /* FORM STYLING */
+        .form-wrapper {
+          background: var(--color-bg);
         }
 
-        .agent-form {
-          display: flex;
-          flex-direction: column;
+        .form-header {
+          margin-bottom: 2rem;
+          padding-bottom: 1.5rem;
+          border-bottom: 1px solid var(--color-border);
         }
 
-        .agent-form-header {
-          margin-bottom: 32px;
-          padding-bottom: 24px;
-          border-bottom: 1px solid var(--border-light);
-        }
-
-        .agent-form-header h3 {
-          margin: 0;
-          font-family: var(--font-display);
-          font-size: 1.75rem;
-          font-weight: 400;
-          color: var(--azure-deep);
-        }
-
-        .agent-form-grid {
+        .form-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 32px 24px;
-          margin-bottom: 40px;
+          gap: 2rem;
+          margin-bottom: 3rem;
         }
 
-        .agent-field {
+        .input-group {
           display: flex;
           flex-direction: column;
           gap: 8px;
         }
 
-        .agent-field label {
-          color: var(--text-dark-soft);
-          font-family: var(--font-body);
-          font-size: 0.7rem;
+        .input-group label {
+          font-family: var(--font-sans);
+          font-size: 0.75rem;
           font-weight: 600;
           letter-spacing: 0.1em;
           text-transform: uppercase;
+          color: var(--color-text-muted);
         }
 
-        /* Minimalist Inputs */
         .min-input {
           width: 100%;
           background: transparent;
           border: none;
-          border-bottom: 1px solid rgba(21, 24, 42, 0.2);
-          color: var(--text-dark);
-          font-family: var(--font-body);
-          font-size: 16px;
-          padding: 12px 0;
+          border-bottom: 1px solid var(--color-border);
+          color: var(--color-azure);
+          font-family: var(--font-sans);
+          font-size: 1.1rem;
+          padding: 10px 0;
           outline: none;
           transition: border-color 0.3s ease;
         }
 
+        .min-input::placeholder {
+          color: #CCC;
+          font-weight: 300;
+        }
+
         .min-input:focus {
-          border-bottom-color: var(--gold-accent);
+          border-bottom-color: var(--color-gold);
         }
 
         .select-wrapper {
@@ -654,59 +662,75 @@ const AgentApply = () => {
           right: 0;
           top: 50%;
           transform: translateY(-50%);
-          color: var(--gold-accent);
+          color: var(--color-gold);
           pointer-events: none;
+          font-weight: 600;
         }
 
-        select.min-input {
+        .select-input {
           appearance: none;
           -webkit-appearance: none;
           cursor: pointer;
           padding-right: 24px;
         }
 
-        .btn-solid-submit {
+        .form-note {
+          margin-top: 1.5rem;
+          font-size: 0.85rem;
+          color: var(--color-text-muted);
+          line-height: 1.6;
+        }
+
+        /* BUTTONS */
+        .btn-solid {
           display: inline-flex;
           align-items: center;
-          justify-content: space-between;
-          width: 100%;
+          justify-content: center;
+          gap: 1rem;
           min-height: 60px;
-          padding: 0 24px;
-          background: var(--azure-deep);
-          color: var(--white);
+          padding: 0 40px;
+          background: var(--color-azure);
+          color: #FFF;
           border: none;
-          font-family: var(--font-body);
-          font-size: 0.8rem;
-          font-weight: 700;
-          letter-spacing: 0.1em;
+          font-family: var(--font-sans);
+          font-size: 0.9rem;
+          font-weight: 600;
           text-transform: uppercase;
+          letter-spacing: 0.1em;
           cursor: pointer;
-          transition: background-color 0.3s ease;
+          transition: all 0.3s ease;
+          text-decoration: none;
         }
 
-        .btn-solid-submit:hover {
-          background: var(--gold-accent);
-          color: var(--azure-deep);
+        .btn-solid:hover {
+          background: var(--color-gold);
+          color: var(--color-azure);
+          transform: translateY(-2px);
         }
 
-        .agent-form-note {
-          margin: 24px 0 0 0;
-          color: var(--text-dark-soft);
-          font-family: var(--font-body);
-          font-size: 0.75rem;
-          line-height: 1.6;
+        .submit-btn {
+          width: 100%;
+        }
+
+        .arrow-icon {
+          font-size: 1.2em;
+          font-weight: 300;
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-solid:hover .arrow-icon {
+          transform: translateX(5px);
+        }
+
+        /* FINAL STATEMENT */
+        .final-statement {
+          padding: clamp(80px, 10vw, 140px) 0;
+          border-top: 1px solid var(--color-border);
           text-align: center;
+          background: var(--color-bg-alt);
         }
 
-        /* FINAL CTA */
-        .agent-final {
-          padding: clamp(100px, 12vw, 160px) 0;
-          background: var(--white);
-          border-top: 1px solid var(--border-light);
-          text-align: center;
-        }
-
-        .agent-final-inner {
+        .statement-inner {
           max-width: 800px;
           margin: 0 auto;
         }
@@ -715,49 +739,43 @@ const AgentApply = () => {
            MOBILE RESPONSIVENESS
            ========================================================= */
         @media (max-width: 1024px) {
-          .agent-intro-grid, .agent-application-grid {
+          .editorial-grid, .benefits-header, .application-grid {
             grid-template-columns: 1fr;
             gap: 60px;
           }
-          .agent-application-aside {
+          .application-aside {
             position: static;
-          }
-          .agent-benefits-header {
-            grid-template-columns: 1fr;
-            gap: 24px;
           }
         }
 
         @media (max-width: 768px) {
-          .agent-hero {
-            min-height: 75svh;
+          /* Switch gradient to flow from bottom to top on narrow screens */
+          .hero-gradient-overlay {
+            background: linear-gradient(to top, var(--color-azure) 0%, rgba(17, 26, 85, 0.8) 50%, transparent 100%);
           }
-          .agent-hero-container {
-            padding-top: 120px;
+          .hero-text-wrapper {
+            margin-top: 25vh; /* Push text down so image faces show at the top */
           }
-          .hero-title {
-            font-size: clamp(3rem, 12vw, 4rem);
+          .hero-bg-image {
+            object-position: center 10%; /* Center the people on mobile */
           }
-          .agent-benefits-grid {
+          .benefits-grid {
             grid-template-columns: 1fr;
           }
-          .agent-benefit {
+          .benefit-card {
             border-right: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 32px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 2.5rem 0;
           }
-          .agent-benefit:not(:first-child) {
+          .benefit-card:not(:first-child) {
             padding-left: 0;
           }
-          .agent-benefit:last-child {
+          .benefit-card:last-child {
             border-bottom: none;
           }
-          .agent-form-wrapper {
-            padding: 32px 24px;
-          }
-          .agent-form-grid {
+          .form-grid {
             grid-template-columns: 1fr;
-            gap: 24px;
+            gap: 1.5rem;
           }
         }
       `}</style>

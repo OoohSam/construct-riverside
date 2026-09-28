@@ -1,435 +1,423 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import logo from "../assets/logo/Riverside-azure-Gold-Logo.png";
 
-const Footer = () => {
-  const currentYear = new Date().getFullYear();
+const Navbar = ({ onOpenModal }) => {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  /* =========================================================
+     NAVIGATION
+     ========================================================= */
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Residences", path: "/units" },
+    { name: "Investment", path: "/investment" },
+    { name: "Journal", path: "/blog" },
+    { name: "Agents", path: "/agent-apply" },
+    { name: "Contact", path: "/contact" },
+  ];
+
+  /* =========================================================
+     SCROLL STATE
+     ========================================================= */
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  /* =========================================================
+     MOBILE MENU BODY LOCK
+     ========================================================= */
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
+  /* =========================================================
+     ROUTE CHANGE
+     ========================================================= */
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    window.scrollTo({
+      top: 0,
+      behavior: "instant",
+    });
+  }, [location.pathname]);
+
+  const handleCta = () => {
+    setMobileMenuOpen(false);
+    if (typeof onOpenModal === "function") {
+      onOpenModal();
+    }
+  };
+
+  const isActiveRoute = (path) => {
+    if (path === "/") {
+      return location.pathname === "/";
+    }
+    return location.pathname === path;
+  };
 
   return (
     <>
-      <footer className="site-footer">
-        <div className="container">
+      <nav
+        className={`site-navbar ${scrolled ? "site-navbar-scrolled" : ""}`}
+        aria-label="Primary navigation"
+        style={styles.nav(scrolled)}
+      >
+        <div className="container navbar-container" style={styles.container(scrolled)}>
           
-          {/* =========================================================
-              TOP BRAND STATEMENT
-              ========================================================= */}
-          <div className="footer-brand-section">
-            <div className="footer-brand-header">
-              <span className="footer-eyebrow">Riverside · Nairobi</span>
-            </div>
+          {/* LOGO */}
+          <Link to="/" style={styles.logoLink} aria-label="Riverside Azure Home">
+            <img src={logo} alt="Riverside Azure" style={styles.logo(scrolled)} />
+          </Link>
 
-            <div className="footer-brand-grid">
-              <h2 className="footer-brand-title">
-                A considered address<br />
-                for modern Nairobi.
-              </h2>
+          {/* DESKTOP NAVIGATION */}
+          <ul className="desktop-only navbar-links" style={styles.desktopNav}>
+            {navLinks.map((link) => {
+              const active = isActiveRoute(link.path);
+              return (
+                <li key={link.name} style={styles.navItem}>
+                  <Link
+                    to={link.path}
+                    className={`navbar-link ${active ? "navbar-link-active" : ""}`}
+                  >
+                    <span>{link.name}</span>
+                    <span className="navbar-link-line" />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
 
-              <div className="footer-brand-side">
-                <p className="footer-brand-desc">
-                  Riverside Azure is a refined collection of 1, 2 &amp; 3-bedroom residences 
-                  created for contemporary urban living and long-term value.
-                </p>
-                <Link to="/contact" className="btn-solid-footer">
-                  Enquire About Riverside Azure
-                </Link>
-              </div>
-            </div>
+          {/* DESKTOP CTA */}
+          <div className="desktop-only navbar-actions" style={styles.actions}>
+            <button
+              type="button"
+              onClick={handleCta}
+              className="navbar-cta"
+            >
+              <span>Secure Phase 1 Pricing</span>
+              <span className="navbar-cta-arrow" aria-hidden="true">→</span>
+            </button>
           </div>
 
-          {/* =========================================================
-              STRUCTURAL DIVIDER
-              ========================================================= */}
-          <div className="footer-divider" />
-
-          {/* =========================================================
-              NAVIGATION / CONTACT GRID
-              ========================================================= */}
-          <div className="footer-nav-grid">
-            
-            {/* COLUMN 1: IDENTITY */}
-            <div className="footer-col-identity">
-              <div className="footer-logo">
-                <span className="logo-top">RIVERSIDE</span>
-                <span className="logo-bottom">AZURE</span>
-              </div>
-              <p className="footer-address">
-                25 Riverside Drive<br />
-                Nairobi, Kenya
-              </p>
-              <div className="footer-developer">
-                <span>Developed by</span>
-                <strong>JNC Brothers &amp; Company Limited</strong>
-              </div>
-            </div>
-
-            {/* COLUMN 2: EXPLORE */}
-            <div className="footer-col">
-              <div className="footer-col-header">
-                <span className="col-number">01</span>
-                <span className="col-title">Explore</span>
-              </div>
-              <nav className="footer-links">
-                <Link to="/" className="footer-link">Home</Link>
-                <Link to="/about" className="footer-link">About</Link>
-                <Link to="/units" className="footer-link">Residences</Link>
-                <Link to="/investment" className="footer-link">Investment</Link>
-                <Link to="/blog" className="footer-link">Journal</Link>
-              </nav>
-            </div>
-
-            {/* COLUMN 3: CONNECT */}
-            <div className="footer-col">
-              <div className="footer-col-header">
-                <span className="col-number">02</span>
-                <span className="col-title">Connect</span>
-              </div>
-              <nav className="footer-links">
-                <a href="tel:+254796529997" className="footer-link">+254 796 529 997</a>
-                <a href="mailto:info@riversideazure.com" className="footer-link">sales@riversideazure.com</a>
-                <Link to="/contact" className="footer-link">Visit Our Sales Office</Link>
-              </nav>
-            </div>
-
-            {/* COLUMN 4: FOLLOW */}
-            <div className="footer-col">
-              <div className="footer-col-header">
-                <span className="col-number">03</span>
-                <span className="col-title">Follow</span>
-              </div>
-              <nav className="footer-links">
-                <a href="https://www.facebook.com/profile.php?id=61578426218430" target="_blank" rel="noopener noreferrer" className="footer-link">
-                  Facebook <span className="arrow">↗</span>
-                </a>
-                <a href="https://www.instagram.com/riversideazure/" target="_blank" rel="noopener noreferrer" className="footer-link">
-                  Instagram <span className="arrow">↗</span>
-                </a>
-                <a href="https://www.tiktok.com/@riversideazure" target="_blank" rel="noopener noreferrer" className="footer-link">
-                  TikTok <span className="arrow">↗</span>
-                </a>
-              </nav>
-            </div>
-
-          </div>
-
-          {/* =========================================================
-              BOTTOM BAR
-              ========================================================= */}
-          <div className="footer-bottom">
-            <div className="footer-copyright">
-              <span>© {currentYear} JNC Brothers &amp; Company Limited.</span>
-              <span className="copyright-rights">All Rights Reserved.</span>
-            </div>
-
-            <div className="footer-legal">
-              <Link to="/privacy-policy" className="legal-link">Privacy Policy</Link>
-              <span className="legal-dot">·</span>
-              <span className="legal-text">
-                Prices, layouts, images &amp; availability subject to change without notice.
-              </span>
-            </div>
-          </div>
+          {/* MOBILE MENU BUTTON (Strict 48x48px target) */}
+          <button
+            type="button"
+            className="mobile-only navbar-menu-button"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileMenuOpen}
+            style={styles.mobileToggle}
+          >
+            <span style={styles.burgerLine(mobileMenuOpen, 1)} />
+            <span style={styles.burgerLine(mobileMenuOpen, 2)} />
+          </button>
         </div>
-      </footer>
+      </nav>
 
-      {/* =========================================================
-          STYLES (Gallery Minimalist Structure)
-          ========================================================= */}
+      {/* =======================================================
+          MOBILE MENU (App-like Fullscreen Overlay)
+          ======================================================= */}
+      <div
+        className={`mobile-menu ${mobileMenuOpen ? "mobile-menu-open" : ""}`}
+        aria-hidden={!mobileMenuOpen}
+      >
+        <nav aria-label="Mobile navigation" className="mobile-navigation">
+          <ul className="mobile-nav-list">
+            {navLinks.map((link, index) => {
+              const active = isActiveRoute(link.path);
+              return (
+                <li
+                  key={link.name}
+                  className="mobile-nav-item"
+                  style={{
+                    transitionDelay: mobileMenuOpen ? `${0.06 * index}s` : "0s",
+                  }}
+                >
+                  <Link
+                    to={link.path}
+                    className={`mobile-nav-link ${active ? "mobile-nav-link-active" : ""}`}
+                    tabIndex={mobileMenuOpen ? 0 : -1}
+                  >
+                    <span className="mobile-nav-number">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span>{link.name}</span>
+                    {active && <span className="mobile-active-dot" aria-hidden="true" />}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        {/* MOBILE CTA */}
+        <div className="mobile-bottom">
+          <p className="mobile-bottom-label">Riverside · Nairobi</p>
+          <button
+            type="button"
+            onClick={handleCta}
+            className="mobile-button"
+            tabIndex={mobileMenuOpen ? 0 : -1}
+          >
+            <span>Secure Phase 1 Pricing</span>
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+
+      {/* =======================================================
+          STYLES (Ultra-Modern Architectural)
+          ======================================================= */}
       <style>{`
-        .site-footer {
-          background: var(--azure-deep);
-          color: var(--white);
-          padding: clamp(100px, 12vw, 160px) 0 40px;
-          border-top: 1px solid rgba(255, 255, 255, 0.05);
+        /* ANIMATION TIMING */
+        :root {
+          --nav-ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* TOP BRAND SECTION */
-        .footer-brand-section {
-          margin-bottom: clamp(60px, 8vw, 100px);
+        .site-navbar {
+          transition: background-color 0.6s var(--nav-ease),
+                      border-color 0.6s var(--nav-ease),
+                      box-shadow 0.6s var(--nav-ease);
         }
 
-        .footer-brand-header {
-          margin-bottom: 32px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-          padding-bottom: 16px;
+        .site-navbar-scrolled {
+          box-shadow: 0 4px 30px rgba(8, 12, 35, 0.15);
         }
 
-        .footer-eyebrow {
-          color: var(--gold-accent);
-          font-family: var(--font-body);
-          font-size: 0.75rem;
-          font-weight: 700;
-          letter-spacing: 0.2em;
+        /* DESKTOP LINKS (Montserrat) */
+        .navbar-link {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          height: 48px;
+          color: rgba(255,255,255,0.9);
+          text-decoration: none;
           text-transform: uppercase;
+          font-family: var(--font-display); /* Montserrat */
+          font-size: 0.7rem;
+          letter-spacing: 0.15em;
+          font-weight: 500; /* Medium weight for structure */
+          transition: color 0.4s var(--nav-ease);
         }
 
-        .footer-brand-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: clamp(40px, 8vw, 100px);
-          align-items: flex-end;
+        .navbar-link:hover, .navbar-link-active {
+          color: var(--gold-accent) !important;
         }
 
-        .footer-brand-title {
-          margin: 0;
-          font-family: var(--font-display);
-          font-size: clamp(2.5rem, 5vw, 4.5rem);
-          font-weight: 400;
-          line-height: 1.05;
-          letter-spacing: -0.02em;
+        .navbar-link-line {
+          position: absolute;
+          left: 0;
+          bottom: 12px;
+          width: 100%;
+          height: 1px;
+          background: var(--gold-accent);
+          opacity: 0;
+          transform: translateY(4px);
+          transition: opacity 0.4s var(--nav-ease), transform 0.4s var(--nav-ease);
         }
 
-        .footer-brand-side {
-          max-width: 480px;
+        .navbar-link:hover .navbar-link-line,
+        .navbar-link-active .navbar-link-line {
+          opacity: 1 !important;
+          transform: translateY(0);
         }
 
-        .footer-brand-desc {
-          margin: 0 0 40px 0;
-          font-family: var(--font-body);
-          font-size: 1rem;
-          line-height: 1.7;
-          color: rgba(255, 255, 255, 0.7);
-        }
-
-        .btn-solid-footer {
+        /* DESKTOP CTA */
+        .navbar-cta {
+          min-height: 48px;
           display: inline-flex;
           align-items: center;
           justify-content: center;
+          gap: 12px;
+          padding: 0 24px;
+          background: transparent;
+          color: var(--white);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          font-family: var(--font-display); /* Montserrat */
+          font-size: 0.7rem;
+          font-weight: 600;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: all 0.4s var(--nav-ease);
+        }
+
+        .navbar-cta:hover {
+          background: var(--gold-accent) !important;
+          color: var(--azure-deep) !important;
+          border-color: var(--gold-accent) !important;
+        }
+
+        .navbar-cta-arrow {
+          transition: transform 0.4s var(--nav-ease);
+        }
+
+        .navbar-cta:hover .navbar-cta-arrow {
+          transform: translateX(4px);
+        }
+
+        /* MOBILE MENU OVERLAY */
+        .mobile-menu {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100dvh;
+          z-index: 998;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 80px 32px 40px;
+          background: var(--azure-deep);
+          color: var(--white);
+          opacity: 0;
+          pointer-events: none;
+          visibility: hidden;
+          transition: opacity 0.5s var(--nav-ease), visibility 0.5s;
+        }
+
+        .mobile-menu-open {
+          opacity: 1;
+          pointer-events: auto;
+          visibility: visible;
+        }
+
+        .mobile-navigation {
+          width: 100%;
+          max-width: 500px;
+          margin: 0 auto;
+        }
+
+        .mobile-nav-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .mobile-nav-item {
+          opacity: 0;
+          transform: translateY(16px);
+          transition: opacity 0.5s var(--nav-ease), transform 0.5s var(--nav-ease);
+        }
+
+        .mobile-menu-open .mobile-nav-item {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .mobile-nav-link {
+          display: grid;
+          grid-template-columns: 40px 1fr auto;
+          align-items: center;
+          width: 100%;
+          padding: 12px 0;
+          color: rgba(255,255,255,0.8);
+          text-decoration: none;
+          font-family: var(--font-display); /* Montserrat */
+          font-size: clamp(1.8rem, 7vw, 2.5rem); /* Scaled down slightly for width */
+          font-weight: 500;
+          letter-spacing: -0.02em;
+          line-height: 1;
+          transition: color 0.4s ease;
+        }
+
+        .mobile-nav-link:hover, .mobile-nav-link-active {
+          color: var(--gold-accent) !important;
+        }
+
+        .mobile-nav-number {
+          font-family: var(--font-body); /* Josefin Sans */
+          font-size: 0.85rem;
+          font-weight: 300; /* Ultra elegant light weight */
+          letter-spacing: 0.1em;
+          color: rgba(255, 255, 255, 0.4);
+        }
+
+        .mobile-active-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: var(--gold-accent);
+        }
+
+        .mobile-bottom {
+          width: 100%;
+          max-width: 500px;
+          margin: 48px auto 0;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: opacity 0.6s var(--nav-ease) 0.3s, transform 0.6s var(--nav-ease) 0.3s;
+        }
+
+        .mobile-menu-open .mobile-bottom {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .mobile-button {
           width: 100%;
           min-height: 56px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 24px;
+          background: var(--gold-accent);
+          color: var(--azure-deep);
+          border: none;
+          font-family: var(--font-display); /* Montserrat */
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          transition: background-color 0.4s var(--nav-ease), color 0.4s var(--nav-ease);
+        }
+
+        .mobile-button:hover {
           background: var(--white);
           color: var(--azure-deep);
-          font-family: var(--font-body);
-          font-size: 0.8rem;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          text-decoration: none;
-          transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        .btn-solid-footer:hover {
-          background: var(--gold-accent);
-          color: var(--white);
-        }
-
-        /* STRUCTURAL DIVIDER */
-        .footer-divider {
-          width: 100%;
-          height: 1px;
-          background: rgba(255, 255, 255, 0.1);
-          margin-bottom: clamp(60px, 8vw, 100px);
-        }
-
-        /* NAVIGATION GRID */
-        .footer-nav-grid {
-          display: grid;
-          grid-template-columns: 2fr 1fr 1fr 1fr; /* Architectural hierarchy */
-          gap: 40px;
-          padding-bottom: 80px;
-        }
-
-        .footer-col-identity {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .footer-logo {
-          display: flex;
-          flex-direction: column;
-          margin-bottom: 32px;
-          font-family: var(--font-display);
-          font-size: 1.75rem;
-          line-height: 1;
-        }
-
-        .logo-top {
-          letter-spacing: 0.05em;
-        }
-
-        .logo-bottom {
-          color: var(--gold-accent);
-          font-size: 1.1rem;
-          letter-spacing: 0.3em;
-          margin-top: 4px;
-        }
-
-        .footer-address {
-          margin: 0 0 32px 0;
-          font-family: var(--font-body);
-          font-size: 0.9rem;
-          line-height: 1.7;
-          color: rgba(255, 255, 255, 0.6);
-        }
-
-        .footer-developer {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-          font-family: var(--font-body);
+        .mobile-bottom-label {
+          margin: 0 0 16px;
+          color: rgba(255,255,255,0.4);
+          font-family: var(--font-body); /* Josefin */
           font-size: 0.75rem;
-          color: rgba(255, 255, 255, 0.4);
-        }
-
-        .footer-developer strong {
-          color: rgba(255, 255, 255, 0.8);
-          font-weight: 600;
-          letter-spacing: 0.05em;
-        }
-
-        .footer-col-header {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          margin-bottom: 24px;
-          padding-bottom: 16px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .col-number {
-          color: var(--gold-accent);
-          font-family: var(--font-body);
-          font-size: 0.7rem;
-          font-weight: 600;
-        }
-
-        .col-title {
-          color: rgba(255, 255, 255, 0.5);
-          font-family: var(--font-body);
-          font-size: 0.75rem;
+          letter-spacing: 0.25em;
           text-transform: uppercase;
-          letter-spacing: 0.15em;
         }
 
-        .footer-links {
-          display: flex;
-          flex-direction: column;
+        /* RESPONSIVE TWEAKS */
+        @media (max-width: 1100px) {
+          .navbar-links { gap: 20px !important; }
+          .navbar-link { font-size: 0.65rem !important; }
+          .navbar-cta { padding: 0 20px !important; }
         }
-
-        .footer-link {
-          display: inline-flex;
-          align-items: center;
-          padding: 8px 0; /* Ensures a good touch target on mobile */
-          color: rgba(255, 255, 255, 0.8);
-          font-family: var(--font-body);
-          font-size: 0.85rem;
-          text-decoration: none;
-          transition: color 0.3s ease;
+        @media (max-width: 900px) {
+          .navbar-cta { display: none !important; }
         }
-
-        .footer-link:hover {
-          color: var(--gold-accent);
-        }
-
-        .footer-link .arrow {
-          margin-left: 8px;
-          font-size: 0.8rem;
-          opacity: 0.5;
-          transition: opacity 0.3s ease;
-        }
-
-        .footer-link:hover .arrow {
-          opacity: 1;
-        }
-
-        /* BOTTOM BAR */
-        .footer-bottom {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          padding-top: 32px;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
-          font-family: var(--font-body);
-        }
-
-        .footer-copyright {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-          font-size: 0.7rem;
-          color: rgba(255, 255, 255, 0.4);
-        }
-
-        .footer-legal {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          font-size: 0.7rem;
-        }
-
-        .legal-link {
-          color: rgba(255, 255, 255, 0.6);
-          text-decoration: none;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          transition: color 0.3s ease;
-        }
-
-        .legal-link:hover {
-          color: var(--gold-accent);
-        }
-
-        .legal-dot {
-          color: var(--gold-accent);
-        }
-
-        .legal-text {
-          color: rgba(255, 255, 255, 0.4);
-        }
-
-        /* =========================================================
-           MOBILE RESPONSIVENESS (Proper CSS)
-           ========================================================= */
-        @media (max-width: 1024px) {
-          .footer-nav-grid {
-            grid-template-columns: 1fr 1fr; /* 2x2 Grid for tablets */
-            gap: 60px 40px;
-          }
-          .footer-col-identity {
-            grid-column: 1 / -1; /* Spans full width on top */
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 40px;
-          }
-        }
-
         @media (max-width: 768px) {
-          .site-footer {
-            padding: 80px 0 40px;
-          }
-          .footer-brand-grid {
-            grid-template-columns: 1fr;
-            gap: 40px;
-          }
-          .footer-brand-title {
-            font-size: clamp(2.5rem, 10vw, 3.2rem);
-          }
-          .footer-nav-grid {
-            grid-template-columns: 1fr; /* Full stack for mobile */
-            gap: 48px;
-            padding-bottom: 48px;
-          }
-          .footer-col-identity {
-            padding-bottom: 24px;
-          }
-          .footer-col-header {
-            margin-bottom: 16px;
-          }
-          .footer-link {
-            padding: 12px 0; /* Larger touch targets for mobile */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Specification sheet look */
-          }
-          .footer-link:last-child {
-            border-bottom: none;
-          }
-          .footer-bottom {
-            flex-direction: column;
-            gap: 24px;
-          }
-          .footer-legal {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 12px;
-          }
-          .legal-dot {
-            display: none;
+          .navbar-container {
+            padding-top: 12px !important;
+            padding-bottom: 12px !important;
           }
         }
       `}</style>
@@ -437,4 +425,94 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+/* ============================================================
+   STYLES OBJECT
+   ============================================================ */
+const styles = {
+  nav: (scrolled) => ({
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    zIndex: 1000,
+    background: scrolled
+      ? "rgba(17, 26, 85, 0.95)" 
+      : "linear-gradient(180deg, rgba(8, 14, 48, 0.6) 0%, rgba(8, 14, 48, 0) 100%)",
+    borderBottom: scrolled ? "1px solid rgba(255, 255, 255, 0.05)" : "1px solid transparent",
+    backdropFilter: scrolled ? "blur(8px)" : "none",
+    WebkitBackdropFilter: scrolled ? "blur(8px)" : "none",
+  }),
+  container: (scrolled) => ({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "28px",
+    minHeight: scrolled ? "76px" : "100px", 
+    paddingTop: "8px",
+    paddingBottom: "8px",
+    transition: "min-height 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+  }),
+  logoLink: {
+    display: "flex",
+    alignItems: "center",
+    flexShrink: 0,
+    position: "relative",
+    zIndex: 1001,
+  },
+  logo: (scrolled) => ({
+    height: scrolled ? "36px" : "46px",
+    width: "auto",
+    objectFit: "contain",
+    display: "block",
+    transition: "height 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+  }),
+  desktopNav: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "32px",
+    listStyle: "none",
+    margin: 0,
+    padding: 0,
+    flex: 1,
+  },
+  navItem: {
+    display: "flex",
+    alignItems: "center",
+  },
+  actions: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flexShrink: 0,
+  },
+  mobileToggle: {
+    width: "48px", 
+    height: "48px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "6px",
+    padding: 0,
+    background: "transparent",
+    border: "1px solid rgba(255, 255, 255, 0.15)", 
+    borderRadius: 0,
+    flexShrink: 0,
+    position: "relative",
+    zIndex: 1001,
+  },
+  burgerLine: (open, index) => ({
+    width: index === 1 && !open ? "20px" : open ? "22px" : "14px",
+    height: "1px",
+    background: "var(--white)",
+    transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+    transform: open && index === 1 ? "translateY(3px) rotate(45deg)" 
+             : open && index === 2 ? "translateY(-4px) rotate(-45deg)" 
+             : "none",
+    alignSelf: index === 1 ? "center" : "flex-end",
+    marginRight: index === 1 || open ? "0" : "6px", 
+  }),
+};
+
+export default Navbar;
