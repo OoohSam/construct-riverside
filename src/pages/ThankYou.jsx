@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Seo from "../components/Seo";
 import Footer from "../components/Footer";
 
 const BROCHURE_URL = "/riverside-azure-brochure-and-pricelist.pdf";
@@ -170,7 +171,16 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="landing-page">
+    <>
+      {/* SEO: keep the conversion confirmation route out of search results while preserving the funnel. */}
+      <Seo
+        title="Thank You | Riverside Azure"
+        description="Thank you for your Riverside Azure enquiry. Our team will be in touch shortly."
+        canonicalPath="/riverside/thank-you"
+        noIndex
+      />
+
+      <div className="landing-page">
       {/* =========================================================
           MINIMAL LANDING HEADER
       ========================================================= */}
@@ -848,6 +858,7 @@ const LandingPage = () => {
       ========================================================= */}
       <Footer />
     </div>
+    </>
   );
 };
 

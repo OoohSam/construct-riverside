@@ -1,5 +1,6 @@
 
 import React, { useEffect } from "react";
+import Seo from "../components/Seo";
 
 const contents = [
   ["introduction", "1. Introduction"],
@@ -199,22 +200,23 @@ const PolicyTable = ({ columns, rows }) => (
 
 const PrivacyPolicy = () => {
   useEffect(() => {
-    const previousTitle = document.title;
-
     window.scrollTo({
       top: 0,
       behavior: "auto",
     });
-
-    document.title = "Privacy Policy | Riverside Azure";
-
-    return () => {
-      document.title = previousTitle;
-    };
   }, []);
 
   return (
-    <main className="privacy-page">
+    <>
+      {/* SEO: make the privacy page a legal utility page rather than a product-ranking page. */}
+      <Seo
+        title="Privacy Policy | Riverside Azure"
+        description="Read the Riverside Azure privacy policy covering data collection, property enquiries, marketing, cookies and your rights."
+        canonicalPath="/privacy-policy"
+        noIndex
+      />
+
+      <main className="privacy-page">
       {/* HERO */}
       <header id="top" className="privacy-hero">
         <div className="privacy-hero-inner container">
@@ -1771,6 +1773,7 @@ const PrivacyPolicy = () => {
         }
       `}</style>
     </main>
+    </>
   );
 };
 
