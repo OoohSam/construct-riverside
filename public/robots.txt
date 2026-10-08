@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /privacy-policy
+Disallow: /riverside/thank-you
 
 Sitemap: https://www.riversideazure.co.ke/sitemap.xml
