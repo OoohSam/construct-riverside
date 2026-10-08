@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import Seo from "../components/Seo";
 import blogPosts from "../data/blogPosts.js";
 
 const Blog = () => {
@@ -36,6 +37,15 @@ const Blog = () => {
 
   return (
     <>
+      {/* SEO: add the blog archive metadata to support topical property and investment search intent. */}
+      <Seo
+        title="Nairobi Property & Investment Guides | Riverside Azure"
+        description="Read Riverside Azure guides on Nairobi property buying, investment, apartment living and residential real estate in Kenya."
+        canonicalPath="/blog"
+        ogTitle="Nairobi Property & Investment Guides | Riverside Azure"
+        ogDescription="Explore practical guides on Riverside Nairobi property, apartment buying and investment opportunities for buyers and investors."
+      />
+
       <main className="journal-page">
         
         {/* =====================================================

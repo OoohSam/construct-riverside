@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Seo from "../components/Seo";
 
 import fallbackImage from "../assets/hero/Front-View.webp";
 import cityVideo from "../assets/Video/riverside-azure-construction-progress-nairobi-kenya.mp4";
@@ -95,6 +96,15 @@ const About = () => {
 
   return (
     <>
+      {/* SEO: provide route-specific metadata for the developer and project overview page. */}
+      <Seo
+        title="About Riverside Azure | Apartments on Riverside Drive, Nairobi"
+        description="Learn about Riverside Azure, a premium residential development at 25 Riverside Drive in Nairobi, offering 1, 2 and 3-bedroom apartments for modern urban living."
+        canonicalPath="/about"
+        ogTitle="About Riverside Azure | Apartments on Riverside Drive, Nairobi"
+        ogDescription="Learn about Riverside Azure, a premium residential development in Nairobi offering contemporary apartments by the Riverside Drive address."
+      />
+
       <main className="about-page">
         {/* =====================================================
             HERO (Cinematic Video Background - Centered)

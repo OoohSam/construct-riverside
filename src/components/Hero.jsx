@@ -30,9 +30,7 @@ export default function Hero({ onCtaClick }) {
     };
   }, []);
 
-  const selectedVideo = isMobile
-    ? heroMobileVideo
-    : heroVideo;
+  const selectedVideo = isMobile ? heroMobileVideo : heroVideo;
 
   useEffect(() => {
     setVideoError(false);
@@ -76,10 +74,7 @@ export default function Hero({ onCtaClick }) {
         contact_method: "Lead Modal",
       });
     } catch (error) {
-      console.warn(
-        "Meta Pixel tracking failed:",
-        error
-      );
+      console.warn("Meta Pixel tracking failed:", error);
     }
 
     if (typeof onCtaClick === "function") {
@@ -87,28 +82,12 @@ export default function Hero({ onCtaClick }) {
     }
   };
 
-  /*
-   * Very restrained parallax.
-   * The video moves slightly slower than the page,
-   * creating depth without making the effect distracting.
-   */
-  const videoTransform = `translate3d(0, ${
-    Math.min(scrollY * 0.12, 90)
-  }px, 0) scale(1.035)`;
-
-  const contentTransform = `translate3d(0, ${
-    Math.min(scrollY * 0.045, 32)
-  }px, 0)`;
+  const videoTransform = `translate3d(0, ${Math.min(scrollY * 0.12, 90)}px, 0) scale(1.035)`;
+  const contentTransform = `translate3d(0, ${Math.min(scrollY * 0.045, 32)}px, 0)`;
 
   return (
     <>
-      <section
-        className="hero-section"
-        aria-label="Riverside Azure"
-      >
-        {/* ------------------------------------------------
-            MEDIA
-        ------------------------------------------------ */}
+      <section className="hero-section" aria-label="Riverside Azure">
         <div className="hero-background">
           {videoError ? (
             <img
@@ -135,87 +114,46 @@ export default function Hero({ onCtaClick }) {
                 transform: videoTransform,
               }}
             >
-              <source
-                src={selectedVideo}
-                type="video/mp4"
-              />
+              <source src={selectedVideo} type="video/mp4" />
             </video>
           )}
         </div>
 
-        {/* ------------------------------------------------
-            EDGE TREATMENT
-            Not a full overlay. These are extremely subtle
-            gradients only where text needs separation.
-        ------------------------------------------------ */}
-        <div
-          className="hero-edge-treatment"
-          aria-hidden="true"
-        />
+        <div className="hero-edge-treatment" aria-hidden="true" />
 
-        {/* ------------------------------------------------
-            TOP EDITORIAL LABEL
-        ------------------------------------------------ */}
-    
-
-        {/* ------------------------------------------------
-            MAIN CONTENT
-        ------------------------------------------------ */}
-        <div
-          className="hero-content"
-          style={{
-            transform: contentTransform,
-          }}
-        >
-    
-
+        <div className="hero-content" style={{ transform: contentTransform }}>
+          {/* CONTENT: keep the hero UX intact while improving the search-facing heading language. */}
           <h1 className="hero-heading">
-            Own a Piece
+            Luxury Apartments
             <br />
-            <em>of Riverside</em>
+            <em>for Sale in Riverside</em>
             <br />
-            Before It Rises.
+            Nairobi
           </h1>
 
           <div className="hero-divider" />
 
           <p className="hero-description">
-            Refined 1, 2 &amp; 3-bedroom residences
+            Discover 1, 2 &amp; 3-bedroom residences at 25 Riverside Drive,
             <br className="desktop-break" />
-            in the heart of Riverside.
+            designed for contemporary city living and investment potential.
           </p>
 
-          <button
-            type="button"
-            className="hero-button"
-            onClick={handleCta}
-          >
+          <button type="button" className="hero-button" onClick={handleCta}>
             <span>Book A Unit Today</span>
-            <span
-              className="hero-button-arrow"
-              aria-hidden="true"
-            >
+            <span className="hero-button-arrow" aria-hidden="true">
               →
             </span>
           </button>
         </div>
 
-        {/* ------------------------------------------------
-            PROJECT NUMBER
-        ------------------------------------------------ */}
         <div className="hero-project-mark">
           <span>01</span>
           <span className="hero-project-mark-line" />
           <span>RIVERSIDE AZURE</span>
         </div>
 
-        {/* ------------------------------------------------
-            SCROLL INDICATOR
-        ------------------------------------------------ */}
-        <div
-          className="hero-scroll"
-          aria-hidden="true"
-        >
+        <div className="hero-scroll" aria-hidden="true">
           <span className="hero-scroll-label">
             Scroll to explore
           </span>

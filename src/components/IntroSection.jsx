@@ -2,18 +2,15 @@ import React from "react";
 import { motion } from "framer-motion";
 
 function IntroSection() {
-  /* =========================================================
-     GALLERY MOTION (Quiet & Restrained)
-     ========================================================= */
-  const quietEase = [0.16, 1, 0.3, 1]; // Smooth editorial ease
+  const quietEase = [0.16, 1, 0.3, 1];
 
   const fadeUp = {
-    hidden: { opacity: 0, y: 20 }, 
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 1, ease: quietEase } 
-    }
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1, ease: quietEase },
+    },
   };
 
   const fadeStagger = {
@@ -21,19 +18,15 @@ function IntroSection() {
     visible: (customDelay) => ({
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, delay: customDelay, ease: quietEase }
-    })
+      transition: { duration: 0.8, delay: customDelay, ease: quietEase },
+    }),
   };
 
   return (
     <>
       <section className="intro-section">
         <div className="container">
-          
-          {/* =========================================================
-              STRUCTURAL HEADER
-              ========================================================= */}
-          <motion.div 
+          <motion.div
             className="intro-header"
             initial="hidden"
             whileInView="visible"
@@ -47,12 +40,7 @@ function IntroSection() {
             <div className="intro-divider" />
           </motion.div>
 
-          {/* =========================================================
-              SYMMETRICAL CONTENT GRID
-              ========================================================= */}
           <div className="intro-grid">
-            
-            {/* Left Column: Heading */}
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -65,7 +53,6 @@ function IntroSection() {
               </h2>
             </motion.div>
 
-            {/* Right Column: Clean Copy */}
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -75,41 +62,31 @@ function IntroSection() {
               className="intro-copy"
             >
               <p className="intro-lead">
-                Welcome to Riverside Azure — a refined collection of
-                one, two and three-bedroom residences in one of Nairobi's
-                most sought-after neighbourhoods.
+                Riverside Azure offers 1, 2 and 3-bedroom apartments for sale in one of Nairobi's most sought-after residential addresses.
               </p>
 
               <p className="intro-body">
-                Located along Riverside Drive, the development places you
-                minutes from Nairobi's key business districts, lifestyle
-                destinations and cultural landmarks, while maintaining the
-                privacy and calm of an exclusive residential address.
+                Located at 25 Riverside Drive, the development places residents close to Nairobi's business districts, lifestyle destinations and cultural landmarks while preserving a calm, private residential atmosphere.
               </p>
 
               <p className="intro-body">
-                Designed for contemporary city living, Riverside Azure
-                brings together considered architecture, generous interiors
-                and a carefully selected range of resident amenities.
+                Designed for contemporary city living, Riverside Azure combines spacious interiors, practical amenities and a premium Riverside setting for buyers seeking value and long-term appeal.
               </p>
             </motion.div>
           </div>
 
-          {/* =========================================================
-              SPECIFICATION GRID (Gallery Style)
-              ========================================================= */}
           <div className="intro-specs">
             {[
               { num: "01", text: "Riverside Address" },
               { num: "02", text: "Contemporary Design" },
-              { num: "03", text: "Private Urban Living" }
+              { num: "03", text: "Private Urban Living" },
             ].map((item, index) => (
               <motion.div
                 key={item.num}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                custom={0.3 + (index * 0.1)} 
+                custom={0.3 + index * 0.1}
                 variants={fadeStagger}
                 className="intro-spec-item"
               >
@@ -121,25 +98,21 @@ function IntroSection() {
               </motion.div>
             ))}
           </div>
-          
         </div>
       </section>
 
-      {/* =========================================================
-          STYLES (Gallery Minimalist Structure)
-          ========================================================= */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
         :root {
           --white: #FFFFFF;
           --text-dark: #111111;
-          --text-dark-soft: #444444; /* Darkened for higher contrast */
+          --text-dark-soft: #444444;
           --azure-main: #1A2875;
           --azure-deep: #111A55;
           --gold-accent: #C5A059;
-          --border-light: #DDDDDD; /* Darkened for crisper lines */
-          
+          --border-light: #DDDDDD;
+
           --font-body: 'Josefin Sans', -apple-system, BlinkMacSystemFont, sans-serif;
           --font-display: 'Montserrat', sans-serif;
         }
@@ -157,7 +130,6 @@ function IntroSection() {
           padding: 0 5vw;
         }
 
-        /* HEADER */
         .intro-header {
           margin-bottom: clamp(60px, 8vw, 100px);
         }
@@ -179,7 +151,7 @@ function IntroSection() {
         }
 
         .intro-number {
-          color: var(--gold-accent); /* Changed to Gold for better visibility */
+          color: var(--gold-accent);
           font-family: var(--font-body);
           font-size: 0.85rem;
           font-weight: 700;
@@ -192,7 +164,6 @@ function IntroSection() {
           background: var(--border-light);
         }
 
-        /* THE GRID */
         .intro-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;

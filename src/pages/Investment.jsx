@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import Seo from "../components/Seo";
 import heroImg from "../assets/hero/Front-View.webp";
 
 const roiData = [
@@ -107,6 +108,15 @@ const InvestmentPage = ({ onCtaClick }) => {
 
   return (
     <>
+      {/* SEO: set investment-page metadata to match property-investor intent without overstating ROI. */}
+      <Seo
+        title="Property Investment in Nairobi | Riverside Azure"
+        description="Explore property investment opportunities at Riverside Azure in Riverside, Nairobi, including 1, 2 and 3-bedroom apartments and project amenities."
+        canonicalPath="/investment"
+        ogTitle="Property Investment in Nairobi | Riverside Azure"
+        ogDescription="Evaluate investment opportunities at Riverside Azure, a residential development in Nairobi offering lifestyle appeal and strategic property buying potential."
+      />
+
       <main className="investment-page">
         {/* Progress Bar */}
         <div className="scroll-progress" style={{ transform: `scaleX(${scroll})` }} />

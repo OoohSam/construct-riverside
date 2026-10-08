@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Seo from "../components/Seo";
 
 const faqs = [
   {
@@ -92,6 +93,15 @@ const Contact = () => {
 
   return (
     <>
+      {/* SEO: align the contact page with buyer enquiries and direct sales intent. */}
+      <Seo
+        title="Contact Riverside Azure | Apartments in Riverside Nairobi"
+        description="Contact the Riverside Azure team for apartment availability, pricing, floor plans, site visits and enquiries at 25 Riverside Drive, Nairobi."
+        canonicalPath="/contact"
+        ogTitle="Contact Riverside Azure | Apartments in Riverside Nairobi"
+        ogDescription="Speak with the Riverside Azure sales team about pricing, availability, site visits and apartment enquiries in Nairobi."
+      />
+
       <main className="contact-page">
         {/* =========================================================
             HERO (Editorial Typography)
