@@ -110,11 +110,11 @@ const InvestmentPage = ({ onCtaClick }) => {
     <>
       {/* SEO: set investment-page metadata to match property-investor intent without overstating ROI. */}
       <Seo
-        title="Property Investment in Nairobi | Riverside Azure"
-        description="Explore property investment opportunities at Riverside Azure in Riverside, Nairobi, including 1, 2 and 3-bedroom apartments and project amenities."
+        title="Off-Plan Projects in Nairobi | Riverside Azure"
+        description="Explore off-plan projects in Nairobi with Riverside Azure, including premium 1, 2 and 3-bedroom apartments in Riverside and project amenities designed for long-term value."
         canonicalPath="/investment"
-        ogTitle="Property Investment in Nairobi | Riverside Azure"
-        ogDescription="Evaluate investment opportunities at Riverside Azure, a residential development in Nairobi offering lifestyle appeal and strategic property buying potential."
+        ogTitle="Off-Plan Projects in Nairobi | Riverside Azure"
+        ogDescription="Learn about off-plan projects in Nairobi and investment opportunities at Riverside Azure, a premium residential development in Riverside."
       />
 
       <main className="investment-page">

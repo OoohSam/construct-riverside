@@ -98,11 +98,11 @@ const About = () => {
     <>
       {/* SEO: provide route-specific metadata for the developer and project overview page. */}
       <Seo
-        title="About Riverside Azure | Apartments on Riverside Drive, Nairobi"
-        description="Learn about Riverside Azure, a premium residential development at 25 Riverside Drive in Nairobi, offering 1, 2 and 3-bedroom apartments for modern urban living."
+        title="About Riverside Azure | Real Estate Company in Nairobi"
+        description="Learn about Riverside Azure, a growing real estate company in Nairobi developing premium residential projects in Riverside. Discover our identity, developer story and apartment offerings."
         canonicalPath="/about"
-        ogTitle="About Riverside Azure | Apartments on Riverside Drive, Nairobi"
-        ogDescription="Learn about Riverside Azure, a premium residential development in Nairobi offering contemporary apartments by the Riverside Drive address."
+        ogTitle="About Riverside Azure | Real Estate Company in Nairobi"
+        ogDescription="Discover Riverside Azure, a residential real estate company in Nairobi creating premium apartments and lifestyle-focused developments in Riverside."
       />
 
       <main className="about-page">

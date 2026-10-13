@@ -70,6 +70,10 @@ function IntroSection() {
               </p>
 
               <p className="intro-body">
+                As one of the notable real estate companies in Nairobi, Riverside Azure focuses on premium residential projects that support modern city living, long-term owner value and well-considered off-plan investment opportunities.
+              </p>
+
+              <p className="intro-body">
                 Designed for contemporary city living, Riverside Azure combines spacious interiors, practical amenities and a premium Riverside setting for buyers seeking value and long-term appeal.
               </p>
             </motion.div>
