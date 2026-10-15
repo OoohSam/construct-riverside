@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Seo from "../components/Seo";
 
 import fallbackImage from "../assets/hero/Front-View.webp";
 import cityVideo from "../assets/Video/riverside-azure-construction-progress-nairobi-kenya.mp4";
@@ -95,6 +96,15 @@ const About = () => {
 
   return (
     <>
+      {/* SEO: provide route-specific metadata for the developer and project overview page. */}
+      <Seo
+        title="About Riverside Azure | Real Estate Company in Nairobi"
+        description="Learn about Riverside Azure, a growing real estate company in Nairobi developing premium residential projects in Riverside. Discover our identity, developer story and apartment offerings."
+        canonicalPath="/about"
+        ogTitle="About Riverside Azure | Real Estate Company in Nairobi"
+        ogDescription="Discover Riverside Azure, a residential real estate company in Nairobi creating premium apartments and lifestyle-focused developments in Riverside."
+      />
+
       <main className="about-page">
         {/* =====================================================
             HERO (Cinematic Video Background - Centered)

@@ -1,55 +1,27 @@
 import React, { useEffect, useState } from "react";
-
-import fallbackImage from "../assets/hero/Front-View.webp";
-import heroVideo from "../assets/Video/web-lead-video.mp4";
-import heroMobileVideo from "../assets/Video/web-mobile-hero.mp4";
+import heroImage from "../assets/hero/sunlit-luxury-balcony-overlooking-nairobi.webp";
 
 import {
   trackMetaEvent,
   createEventId,
 } from "../lib/metaPixel.js";
 
-const MOBILE_BREAKPOINT = 768;
-
 export default function Hero({ onCtaClick }) {
-  const [isMobile, setIsMobile] = useState(false);
-  const [videoError, setVideoError] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
-    };
-
-    checkScreenSize();
-
-    window.addEventListener("resize", checkScreenSize);
-
-    return () => {
-      window.removeEventListener("resize", checkScreenSize);
-    };
-  }, []);
-
-  const selectedVideo = isMobile
-    ? heroMobileVideo
-    : heroVideo;
-
-  useEffect(() => {
-    setVideoError(false);
-  }, [selectedVideo]);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     let ticking = false;
 
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setScrollY(window.scrollY);
-          ticking = false;
-        });
+      if (ticking) return;
 
-        ticking = true;
-      }
+      ticking = true;
+
+      window.requestAnimationFrame(() => {
+        setScrollY(window.scrollY);
+        ticking = false;
+      });
     };
 
     window.addEventListener("scroll", handleScroll, {
@@ -60,10 +32,6 @@ export default function Hero({ onCtaClick }) {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  const handleVideoError = () => {
-    setVideoError(true);
-  };
 
   const handleCta = () => {
     try {
@@ -76,10 +44,7 @@ export default function Hero({ onCtaClick }) {
         contact_method: "Lead Modal",
       });
     } catch (error) {
-      console.warn(
-        "Meta Pixel tracking failed:",
-        error
-      );
+      console.warn("Meta Pixel tracking failed:", error);
     }
 
     if (typeof onCtaClick === "function") {
@@ -87,102 +52,51 @@ export default function Hero({ onCtaClick }) {
     }
   };
 
-  /*
-   * Very restrained parallax.
-   * The video moves slightly slower than the page,
-   * creating depth without making the effect distracting.
-   */
-  const videoTransform = `translate3d(0, ${
-    Math.min(scrollY * 0.12, 90)
-  }px, 0) scale(1.035)`;
-
-  const contentTransform = `translate3d(0, ${
-    Math.min(scrollY * 0.045, 32)
-  }px, 0)`;
+  const imageTransform = `translate3d(0, ${Math.min(
+    scrollY * 0.1,
+    70
+  )}px, 0) scale(1.04)`;
 
   return (
     <>
       <section
         className="hero-section"
-        aria-label="Riverside Azure"
+        aria-label="Riverside Azure Luxury Apartments"
       >
-        {/* ------------------------------------------------
-            MEDIA
-        ------------------------------------------------ */}
+        {/* BACKGROUND IMAGE */}
         <div className="hero-background">
-          {videoError ? (
-            <img
-              className="hero-fallback"
-              src={fallbackImage}
-              alt="Riverside Azure"
-              style={{
-                transform: videoTransform,
-              }}
-            />
-          ) : (
-            <video
-              key={selectedVideo}
-              className="hero-video"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              poster={fallbackImage}
-              onError={handleVideoError}
-              aria-hidden="true"
-              style={{
-                transform: videoTransform,
-              }}
-            >
-              <source
-                src={selectedVideo}
-                type="video/mp4"
-              />
-            </video>
-          )}
+          <img
+            src={heroImage}
+            alt="Luxury residences at Riverside Azure overlooking Nairobi"
+            className={`hero-image ${
+              imageLoaded ? "is-loaded" : ""
+            }`}
+            fetchPriority="high"
+            onLoad={() => setImageLoaded(true)}
+            style={{ transform: imageTransform }}
+          />
         </div>
 
-        {/* ------------------------------------------------
-            EDGE TREATMENT
-            Not a full overlay. These are extremely subtle
-            gradients only where text needs separation.
-        ------------------------------------------------ */}
+        {/* LIGHT GRADIENT FADE */}
         <div
-          className="hero-edge-treatment"
+          className="hero-light-overlay"
           aria-hidden="true"
         />
 
-        {/* ------------------------------------------------
-            TOP EDITORIAL LABEL
-        ------------------------------------------------ */}
-    
-
-        {/* ------------------------------------------------
-            MAIN CONTENT
-        ------------------------------------------------ */}
-        <div
-          className="hero-content"
-          style={{
-            transform: contentTransform,
-          }}
-        >
-    
-
+        {/* MAIN TEXT (FROSTED GLASS CARD) */}
+        <div className="hero-content">
           <h1 className="hero-heading">
-            Own a Piece
-            <br />
-            <em>of Riverside</em>
-            <br />
-            Before It Rises.
+            <span className="hero-heading-dark">Your</span>
+            <span className="hero-heading-dark">Sanctuary</span>
+            <span className="hero-heading-gold">in Riverside</span>
           </h1>
 
           <div className="hero-divider" />
 
           <p className="hero-description">
-            Refined 1, 2 &amp; 3-bedroom residences
-            <br className="desktop-break" />
-            in the heart of Riverside.
+            Discover 1, 2 &amp; 3-bedroom residences at
+            25 Riverside Drive, designed for contemporary
+            city living and investment potential.
           </p>
 
           <button
@@ -191,6 +105,7 @@ export default function Hero({ onCtaClick }) {
             onClick={handleCta}
           >
             <span>Book A Unit Today</span>
+
             <span
               className="hero-button-arrow"
               aria-hidden="true"
@@ -200,25 +115,15 @@ export default function Hero({ onCtaClick }) {
           </button>
         </div>
 
-        {/* ------------------------------------------------
-            PROJECT NUMBER
-        ------------------------------------------------ */}
+        {/* PROJECT BRANDING */}
         <div className="hero-project-mark">
-          <span>01</span>
           <span className="hero-project-mark-line" />
           <span>RIVERSIDE AZURE</span>
         </div>
 
-        {/* ------------------------------------------------
-            SCROLL INDICATOR
-        ------------------------------------------------ */}
-        <div
-          className="hero-scroll"
-          aria-hidden="true"
-        >
-          <span className="hero-scroll-label">
-            Scroll to explore
-          </span>
+        {/* SCROLL INDICATOR */}
+        <div className="hero-scroll">
+          <span>Scroll to Explore</span>
 
           <span className="hero-scroll-line">
             <span />
@@ -227,213 +132,163 @@ export default function Hero({ onCtaClick }) {
       </section>
 
       <style>{`
-
-        /* =================================================
-           HERO BASE
-        ================================================= */
+        /* ==========================================
+           HERO FOUNDATION
+        ========================================== */
 
         .hero-section {
+          --hero-navy: #192335;
+          --hero-gold: #967729;
+          --hero-gold-light: #b29650;
+          --hero-font: var(--font-display, "Playfair Display", "Montserrat", serif);
+
           position: relative;
           width: 100%;
           height: 100svh;
-          min-height: 620px;
+          min-height: 600px;
+          background: #f4f1eb;
           overflow: hidden;
-          background: var(--azure-deep);
           isolation: isolate;
         }
 
-        /* =================================================
-           VIDEO / IMAGE
-        ================================================= */
+        /* ==========================================
+           BACKGROUND
+        ========================================== */
 
         .hero-background {
           position: absolute;
           inset: 0;
           z-index: 0;
           overflow: hidden;
-          background: var(--azure-deep);
+          background: #f4f1eb;
         }
 
-        .hero-video,
-        .hero-fallback {
+        .hero-image {
           position: absolute;
           inset: -2%;
           width: 104%;
           height: 104%;
+          display: block;
           object-fit: cover;
           object-position: center center;
-          display: block;
-
-          /*
-           * The video itself remains visually clean.
-           * No dark full-screen overlay is applied.
-           */
+          opacity: 0;
           will-change: transform;
-          transition:
-            transform 0.15s linear;
+          transition: opacity 1s ease;
         }
 
-        .hero-fallback {
-          filter: none;
+        .hero-image.is-loaded {
+          opacity: 1;
         }
 
-        /* =================================================
-           VERY SUBTLE EDGE TREATMENT
-        ================================================= */
+        /* ==========================================
+           SOFT WHITE LEFT FADE
+        ========================================== */
 
-        .hero-edge-treatment {
+        .hero-light-overlay {
           position: absolute;
           inset: 0;
           z-index: 1;
           pointer-events: none;
 
-          /*
-           * This is deliberately NOT a conventional
-           * dark overlay. It only gives the left text
-           * area a little separation.
-           */
-          background:
-            linear-gradient(
-              90deg,
-              rgba(7, 12, 43, 0.28) 0%,
-              rgba(7, 12, 43, 0.10) 30%,
-              rgba(7, 12, 43, 0) 58%
-            );
-
-          opacity: 0.75;
+          background: linear-gradient(
+            90deg,
+            rgba(250, 249, 246, 0.85) 0%,
+            rgba(250, 249, 246, 0.6) 25%,
+            rgba(250, 249, 246, 0.15) 50%,
+            rgba(250, 249, 246, 0) 70%
+          );
         }
 
-        /* =================================================
-           LOCATION LABEL
-        ================================================= */
-
-        .hero-location {
-          position: absolute;
-          top: 132px;
-          left: clamp(24px, 6vw, 88px);
-
-          z-index: 3;
-
-          display: flex;
-          align-items: center;
-          gap: 12px;
-
-          color: rgba(255, 255, 255, 0.9);
-
-          font-family: var(--font-body);
-          font-size: 0.67rem;
-          font-weight: 700;
-          letter-spacing: 0.22em;
-          line-height: 1;
-          text-transform: uppercase;
-
-          will-change: transform;
-        }
-
-        .hero-location-line {
-          width: 34px;
-          height: 1px;
-          background: var(--gold-accent);
-          flex-shrink: 0;
-        }
-
-        /* =================================================
-           MAIN CONTENT
-        ================================================= */
+        /* ==========================================
+           CONTENT LAYOUT (GLASSMORPHISM)
+        ========================================== */
 
         .hero-content {
           position: absolute;
-
-          left: clamp(
-            24px,
-            7.5vw,
-            118px
-          );
-
-          bottom: clamp(
-            90px,
-            12vh,
-            145px
-          );
-
           z-index: 3;
 
-          width: min(
-            720px,
-            calc(100% - 48px)
-          );
+          top: 50%;
+          left: clamp(28px, 5.5vw, 92px);
 
-          will-change: transform;
+          width: min(580px, 45vw);
+          padding: clamp(24px, 4vw, 48px);
+
+          /* Frosted Glass Effect */
+          background: rgba(255, 255, 255, 0.45);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255, 255, 255, 0.6);
+          border-radius: 24px;
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+
+          transform: translateY(-50%);
+          animation: heroContentEntrance 1.1s ease both;
         }
 
-        .hero-eyebrow {
-          margin: 0 0 18px;
-
-          color: var(--gold-soft);
-
-          font-family: var(--font-body);
-          font-size: 0.7rem;
-          font-weight: 700;
-          letter-spacing: 0.25em;
-          line-height: 1.3;
-          text-transform: uppercase;
-        }
+        /* ==========================================
+           HEADING
+        ========================================== */
 
         .hero-heading {
           margin: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
 
-          color: var(--white);
-
-          font-family: var(--font-display);
-          font-size: clamp(
-            3.5rem,
-            7.2vw,
-            7.1rem
-          );
-
+          font-family: var(--hero-font);
+          font-size: clamp(3rem, 4.8vw, 5.5rem);
           font-weight: 400;
-          letter-spacing: -0.055em;
-          line-height: 0.91;
-
-          max-width: 760px;
-
-          text-wrap: balance;
+          line-height: 1.1;
+          letter-spacing: -0.02em;
         }
 
-        .hero-heading em {
-          color: var(--gold-soft);
+        .hero-heading-dark {
+          display: block;
+          color: var(--hero-navy);
+          font-style: normal;
+        }
+
+        .hero-heading-gold {
+          display: block;
+          margin-top: 4px;
+          color: var(--hero-gold);
           font-style: italic;
-          font-weight: 400;
         }
+
+        /* ==========================================
+           DIVIDER
+        ========================================== */
 
         .hero-divider {
-          width: 54px;
+          width: 48px;
           height: 1px;
+
           margin-top: 28px;
-          margin-bottom: 18px;
-          background: var(--gold-accent);
+          margin-bottom: 20px;
+
+          background: rgba(25, 35, 53, 0.2);
         }
+
+        /* ==========================================
+           DESCRIPTION
+        ========================================== */
 
         .hero-description {
-          margin: 0 0 26px;
+          max-width: 380px;
+          margin: 0 0 28px;
 
-          color: rgba(255, 255, 255, 0.82);
+          color: #242424;
 
-          font-family: var(--font-body);
-          font-size: clamp(
-            0.88rem,
-            1.4vw,
-            1rem
-          );
-
+          font-family: var(--font-body, "Montserrat", sans-serif);
+          font-size: clamp(0.85rem, 0.95vw, 1rem);
           font-weight: 400;
-          line-height: 1.65;
-          letter-spacing: 0.01em;
+          line-height: 1.7;
+          letter-spacing: -0.01em;
         }
 
-        /* =================================================
+        /* ==========================================
            CTA
-        ================================================= */
+        ========================================== */
 
         .hero-button {
           position: relative;
@@ -441,27 +296,26 @@ export default function Hero({ onCtaClick }) {
           display: inline-flex;
           align-items: center;
           justify-content: space-between;
-          gap: 26px;
+          gap: 30px;
 
           min-height: 52px;
+          padding: 0 24px;
 
-          padding:
-            0 20px
-            0 24px;
+          border: none;
+          border-radius: 4px;
 
-          border:
-            1px solid
-            var(--gold-accent);
+          background: linear-gradient(
+            110deg,
+            #192335 0%,
+            #101725 100%
+          );
 
-          border-radius: 0;
+          color: #fff;
 
-          background: var(--gold-accent);
-          color: var(--azure-deep);
-
-          font-family: var(--font-body);
-          font-size: 0.69rem;
-          font-weight: 800;
-          letter-spacing: 0.15em;
+          font-family: var(--font-body, "Montserrat", sans-serif);
+          font-size: 0.7rem;
+          font-weight: 600;
+          letter-spacing: 0.1em;
           line-height: 1;
           text-transform: uppercase;
 
@@ -469,324 +323,237 @@ export default function Hero({ onCtaClick }) {
           overflow: hidden;
 
           transition:
-            color 0.4s var(--ease-luxury),
-            background-color 0.4s var(--ease-luxury),
-            border-color 0.4s var(--ease-luxury),
-            transform 0.4s var(--ease-luxury);
-        }
-
-        .hero-button::before {
-          content: "";
-
-          position: absolute;
-          inset: 0;
-
-          background: var(--azure-deep);
-
-          transform: translateX(-101%);
-          transition:
-            transform 0.5s var(--ease-luxury);
-
-          z-index: 0;
-        }
-
-        .hero-button > span {
-          position: relative;
-          z-index: 1;
+            background 0.35s ease,
+            box-shadow 0.35s ease,
+            transform 0.35s ease;
         }
 
         .hero-button:hover {
-          color: var(--white);
-          border-color: var(--azure-deep);
+          background: var(--hero-gold);
+          box-shadow: 0 8px 25px rgba(150, 119, 41, 0.3);
           transform: translateY(-2px);
         }
 
-        .hero-button:hover::before {
-          transform: translateX(0);
-        }
-
         .hero-button-arrow {
-          font-size: 1rem;
+          font-size: 1.1rem;
           font-weight: 400;
-          transition:
-            transform 0.4s var(--ease-luxury);
+          color: var(--hero-gold-light);
+          transition: transform 0.3s ease, color 0.3s ease;
         }
 
-        .hero-button:hover
-        .hero-button-arrow {
+        .hero-button:hover .hero-button-arrow {
           transform: translateX(5px);
+          color: #fff;
         }
 
-        /* =================================================
+        /* ==========================================
            PROJECT MARK
-        ================================================= */
+        ========================================== */
 
         .hero-project-mark {
           position: absolute;
-
-          right: clamp(
-            24px,
-            5vw,
-            72px
-          );
-
-          bottom: 52px;
-
           z-index: 3;
+
+          right: 36px;
+          bottom: 35px;
 
           display: flex;
           align-items: center;
           gap: 10px;
 
-          color:
-            rgba(255, 255, 255, 0.58);
+          color: rgba(255,255,255,0.95);
 
-          font-family: var(--font-body);
-          font-size: 0.57rem;
+          font-family: var(--font-body, sans-serif);
+          font-size: 0.59rem;
           font-weight: 700;
-          letter-spacing: 0.18em;
-          line-height: 1;
-
-          writing-mode: horizontal-tb;
-        }
-
-        .hero-project-mark > span:first-child {
-          color: var(--gold-soft);
-          font-size: 0.68rem;
+          letter-spacing: 0.12em;
+          text-shadow: 0 1px 5px rgba(0,0,0,0.4);
         }
 
         .hero-project-mark-line {
-          width: 28px;
+          width: 24px;
           height: 1px;
-          background:
-            rgba(255, 255, 255, 0.4);
+          background: #c2a45d;
         }
 
-        /* =================================================
-           SCROLL
-        ================================================= */
+        /* ==========================================
+           SCROLL INDICATOR
+        ========================================== */
 
         .hero-scroll {
           position: absolute;
+          z-index: 3;
 
           left: 50%;
-          bottom: 38px;
-
-          z-index: 3;
+          bottom: 22px;
 
           display: flex;
           align-items: center;
-          gap: 13px;
+          gap: 12px;
 
-          transform:
-            translateX(-50%);
+          transform: translateX(-50%);
 
-          color:
-            rgba(255, 255, 255, 0.62);
+          color: #fff;
 
-          font-family: var(--font-body);
-          font-size: 0.58rem;
-          font-weight: 700;
-          letter-spacing: 0.18em;
-          line-height: 1;
+          font-family: var(--font-body, sans-serif);
+          font-size: 0.59rem;
+          font-weight: 600;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
-
-          pointer-events: none;
+          text-shadow: 0 1px 4px rgba(0,0,0,0.4);
         }
 
         .hero-scroll-line {
           position: relative;
-
-          width: 48px;
+          display: block;
+          width: 45px;
           height: 1px;
 
           overflow: hidden;
-
-          background:
-            rgba(255, 255, 255, 0.35);
+          background: rgba(255,255,255,0.4);
         }
 
         .hero-scroll-line span {
           position: absolute;
-
-          left: 0;
           top: 0;
+          left: 0;
 
           width: 18px;
           height: 1px;
 
-          background:
-            var(--gold-accent);
+          background: #fff;
 
-          animation:
-            heroScrollLine
-            2.2s
-            var(--ease-luxury)
-            infinite;
+          animation: heroScrollMove 2.3s ease-in-out infinite;
         }
 
-        @keyframes heroScrollLine {
+        /* ==========================================
+           ANIMATIONS
+        ========================================== */
+
+        @keyframes heroContentEntrance {
+          from {
+            opacity: 0;
+            transform: translateY(calc(-50% + 30px));
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(-50%);
+          }
+        }
+
+        @keyframes heroScrollMove {
           0% {
-            transform:
-              translateX(-20px);
+            transform: translateX(-20px);
             opacity: 0;
           }
 
-          20% {
+          25% {
             opacity: 1;
           }
 
-          70% {
+          75% {
             opacity: 1;
           }
 
           100% {
-            transform:
-              translateX(48px);
+            transform: translateX(48px);
             opacity: 0;
           }
         }
 
-        /* =================================================
-           TABLET
-        ================================================= */
+        /* ==========================================
+           MEDIUM DESKTOP
+        ========================================== */
 
-        @media (max-width: 1024px) {
-          .hero-location {
-            top: 118px;
+        @media (max-width: 1200px) {
+          .hero-heading {
+            font-size: clamp(2.8rem, 4.5vw, 4.5rem);
           }
 
           .hero-content {
-            bottom: 105px;
+            width: min(480px, 50vw);
           }
 
-          .hero-heading {
-            font-size: clamp(
-              3.4rem,
-              8vw,
-              5.8rem
-            );
-          }
-
-          .hero-project-mark {
-            bottom: 32px;
-          }
-
-          .hero-scroll {
-            bottom: 30px;
+          .hero-description {
+            max-width: 340px;
           }
         }
 
-        /* =================================================
+        /* ==========================================
+           TABLET
+        ========================================== */
+
+        @media (max-width: 900px) {
+          .hero-content {
+            left: 35px;
+            width: 70%;
+          }
+
+          .hero-heading {
+            font-size: clamp(3rem, 6vw, 4rem);
+          }
+        }
+
+        /* ==========================================
            MOBILE
-        ================================================= */
+        ========================================== */
 
         @media (max-width: 768px) {
           .hero-section {
-            min-height: 680px;
+            min-height: 650px;
+            height: 100svh;
           }
 
-          .hero-background {
-            inset: 0;
+          .hero-image {
+            object-position: 58% center;
           }
 
-          .hero-video,
-          .hero-fallback {
-            inset: -2%;
-            width: 104%;
-            height: 104%;
-
-            /*
-             * Mobile videos often have a different
-             * composition, so keep the centre as the
-             * default rather than aggressively cropping.
-             */
-            object-position: center center;
-          }
-
-          .hero-edge-treatment {
-            background:
-              linear-gradient(
-                180deg,
-                rgba(7, 12, 43, 0.18) 0%,
-                rgba(7, 12, 43, 0) 30%,
-                rgba(7, 12, 43, 0.22) 72%,
-                rgba(7, 12, 43, 0.38) 100%
-              );
-
-            opacity: 0.72;
-          }
-
-          .hero-location {
-            top: 102px;
-            left: 18px;
-
-            gap: 9px;
-
-            font-size: 0.58rem;
-            letter-spacing: 0.18em;
-          }
-
-          .hero-location-line {
-            width: 24px;
+          .hero-light-overlay {
+            background: linear-gradient(
+              180deg,
+              rgba(250,249,246,0.85) 0%,
+              rgba(250,249,246,0.7) 25%,
+              rgba(250,249,246,0.2) 60%,
+              rgba(250,249,246,0) 100%
+            );
           }
 
           .hero-content {
-            left: 18px;
-            bottom: 104px;
+            top: clamp(105px, 15vh, 140px);
+            left: 20px;
+            width: calc(100% - 40px);
+            transform: none;
 
-            width:
-              calc(100% - 36px);
-          }
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 24px;
 
-          .hero-eyebrow {
-            margin-bottom: 14px;
-
-            font-size: 0.59rem;
-            letter-spacing: 0.18em;
+            animation: heroMobileEntrance 0.9s ease both;
           }
 
           .hero-heading {
-            max-width: 600px;
-
-            font-size:
-              clamp(
-                3.05rem,
-                13vw,
-                4.6rem
-              );
-
-            line-height: 0.91;
-            letter-spacing: -0.05em;
+            font-size: clamp(2.6rem, 9vw, 3.5rem);
           }
 
           .hero-divider {
-            width: 40px;
-            margin-top: 20px;
-            margin-bottom: 13px;
+            margin-top: 18px;
+            margin-bottom: 16px;
           }
 
           .hero-description {
-            margin-bottom: 20px;
-
-            font-size: 0.78rem;
-            line-height: 1.55;
-          }
-
-          .desktop-break {
-            display: none;
+            max-width: 100%;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin-bottom: 22px;
           }
 
           .hero-button {
-            min-height: 49px;
-
-            padding-left: 18px;
-            padding-right: 15px;
-
-            gap: 20px;
-
-            font-size: 0.61rem;
-            letter-spacing: 0.12em;
+            min-height: 48px;
+            padding: 0 20px;
+            font-size: 0.65rem;
+            width: 100%;
+            justify-content: center;
           }
 
           .hero-project-mark {
@@ -794,110 +561,66 @@ export default function Hero({ onCtaClick }) {
           }
 
           .hero-scroll {
-            left: 18px;
-            bottom: 31px;
-
+            left: 20px;
+            bottom: 24px;
             transform: none;
-
-            gap: 10px;
-
-            font-size: 0.53rem;
-            letter-spacing: 0.14em;
           }
 
-          .hero-scroll-line {
-            width: 36px;
-          }
-
-          .hero-scroll-line span {
-            width: 14px;
-          }
-
-          @keyframes heroScrollLine {
-            0% {
-              transform:
-                translateX(-16px);
+          @keyframes heroMobileEntrance {
+            from {
               opacity: 0;
+              transform: translateY(20px);
             }
 
-            20% {
+            to {
               opacity: 1;
-            }
-
-            70% {
-              opacity: 1;
-            }
-
-            100% {
-              transform:
-                translateX(36px);
-              opacity: 0;
+              transform: translateY(0);
             }
           }
         }
 
-        /* =================================================
-           SMALL PHONES
-        ================================================= */
+        /* ==========================================
+           SMALL MOBILE
+        ========================================== */
 
-        @media (max-width: 480px) {
-          .hero-section {
-            min-height: 640px;
-          }
-
-          .hero-location {
-            top: 92px;
+        @media (max-width: 390px) {
+          .hero-heading {
+            font-size: clamp(2.3rem, 10vw, 2.8rem);
           }
 
           .hero-content {
-            bottom: 91px;
-          }
-
-          .hero-heading {
-            font-size:
-              clamp(
-                2.75rem,
-                13.2vw,
-                3.8rem
-              );
-          }
-
-          .hero-description {
-            max-width: 290px;
-          }
-
-          .hero-button {
-            width: auto;
-          }
-
-          .hero-scroll {
-            bottom: 25px;
+            top: 100px;
+            padding: 20px;
           }
         }
 
-        /* =================================================
-           REDUCED MOTION
-        ================================================= */
+        /* ==========================================
+           ACCESSIBILITY
+        ========================================== */
 
         @media (prefers-reduced-motion: reduce) {
-          .hero-video,
-          .hero-fallback,
+          .hero-image,
           .hero-content,
-          .hero-location {
+          .hero-scroll-line span {
+            animation: none !important;
+            transition: none !important;
+          }
+
+          .hero-image {
             transform: none !important;
           }
 
-          .hero-scroll-line span {
-            animation: none;
+          .hero-content {
+            transform: translateY(-50%);
+          }
+
+          @media (max-width: 768px) {
+            .hero-content {
+              transform: none;
+            }
           }
         }
-
       `}</style>
     </>
   );
 }
-
-
-
-
-

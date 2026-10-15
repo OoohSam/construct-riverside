@@ -1,7 +1,8 @@
 
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
+import Seo from "../components/Seo";
 import blogPosts from "../data/blogPosts.js";
 
 const slugify = (value) =>
@@ -15,45 +16,6 @@ const BlogPost = () => {
   const { slug } = useParams();
 
   const post = blogPosts.find((item) => item.slug === slug);
-
-  useEffect(() => {
-    if (!post) return;
-
-    const previousTitle = document.title;
-    document.title = post.seoTitle || post.title;
-
-    let metaDescription = document.querySelector(
-      'meta[name="description"]'
-    );
-
-    const createdMeta = !metaDescription;
-    const previousDescription =
-      metaDescription?.getAttribute("content") || "";
-
-    if (!metaDescription) {
-      metaDescription = document.createElement("meta");
-      metaDescription.setAttribute("name", "description");
-      document.head.appendChild(metaDescription);
-    }
-
-    metaDescription.setAttribute(
-      "content",
-      post.seoDescription || post.excerpt
-    );
-
-    return () => {
-      document.title = previousTitle;
-
-      if (createdMeta) {
-        metaDescription?.remove();
-      } else {
-        metaDescription?.setAttribute(
-          "content",
-          previousDescription
-        );
-      }
-    };
-  }, [post]);
 
   if (!post) {
     return (
@@ -134,7 +96,17 @@ const BlogPost = () => {
   );
 
   return (
-    <main style={styles.page}>
+    <>
+      {/* SEO: set unique metadata on each blog article while keeping the article layout untouched. */}
+      <Seo
+        title={post.seoTitle || post.title}
+        description={post.seoDescription || post.excerpt}
+        canonicalPath={`/blog/${post.slug}`}
+        ogTitle={post.seoTitle || post.title}
+        ogDescription={post.seoDescription || post.excerpt}
+      />
+
+      <main style={styles.page}>
       {/* =====================================================
           ARTICLE HEADER
       ====================================================== */}
@@ -676,7 +648,8 @@ const BlogPost = () => {
           }
         }
       `}</style>
-    </main>
+      </main>
+    </>
   );
 };
 
