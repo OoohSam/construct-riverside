@@ -207,7 +207,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     minHeight: "100vh",
-    background: "var(--bg-dark)",
+    background: "#FFFFFF",
   },
 
   main: {
