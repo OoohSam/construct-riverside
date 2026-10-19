@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import heroImage from "../assets/hero/sunlit-luxury-balcony-overlooking-nairobi.webp";
 
+import MashujaaBadge from "./MashujaaBadge";
+
+
 import {
   trackMetaEvent,
   createEventId,
@@ -114,6 +117,12 @@ export default function Hero({ onCtaClick }) {
             </span>
           </button>
         </div>
+
+
+        
+{/* MASHUJAA DAY SEASONAL ANIMATION */}
+<MashujaaBadge />
+
 
         {/* PROJECT BRANDING */}
         <div className="hero-project-mark">
