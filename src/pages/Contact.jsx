@@ -37,8 +37,6 @@ const initialForm = {
 const Contact = () => {
   const [openIndex, setOpenIndex] = useState(null);
   const [form, setForm] = useState(initialForm);
-  const [status, setStatus] = useState("");
-  const [submitting, setSubmitting] = useState(false);
 
   /* =========================================================
      GALLERY MOTION (Ultra Smooth & Slow)
@@ -64,29 +62,38 @@ const Contact = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  // Temporary enquiry flow: open WhatsApp with the customer's completed form.
+  // The customer must press Send in WhatsApp to deliver the message.
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitting(true);
-    setStatus("");
 
-    try {
-      const response = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, source: "Contact Page" }),
-      });
+    const message = [
+      "*NEW RIVERSIDE AZURE ENQUIRY*",
+      "",
+      "*CUSTOMER DETAILS*",
+      `Name: ${form.name.trim()}`,
+      `Phone / WhatsApp: ${form.phone.trim()}`,
+      `Email: ${form.email.trim() || "Not provided"}`,
+      "",
+      "*PROPERTY INTEREST*",
+      `Residence: ${form.interest}`,
+      `Purpose: ${form.purpose}`,
+      "",
+      "*REQUIREMENTS*",
+      `Budget: ${form.budget || "Not specified"}`,
+      `Purchase Timeframe: ${form.timeframe || "Not specified"}`,
+      "",
+      "*ADDITIONAL INFORMATION*",
+      form.message.trim() || "None",
+      "",
+      "Source: Riverside Azure Website — Contact Page",
+    ].join("\n");
 
-      const data = await response.json();
-      if (!response.ok) throw new Error(data?.error || "Something went wrong.");
+    const whatsappLink =
+      `https://wa.me/254796529997?text=${encodeURIComponent(message)}`;
 
-      setStatus("Thank you. Our sales team will contact you shortly.");
-      setForm(initialForm);
-    } catch (error) {
-      console.error("Lead submission error:", error);
-      setStatus("We couldn't submit your details. Please contact us directly on WhatsApp.");
-    } finally {
-      setSubmitting(false);
-    }
+    // Same-tab navigation works reliably on mobile and desktop without popup blockers.
+    window.location.assign(whatsappLink);
   };
 
   const whatsappUrl = "https://wa.me/254796529997";
@@ -325,22 +332,12 @@ const Contact = () => {
                   </div>
 
                   <div className="form-submit-wrapper">
-                    <button type="submit" disabled={submitting} className="btn-solid submit-btn">
-                      {submitting ? "Sending..." : "Submit Enquiry"} <span className="arrow-icon">⟶</span>
+                    <button type="submit" className="btn-solid submit-btn">
+                      Send Enquiry via WhatsApp <span className="arrow-icon">⟶</span>
                     </button>
-                    
-                    <AnimatePresence mode="wait">
-                      {status && (
-                        <motion.div 
-                          className="status-message"
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                        >
-                          {status}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    <p className="body-small text-muted" style={{ marginTop: "1rem" }}>
+                      WhatsApp will open with your details. Please press Send to complete your enquiry.
+                    </p>
                   </div>
 
                 </form>
@@ -792,16 +789,6 @@ const Contact = () => {
         .submit-btn {
           width: 100%;
           margin-top: 1rem;
-        }
-
-        .status-message {
-          margin-top: 1rem;
-          padding: 1rem;
-          text-align: center;
-          font-weight: 500;
-          background: rgba(197, 160, 89, 0.1); /* Light gold background */
-          color: var(--color-azure);
-          border: 1px solid var(--color-gold);
         }
 
         /* MAP SECTION */
