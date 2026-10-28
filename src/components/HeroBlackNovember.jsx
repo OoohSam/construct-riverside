@@ -113,7 +113,7 @@ export default function HeroBlackNovember({ onCtaClick }) {
             <div className="bn-offer-half bn-offer-gift">
               <span className="bn-gift-icon" aria-hidden="true">♔</span>
               <span>Get it</span>
-              <b>Fully Furnished</b>
+              <b>Furnished</b>
             </div>
           </div>
 
