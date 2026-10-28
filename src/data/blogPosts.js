@@ -3,8 +3,194 @@ import heroImage2 from "../assets/hero/Living-room.webp";
 import heroImage3 from "../assets/hero/More-than-beautiful.webp";
 import heroImage4 from "../assets/hero/Mornin-balcony.webp";
 import heroImageOffPlan from "../assets/hero/off_plan_appartments_nairobi.jpeg";
-
+import heroImage5 from "../assets/hero/GATE.png";
 const blogPosts = [
+  {
+    id: 4,
+    slug: "riverside-drive-nairobi-apartments-investment",
+
+    title: "Riverside Drive, Nairobi: Apartments, Lifestyle and Property Investment",
+
+    excerpt:
+      "Explore Riverside Drive in Nairobi, compare 1, 2 and 3-bedroom apartments, and understand what buyers should consider before purchasing in one of the city’s established residential areas.",
+
+    category: "Location Guide",
+
+    date: "October 27, 2026",
+
+    readTime: "6 min read",
+
+    image: heroImage5,
+
+    featured: true,
+
+    seoTitle: "Riverside Drive Nairobi Apartments & Investment | Riverside Azure",
+
+    seoDescription:
+      "Explore Riverside Drive, Nairobi, and compare 1, 2 and 3-bedroom apartments at Riverside Azure, located at 25 Riverside Drive. Learn what buyers should consider.",
+
+    sections: [
+      {
+        heading: null,
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Riverside Drive in Nairobi, Kenya, is an established address associated with residential living, offices, hospitality and diplomatic activity. For people comparing apartments in Riverside Nairobi, the area may appeal because it offers a central city setting and access to business and lifestyle destinations. Buyers should still assess each property on its own location, design, price, management and long-term suitability.",
+          },
+          {
+            type: "paragraph",
+            text:
+              "If you are searching for apartments for sale in Nairobi or specifically for Riverside Drive apartments in Nairobi, understanding the neighbourhood is a useful first step. The next is comparing the available homes, checking the developer and purchase terms, and deciding whether a particular apartment matches your needs.",
+          },
+        ],
+      },
+
+      {
+        heading: "Why consider Riverside Drive in Nairobi?",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Riverside is known for a mix of residential properties, offices and services. The wider area includes business and lifestyle destinations such as Riverside Square, Merchant Square and 14 Riverside. These places contribute to the area’s mixed-use character, although buyers should check the exact distance and route from any apartment to the destinations that matter to them.",
+          },
+          {
+            type: "paragraph",
+            text:
+              "Riverside is also associated with diplomatic and international activity. That context may be relevant to people choosing where to live or assessing potential tenant audiences, but it should not be treated as a guarantee of rental demand or investment performance. Actual demand depends on factors such as the property’s specification, asking rent, competition, access, management and market conditions.",
+          },
+        ],
+      },
+
+      {
+        heading: "What should buyers compare when looking for apartments in Riverside Nairobi?",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "The phrase ‘apartments in Riverside, Nairobi’ covers properties with different sizes, layouts, facilities and purchase terms. Before choosing a home, compare the details that affect day-to-day living and total ownership cost.",
+          },
+          {
+            type: "list",
+            items: [
+              "Apartment type and usable space: compare the layout and stated floor area for one-, two- and three-bedroom homes.",
+              "Total purchase cost: confirm the current price, what is included, applicable charges and any costs payable separately.",
+              "Payment plan: request the written payment schedule, due dates and conditions that apply to the purchase.",
+              "Developer and project checks: review the developer’s track record and request the relevant project, ownership and approval documentation. Consider independent legal advice before committing.",
+              "Construction and handover: for an off-plan apartment, clarify the construction status, estimated handover, contractual terms and what happens if timelines change.",
+              "Management and service charges: ask how shared facilities, security, maintenance and property management will be handled, and what charges owners should budget for.",
+              "Location in practice: visit the site if possible and verify access, traffic at relevant times, nearby services and travel routes important to your household.",
+            ],
+          },
+        ],
+      },
+
+      {
+        heading: "Off-plan apartments in Nairobi: questions to ask before buying",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "A premium off-plan apartment in Nairobi can let a buyer select a home before the development is complete, but the decision requires careful checks. Do not rely on promotional language alone. Ask for written information on the unit specifications, finishes, payment milestones, approvals, expected completion, contract protections, service charges and the process for resolving disputes.",
+          },
+          {
+            type: "paragraph",
+            text:
+              "For anyone considering off-plan property investment in Kenya, it is also important to model the full cost of ownership. Include the purchase price, transaction costs, financing costs if relevant, service charges, maintenance, periods without a tenant and realistic comparable rents. Rental income and resale values are not guaranteed, and an attractive location does not remove investment risk.",
+          },
+        ],
+      },
+
+      {
+        heading: "Riverside Azure at 25 Riverside Drive",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Riverside Azure is an off-plan residential development at 25 Riverside Drive, Nairobi, offering one-, two- and three-bedroom apartments. Buyers exploring Riverside Azure apartments should request the latest unit availability, floor plans, stated floor areas, current prices, specifications and payment terms directly from the project’s sales team, as these details may change.",
+          },
+          {
+            type: "paragraph",
+            text:
+              "The different apartment sizes may suit different needs: a one-bedroom home may be worth comparing for a single occupant or a smaller household; a two-bedroom home may offer flexibility for a couple, small family or home-office setup; and a three-bedroom home may provide additional space for a larger household. Suitability depends on the actual layout, budget and intended use—not bedroom count alone.",
+          },
+          {
+            type: "paragraph",
+            text:
+              "Before deciding, compare the total purchase cost with your budget and goals. If you are buying to live in the property, consider the layout, daily routines and ongoing charges. If you are assessing an apartment as an investment, review comparable properties and rents, vacancy assumptions, management costs and your intended holding period. Seek independent professional advice where appropriate.",
+          },
+        ],
+      },
+
+      {
+        heading: "Is Riverside Drive a good place to buy property or invest?",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Riverside Drive may be worth considering for buyers who want a Nairobi address with a mix of residential, business and lifestyle uses. Whether a particular apartment is a good purchase or investment depends on the price, property quality, legal and contractual checks, ownership costs and the buyer’s objectives.",
+          },
+          {
+            type: "paragraph",
+            text:
+              "Rather than assuming that every property in Riverside will perform alike, compare specific homes and ask for evidence. For an investment decision, use realistic rent and cost estimates, account for possible vacancies and changes in market conditions, and do not rely on guaranteed-return claims.",
+          },
+        ],
+      },
+
+      {
+        heading: "Explore Riverside Azure apartments",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Looking for apartments for sale in Riverside Nairobi? Explore Riverside Azure at 25 Riverside Drive and request current details for the one-, two- and three-bedroom residences. Review the available floor plans, confirm pricing and payment terms, and arrange a conversation or site visit to decide whether the development fits your requirements.",
+          },
+        ],
+      },
+    ],
+
+    faqs: [
+      {
+        question: "Why do buyers look at Riverside Drive apartments in Nairobi?",
+        answer:
+          "Riverside Drive is an established Nairobi address with residential, business and lifestyle uses. Buyers often compare the area because it offers access to key destinations while still feeling like a premium urban neighbourhood.",
+      },
+      {
+        question: "What should I check before buying an apartment in Riverside Nairobi?",
+        answer:
+          "Compare the apartment size, price, developer, payment plan, service charges, location access, construction status and documentation before you commit. A site visit and legal review are also recommended.",
+      },
+      {
+        question: "Is Riverside Azure a good off-plan investment in Nairobi?",
+        answer:
+          "The answer depends on pricing, buyer goals, developer credibility, payment terms and the specific unit. Buyers should assess the full cost of ownership and compare the development with similar apartments in the area.",
+      },
+      {
+        question: "What are the main considerations when buying off-plan property in Nairobi?",
+        answer:
+          "The main considerations are developer track record, approvals, title and sale agreement checks, payment schedule, construction timeline, service charges and realistic investment assumptions.",
+      },
+      {
+        question: "Are luxury apartments for sale in Nairobi usually in high demand?",
+        answer:
+          "Demand can vary by area, unit type and property quality. Buyers should evaluate location, building management, access and comparable rents rather than rely on broad market assumptions.",
+      },
+    ],
+
+    conclusion: [
+      "Riverside Drive in Nairobi remains a relevant address for buyers comparing apartments, homes and investment opportunities in the city.",
+      "The right property will depend on the specific unit, purchase price, location in practice, developer credibility and the buyer’s own goals. A careful comparison process helps buyers make a more informed decision.",
+      "For buyers exploring Riverside Azure apartments, the next step is to review current unit details, pricing and payment terms at 25 Riverside Drive and decide whether the development matches their needs.",
+    ],
+  },
   {
     id: 1,
     slug: "off-plan-property-investment-in-kenya",
