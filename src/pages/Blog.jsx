@@ -10,10 +10,10 @@ const Blog = () => {
     return [...blogPosts].sort((a, b) => new Date(b.date) - new Date(a.date));
   }, []);
 
-  // Find the featured post from the sorted list, or default to the absolute newest
-  const featuredPost = sortedPosts.find((post) => post.featured) || sortedPosts[0];
-  
-  // The rest of the posts will automatically display in chronological order (newest to oldest)
+  // Always show the newest article in the top feature slot based on the post date.
+  const featuredPost = sortedPosts[0];
+
+  // The rest of the posts will automatically display in chronological order (newest to oldest).
   const otherPosts = sortedPosts.filter((post) => post.id !== featuredPost?.id);
 
   /* =========================================================

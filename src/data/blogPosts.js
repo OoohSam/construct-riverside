@@ -2,8 +2,195 @@ import heroImage from "../assets/hero/Front-View.webp";
 import heroImage2 from "../assets/hero/Living-room.webp";
 import heroImage3 from "../assets/hero/More-than-beautiful.webp";
 import heroImage4 from "../assets/hero/Mornin-balcony.webp";
-
+import heroImageOffPlan from "../assets/hero/off_plan_appartments_nairobi.jpeg";
+import heroImage5 from "../assets/hero/GATE.png";
 const blogPosts = [
+  {
+    id: 4,
+    slug: "riverside-drive-nairobi-apartments-investment",
+
+    title: "Riverside Drive, Nairobi: Apartments, Lifestyle and Property Investment",
+
+    excerpt:
+      "Explore Riverside Drive in Nairobi, compare 1, 2 and 3-bedroom apartments, and understand what buyers should consider before purchasing in one of the city’s established residential areas.",
+
+    category: "Location Guide",
+
+    date: "October 27, 2026",
+
+    readTime: "6 min read",
+
+    image: heroImage5,
+
+    featured: true,
+
+    seoTitle: "Riverside Drive Nairobi Apartments & Investment | Riverside Azure",
+
+    seoDescription:
+      "Explore Riverside Drive, Nairobi, and compare 1, 2 and 3-bedroom apartments at Riverside Azure, located at 25 Riverside Drive. Learn what buyers should consider.",
+
+    sections: [
+      {
+        heading: null,
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Riverside Drive in Nairobi, Kenya, is an established address associated with residential living, offices, hospitality and diplomatic activity. For people comparing apartments in Riverside Nairobi, the area may appeal because it offers a central city setting and access to business and lifestyle destinations. Buyers should still assess each property on its own location, design, price, management and long-term suitability.",
+          },
+          {
+            type: "paragraph",
+            text:
+              "If you are searching for apartments for sale in Nairobi or specifically for Riverside Drive apartments in Nairobi, understanding the neighbourhood is a useful first step. The next is comparing the available homes, checking the developer and purchase terms, and deciding whether a particular apartment matches your needs.",
+          },
+        ],
+      },
+
+      {
+        heading: "Why consider Riverside Drive in Nairobi?",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Riverside is known for a mix of residential properties, offices and services. The wider area includes business and lifestyle destinations such as Riverside Square, Merchant Square and 14 Riverside. These places contribute to the area’s mixed-use character, although buyers should check the exact distance and route from any apartment to the destinations that matter to them.",
+          },
+          {
+            type: "paragraph",
+            text:
+              "Riverside is also associated with diplomatic and international activity. That context may be relevant to people choosing where to live or assessing potential tenant audiences, but it should not be treated as a guarantee of rental demand or investment performance. Actual demand depends on factors such as the property’s specification, asking rent, competition, access, management and market conditions.",
+          },
+        ],
+      },
+
+      {
+        heading: "What should buyers compare when looking for apartments in Riverside Nairobi?",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "The phrase ‘apartments in Riverside, Nairobi’ covers properties with different sizes, layouts, facilities and purchase terms. Before choosing a home, compare the details that affect day-to-day living and total ownership cost.",
+          },
+          {
+            type: "list",
+            items: [
+              "Apartment type and usable space: compare the layout and stated floor area for one-, two- and three-bedroom homes.",
+              "Total purchase cost: confirm the current price, what is included, applicable charges and any costs payable separately.",
+              "Payment plan: request the written payment schedule, due dates and conditions that apply to the purchase.",
+              "Developer and project checks: review the developer’s track record and request the relevant project, ownership and approval documentation. Consider independent legal advice before committing.",
+              "Construction and handover: for an off-plan apartment, clarify the construction status, estimated handover, contractual terms and what happens if timelines change.",
+              "Management and service charges: ask how shared facilities, security, maintenance and property management will be handled, and what charges owners should budget for.",
+              "Location in practice: visit the site if possible and verify access, traffic at relevant times, nearby services and travel routes important to your household.",
+            ],
+          },
+        ],
+      },
+
+      {
+        heading: "Off-plan apartments in Nairobi: questions to ask before buying",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "A premium off-plan apartment in Nairobi can let a buyer select a home before the development is complete, but the decision requires careful checks. Do not rely on promotional language alone. Ask for written information on the unit specifications, finishes, payment milestones, approvals, expected completion, contract protections, service charges and the process for resolving disputes.",
+          },
+          {
+            type: "paragraph",
+            text:
+              "For anyone considering off-plan property investment in Kenya, it is also important to model the full cost of ownership. Include the purchase price, transaction costs, financing costs if relevant, service charges, maintenance, periods without a tenant and realistic comparable rents. Rental income and resale values are not guaranteed, and an attractive location does not remove investment risk.",
+          },
+        ],
+      },
+
+      {
+        heading: "Riverside Azure at 25 Riverside Drive",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Riverside Azure is an off-plan residential development at 25 Riverside Drive, Nairobi, offering one-, two- and three-bedroom apartments. Buyers exploring Riverside Azure apartments should request the latest unit availability, floor plans, stated floor areas, current prices, specifications and payment terms directly from the project’s sales team, as these details may change.",
+          },
+          {
+            type: "paragraph",
+            text:
+              "The different apartment sizes may suit different needs: a one-bedroom home may be worth comparing for a single occupant or a smaller household; a two-bedroom home may offer flexibility for a couple, small family or home-office setup; and a three-bedroom home may provide additional space for a larger household. Suitability depends on the actual layout, budget and intended use—not bedroom count alone.",
+          },
+          {
+            type: "paragraph",
+            text:
+              "Before deciding, compare the total purchase cost with your budget and goals. If you are buying to live in the property, consider the layout, daily routines and ongoing charges. If you are assessing an apartment as an investment, review comparable properties and rents, vacancy assumptions, management costs and your intended holding period. Seek independent professional advice where appropriate.",
+          },
+        ],
+      },
+
+      {
+        heading: "Is Riverside Drive a good place to buy property or invest?",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Riverside Drive may be worth considering for buyers who want a Nairobi address with a mix of residential, business and lifestyle uses. Whether a particular apartment is a good purchase or investment depends on the price, property quality, legal and contractual checks, ownership costs and the buyer’s objectives.",
+          },
+          {
+            type: "paragraph",
+            text:
+              "Rather than assuming that every property in Riverside will perform alike, compare specific homes and ask for evidence. For an investment decision, use realistic rent and cost estimates, account for possible vacancies and changes in market conditions, and do not rely on guaranteed-return claims.",
+          },
+        ],
+      },
+
+      {
+        heading: "Explore Riverside Azure apartments",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Looking for apartments for sale in Riverside Nairobi? Explore Riverside Azure at 25 Riverside Drive and request current details for the one-, two- and three-bedroom residences. Review the available floor plans, confirm pricing and payment terms, and arrange a conversation or site visit to decide whether the development fits your requirements.",
+          },
+        ],
+      },
+    ],
+
+    faqs: [
+      {
+        question: "Why do buyers look at Riverside Drive apartments in Nairobi?",
+        answer:
+          "Riverside Drive is an established Nairobi address with residential, business and lifestyle uses. Buyers often compare the area because it offers access to key destinations while still feeling like a premium urban neighbourhood.",
+      },
+      {
+        question: "What should I check before buying an apartment in Riverside Nairobi?",
+        answer:
+          "Compare the apartment size, price, developer, payment plan, service charges, location access, construction status and documentation before you commit. A site visit and legal review are also recommended.",
+      },
+      {
+        question: "Is Riverside Azure a good off-plan investment in Nairobi?",
+        answer:
+          "The answer depends on pricing, buyer goals, developer credibility, payment terms and the specific unit. Buyers should assess the full cost of ownership and compare the development with similar apartments in the area.",
+      },
+      {
+        question: "What are the main considerations when buying off-plan property in Nairobi?",
+        answer:
+          "The main considerations are developer track record, approvals, title and sale agreement checks, payment schedule, construction timeline, service charges and realistic investment assumptions.",
+      },
+      {
+        question: "Are luxury apartments for sale in Nairobi usually in high demand?",
+        answer:
+          "Demand can vary by area, unit type and property quality. Buyers should evaluate location, building management, access and comparable rents rather than rely on broad market assumptions.",
+      },
+    ],
+
+    conclusion: [
+      "Riverside Drive in Nairobi remains a relevant address for buyers comparing apartments, homes and investment opportunities in the city.",
+      "The right property will depend on the specific unit, purchase price, location in practice, developer credibility and the buyer’s own goals. A careful comparison process helps buyers make a more informed decision.",
+      "For buyers exploring Riverside Azure apartments, the next step is to review current unit details, pricing and payment terms at 25 Riverside Drive and decide whether the development matches their needs.",
+    ],
+  },
   {
     id: 1,
     slug: "off-plan-property-investment-in-kenya",
@@ -421,7 +608,438 @@ const blogPosts = [
     ],
   },
   {
-  id: 2,
+    id: 2,
+    slug: "buying-an-off-plan-apartment-in-nairobi",
+
+    title: "Buying an Off-Plan Apartment in Nairobi: What You Should Know Before You Commit",
+
+    excerpt:
+      "A practical guide to buying an off-plan apartment in Nairobi, covering developer checks, legal documentation, payment plans, location and investment considerations.",
+
+    category: "Buying Guide",
+
+    date: "October 1, 2026",
+
+    readTime: "7 min read",
+
+    image: heroImageOffPlan,
+
+    featured: false,
+
+    seoTitle:
+      "Buying an Off-Plan Apartment in Nairobi: What to Know | Riverside Azure",
+
+    seoDescription:
+      "Considering buying an off-plan apartment in Nairobi? Learn what to check before committing, from the developer and property documents to payment plans, location and investment potential.",
+
+    sections: [
+      {
+        heading: null,
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Buying an off-plan apartment can be an attractive way to enter Nairobi's property market. Instead of purchasing a completed apartment, you commit to a property while it is still under construction, often with the opportunity to secure an apartment at an earlier stage of development and spread payments over the construction period.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "But buying off-plan should involve more than looking at impressive renders and imagining the finished apartment.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Whether you are buying your first home, looking for a property in Nairobi for rental income or considering a long-term investment, there are several important things to understand before signing a sale agreement.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Here is what to look at.",
+          },
+        ],
+      },
+
+      {
+        heading: "Research the Property Developer",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "One of the first things to investigate when buying an off-plan apartment is the developer behind the project.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Look at their previous developments, delivery history, construction standards and reputation. If they have completed other residential projects, visit them where possible and speak to existing residents or property professionals.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "The question is not simply whether the new development looks good on paper. It is whether the developer has demonstrated the ability to deliver what they promise.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "A developer's track record can give you useful insight into construction quality, project management, timelines and after-sales support.",
+          },
+        ],
+      },
+
+      {
+        heading: "Look Beyond the Architectural Renders",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Architectural renders are useful because they help you visualize what the completed development may look like. However, they should not be the only basis for your decision.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Ask to see the actual floor plans and understand the size and layout of the apartment you are considering.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Pay attention to:",
+          },
+
+          {
+            type: "list",
+            items: [
+              "The actual apartment size",
+              "Number and positioning of bedrooms",
+              "Natural lighting and ventilation",
+              "Balcony or outdoor space",
+              "Parking arrangements",
+              "Storage",
+              "Finishes and fittings",
+              "Common areas",
+              "Planned amenities",
+            ],
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "It is also important to understand which features shown in marketing materials are included in the purchase and which may be illustrative.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "The render shows you the vision. The specifications tell you what you are actually buying.",
+          },
+        ],
+      },
+
+      {
+        heading: "Verify the Property Documents and Approvals",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Before committing to an off-plan property in Nairobi, take time to understand the legal and development documentation.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "This may include the property's ownership documents, development approvals, relevant construction approvals and other documentation applicable to the project.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "If you are not familiar with property transactions, consider engaging an independent property lawyer to review the documentation and sale agreement before signing.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Taking this step can help you understand exactly what you are committing to and identify questions that need clarification.",
+          },
+        ],
+      },
+
+      {
+        heading: "Understand the Full Cost of Buying an Apartment",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "The advertised purchase price is an important starting point, but it is not necessarily the full cost of owning the property.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Depending on the development and transaction, you may need to consider costs such as legal fees, taxes, registration-related costs, service charges, parking and furnishing.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Ask for a clear breakdown of the costs associated with purchasing and owning the apartment.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "This is particularly important when comparing different off-plan apartments in Nairobi. A property that appears cheaper initially may not necessarily be the most affordable once all associated costs are considered.",
+          },
+        ],
+      },
+
+      {
+        heading: "Understand the Off-Plan Payment Plan",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "One of the reasons buyers consider off-plan property is the possibility of spreading payments during construction.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "However, don't simply ask how much the deposit is.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Understand:",
+          },
+
+          {
+            type: "list",
+            items: [
+              "The initial booking or deposit requirement",
+              "Payment milestones",
+              "The construction period",
+              "Payment deadlines",
+              "Consequences of delayed payments",
+              "Whether there are flexible payment arrangements",
+              "What happens if the project timeline changes",
+            ],
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Your payment plan should fit your financial position rather than stretching you beyond what you can comfortably manage.",
+          },
+        ],
+      },
+
+      {
+        heading: "Consider the Location Beyond the Address",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Location remains one of the most important considerations when buying property in Nairobi.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Don't just ask whether the development is in a desirable neighbourhood. Look at what surrounds it and how the area is evolving.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Consider accessibility, roads, proximity to business districts, schools, shopping and lifestyle destinations, security and future development.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "For buyers considering an apartment as an investment, location also influences the property's potential appeal to future tenants or buyers.",
+          },
+        ],
+      },
+
+      {
+        heading: "Think About Who Will Buy or Rent the Property Later",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "If you are purchasing an apartment as an investment, think beyond the day you receive the keys.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Who is likely to rent this property? What type of tenant would find the location convenient? What features would make the apartment attractive compared with other properties in the area?",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "For example, a well-located apartment close to business districts and lifestyle amenities may appeal to professionals looking for convenience and accessibility.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Understanding the potential end user can help you make a more informed investment decision.",
+          },
+        ],
+      },
+
+      {
+        heading: "Follow the Construction Progress",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "One of the advantages of buying from a development that is already under construction is that you can see the project progressing rather than relying entirely on plans and renders.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Construction updates can help you understand how the development is taking shape and provide greater visibility into the project.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "At Riverside Azure, construction is underway along Riverside Drive, Nairobi, with the development taking shape within the established Riverside neighbourhood. The project comprises one, two and three-bedroom residences designed for contemporary urban living.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "For prospective buyers, following construction progress can be an important part of understanding the journey from concept to completed residence.",
+          },
+        ],
+      },
+
+      {
+        heading: "Why Consider Riverside Azure?",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "Located at 25 Riverside Drive, Nairobi, Riverside Azure offers one, two and three-bedroom residences in Riverside, one of Nairobi's established residential and diplomatic neighbourhoods. The development is designed around modern urban living, with amenities including a swimming pool, fully equipped gym, residents' lounge, kids' playroom and convenience store.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "The development also incorporates professional property management, 24-hour security and CCTV surveillance across key common areas.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "For buyers exploring apartments for sale in Riverside Nairobi, the combination of location, residential amenities and contemporary apartment layouts makes it worth considering as part of your property search.",
+          },
+        ],
+      },
+
+      {
+        heading: "Is Buying Off-Plan Right for You?",
+
+        blocks: [
+          {
+            type: "paragraph",
+            text:
+              "There is no single answer that applies to every buyer.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "The right property will depend on your objectives, budget, preferred location and investment strategy.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Before committing to an off-plan apartment, take time to research the developer, verify the documentation, understand the specifications, calculate the full cost and make sure the payment plan works for you.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Most importantly, don't buy simply because the render looks impressive.",
+          },
+
+          {
+            type: "paragraph",
+            text:
+              "Buy because the property, developer, location and numbers make sense for you.",
+          },
+        ],
+      },
+    ],
+
+    faqs: [
+      {
+        question: "Is buying an off-plan apartment in Nairobi a good idea?",
+        answer:
+          "It can be a good option if the developer has a strong track record, the documentation is clear, the location is sound and the payment plan fits your financial position.",
+      },
+
+      {
+        question: "What should I check before buying off-plan in Nairobi?",
+        answer:
+          "Review the developer's track record, land and development approvals, sale agreement, apartment specifications, payment milestones and the full cost of ownership before signing.",
+      },
+
+      {
+        question: "How do I know if an off-plan property is a good investment?",
+        answer:
+          "Consider the location, expected rental demand, service charges, developer credibility, and whether the purchase price reflects actual value compared with similar properties in the area.",
+      },
+
+      {
+        question: "What are the main risks of buying off-plan?",
+        answer:
+          "The biggest risks are construction delays, changes to specifications, developer performance, and a property that does not match the expected market demand or resale potential.",
+      },
+
+      {
+        question: "Should I use a lawyer when buying an off-plan apartment?",
+        answer:
+          "Yes. An independent property lawyer can review the sale agreement, verify the relevant documents and help you understand your legal exposure before you commit.",
+      },
+    ],
+
+    conclusion: [
+      "Buying an off-plan apartment in Nairobi can offer a way into the market with structured payment options, early access to a development and the possibility of future value growth.",
+
+      "But the decision should be based on due diligence, realistic numbers and the developer's track record, not just the appeal of the marketing material.",
+
+      "If you are considering an apartment in Riverside, Nairobi, understanding the location, specifications, approvals and payment plan can help you decide whether the property is a sound fit for your goals.",
+    ],
+  },
+  {
+  id: 3,
   slug: "nairobi-real-estate-market-2026-buyers-investors-guide",
 
   title:
