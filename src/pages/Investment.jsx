@@ -143,15 +143,15 @@ const InvestmentPage = ({ onCtaClick }) => {
               variants={{ visible: { transition: { staggerChildren: 0.15 } } }}
             >
               <motion.span className="section-meta gold-text" variants={fadeUp}>
-                Investment · Riverside, Nairobi
+                Off-Plan Properties · Riverside, Nairobi
               </motion.span>
               <motion.h1 className="hero-title" variants={fadeUp}>
                 Invest in a<br />
                 considered address.
               </motion.h1>
               <motion.p className="hero-desc" variants={fadeUp}>
-                Riverside Azure combines a prime Nairobi address with flexible
-                residential typologies and projected rental income potential.
+                Riverside Azure combines a prime Nairobi address with modern 
+                off plan properties, flexible residential typologies, and projected rental income potential.
               </motion.p>
               <motion.button type="button" onClick={onCtaClick} className="btn-solid-hero" variants={fadeUp}>
                 Speak to an Advisor
@@ -172,9 +172,9 @@ const InvestmentPage = ({ onCtaClick }) => {
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeUp}
               >
-                <span className="section-meta">The Investment Case</span>
+                <span className="section-meta">Nairobi Real Estate Investment</span>
                 <h2 className="section-title">
-                  A residential<br />asset with purpose.
+                  Luxury Off-Plan<br />Assets with Purpose.
                 </h2>
               </motion.div>
 
@@ -187,16 +187,16 @@ const InvestmentPage = ({ onCtaClick }) => {
                 variants={fadeStagger}
               >
                 <p className="lead-text">
-                  The value of a residential investment is shaped by more than its purchase price.
+                  The value of premium off-plan apartments in Riverside Nairobi is shaped by more than its purchase price.
                 </p>
                 <p className="body-text">
-                  Location, tenant demand, usability, rental strategy and the
-                  quality of the underlying development all influence an asset's long-term potential.
+                  Location, tenant demand, usability, rental strategy, and the 
+                  quality of the underlying architecture all influence an asset's long-term ROI potential.
                 </p>
                 <p className="body-text">
-                  Riverside Azure is positioned within Riverside, giving
-                  investors access to an established Nairobi neighbourhood while
-                  offering a contemporary residential product designed for modern urban living.
+                  Riverside Azure is positioned perfectly at 25 Riverside Drive, giving 
+                  investors premier access to premium off plan properties in a historic upscale neighborhood 
+                  while offering a contemporary residential product designed for modern urban living.
                 </p>
                 <div className="inv-signature">
                   <span className="gold-rule" />
