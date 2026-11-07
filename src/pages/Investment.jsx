@@ -110,11 +110,11 @@ const InvestmentPage = ({ onCtaClick }) => {
     <>
       {/* SEO: set investment-page metadata to match property-investor intent without overstating ROI. */}
       <Seo
-        title="Off-Plan Projects in Nairobi | Riverside Azure"
-        description="Explore off-plan projects in Nairobi with Riverside Azure, including premium 1, 2 and 3-bedroom apartments in Riverside and project amenities designed for long-term value."
+        title="Off-Plan Apartments for Sale in Riverside Nairobi | Riverside Azure"
+        description="Discover premium 1, 2 & 3 bedroom off-plan apartments for sale on Riverside Drive, Nairobi. Secure luxury property investments with Riverside Azure today."
         canonicalPath="/investment"
-        ogTitle="Off-Plan Projects in Nairobi | Riverside Azure"
-        ogDescription="Learn about off-plan projects in Nairobi and investment opportunities at Riverside Azure, a premium residential development in Riverside."
+        ogTitle="Off-Plan Apartments for Sale in Riverside Nairobi | Riverside Azure"
+        ogDescription="Explore the finest off-plan properties in Nairobi's prestigious Riverside neighborhood. High-yield residential real estate units at 25 Riverside Drive."
       />
 
       <main className="investment-page">
