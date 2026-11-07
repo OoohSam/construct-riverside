@@ -128,7 +128,7 @@ const InvestmentPage = ({ onCtaClick }) => {
           <div className="inv-hero-bg">
             <motion.img
               src={heroImg}
-              alt="Riverside Azure"
+              alt="Riverside Azure Luxury Off-Plan Apartments for Sale in Nairobi Riverside"
               initial={{ scale: 1.05 }}
               animate={{ scale: 1 }}
               transition={{ duration: 2, ease: quietEase }}
