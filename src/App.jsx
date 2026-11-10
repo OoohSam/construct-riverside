@@ -26,6 +26,7 @@ import AgentApply from "./pages/AgentApply";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import LandingPage from "./pages/LandingPage";
 import ThankYou from "./pages/ThankYou";
+import ApartmentCategory from "./pages/ApartmentCategory";
 
 // Blog
 import Blog from "./pages/Blog";
@@ -99,6 +100,45 @@ function AppShell() {
                 </PageTransition>
               }
             />
+
+            {/* 1-BEDROOM APARTMENTS */}
+<Route
+  path="/units/1-bedroom-apartments"
+  element={
+    <PageTransition>
+      <ApartmentCategory
+        slug="1-bedroom-apartments"
+        onOpenModal={handleOpenModal}
+      />
+    </PageTransition>
+  }
+/>
+
+{/* 2-BEDROOM APARTMENTS */}
+<Route
+  path="/units/2-bedroom-apartments"
+  element={
+    <PageTransition>
+      <ApartmentCategory
+        slug="2-bedroom-apartments"
+        onOpenModal={handleOpenModal}
+      />
+    </PageTransition>
+  }
+/>
+
+{/* 3-BEDROOM APARTMENTS */}
+<Route
+  path="/units/3-bedroom-apartments"
+  element={
+    <PageTransition>
+      <ApartmentCategory
+        slug="3-bedroom-apartments"
+        onOpenModal={handleOpenModal}
+      />
+    </PageTransition>
+  }
+/>
 
             {/* INVESTMENT */}
             <Route

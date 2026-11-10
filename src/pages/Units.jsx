@@ -1,69 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { units } from "../data/apartments";
+import { Link } from "react-router-dom";
+
 
 const fallbackImage = "/JNCBROTHERS.png";
 
-const units = [
-  {
-    id: 1,
-    type: "Type A",
-    name: "The Executive Suite",
-    beds: "1 Bedroom",
-    size: "65.62 - 69.58 SQM",
-    desc: "High-yield asset ideal for Airbnb. Located in the diplomatic heart of Nairobi.",
-    price: "KSh 7.9M - 11M",
-    tour: "https://vr.justeasy.cn/view/1w77n7g4h7387018-1774860206.html",
-    images: [
-      new URL("../assets/Apartments/type-b/1 bedroom.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-b/b1.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-b/b2.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-b/b3.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-b/b4.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-b/b5.webp", import.meta.url).href,
-    ],
-  },
-  {
-    id: 2,
-    type: "Type B",
-    name: "The Urban Sanctuary",
-    beds: "2 Bedroom",
-    size: "98.00 - 104.63 SQM",
-    desc: "Balanced proportions for long-term living. Perfect for young families.",
-    price: "KSh 11M - 17M",
-    tour: "https://vr.justeasy.cn/view/17f74741k11h3gj1-1774860063.html",
-    images: [
-      new URL("../assets/Apartments/type-a/2 Bedroom.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-a/d.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-a/d1.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-a/d2.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-a/d3.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-a/d4.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-a/d5.webp", import.meta.url).href,
-    ],
-  },
-  {
-    id: 3,
-    type: "Type C",
-    name: "The Heritage Residence",
-    beds: "3 Bedroom",
-    size: "141.95 SQM",
-    desc: "Versatile luxury. Expansive living spaces for those who value legacy.",
-    price: "KSh 16M - 23M",
-    tour: "https://vr.justeasy.cn/view/1w77n7g4h7387018-1774860206.html",
-    images: [
-      new URL("../assets/Apartments/type-c/a14.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-c/a5.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-c/a3.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-c/a16.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-c/a2.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-c/a13.webp", import.meta.url).href,
-      new URL("../assets/Apartments/type-c/a7.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-c/a6.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-c/a10.jpg", import.meta.url).href,
-      new URL("../assets/Apartments/type-c/a4.jpg", import.meta.url).href,
-    ],
-  },
-];
+
 
 const Units = ({ onOpenModal, onInquire }) => {
   const [activeTab, setActiveTab] = useState(1);
@@ -282,6 +225,12 @@ const Units = ({ onOpenModal, onInquire }) => {
                   </ul>
 
                   <div className="action-group">
+                    <Link
+  to={`/units/${activeUnit.slug}`}
+  className="btn-solid"
+>
+  Explore {activeUnit.beds} Apartments
+</Link>
                     <button type="button" onClick={handleInquiry} className="btn-solid">
                       Request Availability
                     </button>
