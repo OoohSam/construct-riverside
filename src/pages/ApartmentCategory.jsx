@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { units } from "../data/apartments";
 import ApartmentEnquiry from "../components/ApartmentEnquiry";
+import ApartmentAmenities from "../components/ApartmentAmenities";
 
 const fallbackImage = "/JNCBROTHERS.png";
 
@@ -127,6 +128,7 @@ function ApartmentDetails({ unit, onOpenModal }) {
               </a>
             </section>
           )}
+                    <ApartmentAmenities />
         </div>
 
         {/* RIGHT COLUMN: sales enquiry */}

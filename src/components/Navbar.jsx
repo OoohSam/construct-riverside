@@ -6,8 +6,8 @@ import logo from "../assets/logo/Riverside-azure-Gold-Logo.png";
 
 const navLinks = [
   { name: "Home", path: "/" },
+  { name: "Units", path: "/units" },
   { name: "About", path: "/about" },
-  { name: "Residences", path: "/units" },
   { name: "Investment", path: "/investment" },
   { name: "Journal", path: "/blog" },
   { name: "Agents", path: "/agent-apply" },
